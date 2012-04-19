@@ -25,7 +25,7 @@ use Rock\Components\Flow\Manager\IFlowManager;
 // <Use>
 use Rock\Components\Flow\IFlow;
 use Rock\Components\Flow\INamedFlow;
-use Rock\Components\Exception\FlowNotExistsException;
+use Rock\Components\Flow\Exception\FlowNotExistsException;
 
 
 class FlowManager implements IFlowManager

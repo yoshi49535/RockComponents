@@ -32,8 +32,8 @@ use Rock\Components\Flow\Graph\FlowGraph as Graph;
 use Rock\Components\Flow\Graph\State\State;
 
 // <Use> : Exceptions
-use Rock\Components\Exception\InitializeException;
-use Rock\Components\Exception\FlowStateException;
+use Rock\Components\Flow\Exception\InitializeException;
+use Rock\Components\Flow\Exception\FlowStateException;
 
 /**
  * Class GraphFlow is to use Graph Logic for Flow Implementation.

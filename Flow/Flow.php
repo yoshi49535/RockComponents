@@ -31,8 +31,8 @@ use Rock\Components\Flow\Output\Output;
 use Rock\Components\Flow\Path\IPath;
 
 // <Use> : Exceptions
-use Rock\Components\Exception\FlowStateException;
-use Rock\Components\Exception\InitializeException;
+use Rock\Components\Flow\Exception\FlowStateException;
+use Rock\Components\Flow\Exception\InitializeException;
 
 /**
  * Class "Flow" is the abstract base class of Flow Strategy.
