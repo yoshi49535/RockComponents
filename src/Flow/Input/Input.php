@@ -28,7 +28,7 @@ use Rock\Components\Flow\Input\IInput;
 // <Use> : Flow Components
 use Rock\Components\Flow\FlowDirections;
 // <Use> : Automaton Components
-use Rock\Componets\Automaton\Input\Input as AutomatonInput;
+use Rock\Components\Automaton\Input\Input as AutomatonInput;
 
 class Input extends BaseIO
   implements

@@ -17,7 +17,7 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Componets\Container\Graph;
+namespace Rock\Components\Container\Graph;
 
 interface IGraphTrail
 {

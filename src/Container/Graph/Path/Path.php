@@ -18,12 +18,12 @@
  *
  ************************************************************************************/
 
-namespace Rock\Componets\Container\Graph\Path;
+namespace Rock\Components\Container\Graph\Path;
 
 // <Use>
-use Rock\Componets\Container\Graph\IGraph;
-use Rock\Componets\Container\Graph\IGraphComponent;
-use Rock\Componets\Container\Vector;
+use Rock\Components\Container\Graph\IGraph;
+use Rock\Components\Container\Graph\IGraphComponent;
+use Rock\Components\Container\Vector;
 
 class Path
   implements

@@ -17,9 +17,9 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Componets\Container\Graph\Edge;
+namespace Rock\Components\Container\Graph\Edge;
 
-use Rock\Componets\Container\Vector;
+use Rock\Components\Container\Vector;
 class EdgeList extends Vector
 {
 	

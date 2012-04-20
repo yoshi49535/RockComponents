@@ -18,10 +18,10 @@
  *
  ************************************************************************************/
 
-namespace Rock\Componets\Container\Graph\Vertex;
+namespace Rock\Components\Container\Graph\Vertex;
 
 // <Interface>
-use Rock\Componets\Container\Graph\Vertex\INamedVetex
+use Rock\Components\Container\Graph\Vertex\INamedVetex
 class NamedVertex extends Vertex
   implements 
     INamedVertex

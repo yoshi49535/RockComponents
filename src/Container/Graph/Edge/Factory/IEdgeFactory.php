@@ -17,10 +17,10 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Componets\Container\Graph\Edge\Factory;
+namespace Rock\Components\Container\Graph\Edge\Factory;
 
 // <Use>
-use Rock\Componets\Container\Graph\Vertex\IVertex;
+use Rock\Components\Container\Graph\Vertex\IVertex;
 
 /**
  *

@@ -17,20 +17,20 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Componets\Automaton\Condition\Factory;
+namespace Rock\Components\Automaton\Condition\Factory;
 
 // <Interface>
-use Rock\Componets\Container\Graph\Edge\Factory\IEdgeFactory;
+use Rock\Components\Container\Graph\Edge\Factory\IEdgeFactory;
 
 // <Use> : Graph Components
-use Rock\Componets\Container\Graph\Vertex\IVertex;
+use Rock\Components\Container\Graph\Vertex\IVertex;
 
 // <Use> : Automaton Components
-use Rock\Componets\Automaton\State\IState;
+use Rock\Components\Automaton\State\IState;
 
 // <Use> : Automaton Conditions as Graph Edge
-use Rock\Componets\Automaton\Condition\AnyCondition;
-use Rock\Componets\Automaton\Condition\Condition;
+use Rock\Components\Automaton\Condition\AnyCondition;
+use Rock\Components\Automaton\Condition\Condition;
 
 /**
  *

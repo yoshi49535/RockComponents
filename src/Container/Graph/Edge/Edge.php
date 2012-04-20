@@ -18,12 +18,12 @@
  *
  ************************************************************************************/
 
-namespace Rock\Componets\Container\Graph\Edge;
+namespace Rock\Components\Container\Graph\Edge;
 
 // <Interface>
-use Rock\Componets\Container\Graph\Edge\IEdge;
+use Rock\Components\Container\Graph\Edge\IEdge;
 // <Use>
-use Rock\Componets\Container\Graph\Vertex\IVertex;
+use Rock\Components\Container\Graph\Vertex\IVertex;
 
 
 /**

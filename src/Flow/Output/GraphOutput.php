@@ -22,8 +22,8 @@ namespace Rock\Components\Flow\Output;
 
 // <Use>
 use Rock\Components\Flow\Input\IInput;
-use Rock\Componets\Container\Graph\Path\IPath;
-use Rock\Componets\Container\Graph\IGraphTrail;
+use Rock\Components\Container\Graph\Path\IPath;
+use Rock\Components\Container\Graph\IGraphTrail;
 
 class GraphOutput extends Output
   implements 

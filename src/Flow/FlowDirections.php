@@ -22,7 +22,7 @@
 namespace Rock\Components\Flow;
 
 // <Use> : Automaton Components
-use Rock\Componets\Automaton\AutomatonDirections;
+use Rock\Components\Automaton\AutomatonDirections;
 
 final class FlowDirections
 {

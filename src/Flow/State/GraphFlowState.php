@@ -24,7 +24,7 @@ use Rock\Components\Flow\State\FlowState;
 // <Use>
 use Rock\Components\Flow\GraphFlow;
 use Rock\Components\Flow\FlowDirection;
-use Rock\Componets\Container\Graph\Path\IPath as IGraphPath;
+use Rock\Components\Container\Graph\Path\IPath as IGraphPath;
 
 /**
  * GraphFlowState is an extended Class of FlowState.

@@ -18,14 +18,14 @@
  *
  ************************************************************************************/
 
-namespace Rock\Componets\Container\Graph\Edge\Factory;
+namespace Rock\Components\Container\Graph\Edge\Factory;
 
 // <Interface>
-use Rock\Componets\Container\Graph\Edge\Factory\IEdgeFactory;
+use Rock\Components\Container\Graph\Edge\Factory\IEdgeFactory;
 
 // <Use> 
-use Rock\Componets\Container\Graph\Edge\Edge;
-use Rock\Componets\Container\Graph\Vertex\IVertex;
+use Rock\Components\Container\Graph\Edge\Edge;
+use Rock\Components\Container\Graph\Vertex\IVertex;
 
 /**
  * Default Edge Factory

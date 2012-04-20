@@ -1,17 +1,11 @@
 <?php
-/************************************************************************************
- *
- * Description:
- *      
- * $Id$
- * $Date$
- * $Rev$
- * $Author$
- * 
- *  This file is part of the $Project$ package.
- *
- * $Copyrights$
- *
- ************************************************************************************/
+require_once __DIR__.'/src/Core/Rock.php';
 
+use Rock\Components\Core\Loader\PackageLoader;
 
+$loader = new PackageLoader();
+
+$loader->setNamespacePrefix('Rock\\Components');
+$loader->loadPackageFile(__DIR__.'/all.packages');
+
+$loader->register();

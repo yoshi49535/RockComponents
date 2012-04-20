@@ -18,17 +18,17 @@
  *
  ************************************************************************************/
 
-namespace Rock\Componets\Container\Graph;
+namespace Rock\Components\Container\Graph;
 
 // <Interface>
-use Rock\Componets\Container\Graph\IGraph;
-use Rock\Componets\Container\IContainer;
+use Rock\Components\Container\Graph\IGraph;
+use Rock\Components\Container\IContainer;
 // <Use> : Container Component
-use Rock\Componets\Container\IComponent;
+use Rock\Components\Container\IComponent;
 // <Use> : Graph Component
-use Rock\Componets\Container\Graph\Vertex\IVertex;
-use Rock\Componets\Container\Graph\Edge\IEdge;
-use Rock\Componets\Container\Graph\Edge\Factory\EdgeFactory;
+use Rock\Components\Container\Graph\Vertex\IVertex;
+use Rock\Components\Container\Graph\Edge\IEdge;
+use Rock\Components\Container\Graph\Edge\Factory\EdgeFactory;
 
 
 class Graph

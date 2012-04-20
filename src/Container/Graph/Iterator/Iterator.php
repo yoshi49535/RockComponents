@@ -17,7 +17,7 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Componets\Container\Graph\Iterator;
+namespace Rock\Components\Container\Graph\Iterator;
 
 class VertexIterator
   implements 

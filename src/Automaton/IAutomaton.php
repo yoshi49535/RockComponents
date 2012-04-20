@@ -18,10 +18,10 @@
  *
  ************************************************************************************/
 
-namespace Rock\Componets\Automaton;
+namespace Rock\Components\Automaton;
 
 // <BaseClass>
-use Rock\Componets\Container\Graph\IDirectedGraph;
+use Rock\Components\Container\Graph\IDirectedGraph;
 
 interface IAutomaton extends IDirectedGraph
 {

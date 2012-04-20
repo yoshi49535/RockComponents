@@ -19,7 +19,7 @@
  ************************************************************************************/
 
 // <Namespace>
-namespace Rock\Componets\Automaton;
+namespace Rock\Components\Automaton;
 
 /**
  *

@@ -18,9 +18,9 @@
  *
  ************************************************************************************/
 
-namespace Rock\Componets\Container\Graph;
+namespace Rock\Components\Container\Graph;
 
-use Rock\Componets\Container\Graph\Vertex\IVertex;
+use Rock\Components\Container\Graph\Vertex\IVertex;
 
 interface IDirectedGraph extends IGraph
 {

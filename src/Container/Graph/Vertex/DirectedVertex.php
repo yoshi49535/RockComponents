@@ -18,11 +18,11 @@
  *
  ************************************************************************************/
 // <Namespace>
-namespace Rock\Componets\Container\Graph\Vertex;
+namespace Rock\Components\Container\Graph\Vertex;
 
 // <Use>
-use Rock\Componets\Container\Graph\Vertex\IVertex;
-use Rock\Componets\Container\Graph\Vertex\Vertex;
+use Rock\Components\Container\Graph\Vertex\IVertex;
+use Rock\Components\Container\Graph\Vertex\Vertex;
 
 class DirectedVertex extends Vertex
 {

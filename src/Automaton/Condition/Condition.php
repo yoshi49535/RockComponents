@@ -17,18 +17,18 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Componets\Automaton\Condition;
+namespace Rock\Components\Automaton\Condition;
 
 // <Base>
-use Rock\Componets\Automaton\Condition\AnyCondition;
+use Rock\Components\Automaton\Condition\AnyCondition;
 
 // <Use> : Automaton Condition
-use Rock\Componets\Automaton\Condition\Validator as ConditionalValidator;
+use Rock\Components\Automaton\Condition\Validator as ConditionalValidator;
 
 // <Use> : Automaton Components
-use Rock\Componets\Automaton\State\IState;
-use Rock\Componets\Automaton\Input\IInput;
-use Rock\Componets\Automaton\Input\ScalarInput;
+use Rock\Components\Automaton\State\IState;
+use Rock\Components\Automaton\Input\IInput;
+use Rock\Components\Automaton\Input\ScalarInput;
 
 class Condition extends AnyCondition
 {

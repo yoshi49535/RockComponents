@@ -18,14 +18,14 @@
  *
  ************************************************************************************/
 
-namespace Rock\Componets\Automaton\State;
+namespace Rock\Components\Automaton\State;
 
 // <BaseClass>
-use Rock\Componets\Automaton\State\State;
+use Rock\Components\Automaton\State\State;
 // <Interface>
-use Rock\Componets\Container\Graph\Vertex\INamedVertex;
+use Rock\Components\Container\Graph\Vertex\INamedVertex;
 // <Use>
-use Rock\Componets\Container\Graph\IGraph;
+use Rock\Components\Container\Graph\IGraph;
 
 class NamedState extends State
   implements

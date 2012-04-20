@@ -15,12 +15,12 @@
  */
 
 // <Namespace>
-namespace Rock\Componets\Automaton\Input;
+namespace Rock\Components\Automaton\Input;
 // <Interface>
-use Rock\Componets\Automaton\Input\IInput;
+use Rock\Components\Automaton\Input\IInput;
 
 // <use> : Automaton Components
-use Rock\Componets\Automaton\AutomatonDirections;
+use Rock\Components\Automaton\AutomatonDirections;
 
 class Input 
   implements 

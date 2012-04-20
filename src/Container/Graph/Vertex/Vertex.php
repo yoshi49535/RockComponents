@@ -18,12 +18,12 @@
  *
  ************************************************************************************/
 
-namespace Rock\Componets\Container\Graph\Vertex;
+namespace Rock\Components\Container\Graph\Vertex;
 
 // <BaseClass>
-use Rock\Componets\Container\Graph\GraphComponent;
+use Rock\Components\Container\Graph\GraphComponent;
 // <Interface>
-use Rock\Componets\Container\Graph\Vertex\IVertex;
+use Rock\Components\Container\Graph\Vertex\IVertex;
 
 class Vertex extends GraphComponent
   implements

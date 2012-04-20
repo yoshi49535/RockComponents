@@ -22,7 +22,7 @@
 namespace Rock\Components\Flow\Graph;
 
 // <Base>
-use Rock\Componets\Automaton\FiniteAutomaton;
+use Rock\Components\Automaton\FiniteAutomaton;
 
 // <Use> : Flow Components
 use Rock\Components\Flow\Flow\IFlow;
@@ -35,9 +35,9 @@ use Rock\Components\Flow\Flow\Input\IInput as IFlowInput;
 use Rock\Components\Flow\Flow\Input\Parameters as FlowInputParameters;
 
 // <Use> : Automaton Components
-use Rock\Componets\Automaton\State\IState;
-use Rock\Componets\Automaton\AutomatonDirections;
-use Rock\Componets\Automaton\Input\IInput as IAutomatonInput;
+use Rock\Components\Automaton\State\IState;
+use Rock\Components\Automaton\AutomatonDirections;
+use Rock\Components\Automaton\Input\IInput as IAutomatonInput;
 
 /**
  *

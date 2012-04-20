@@ -18,7 +18,7 @@
  *
  ************************************************************************************/
 
-namespace Rock\Componets\Container\Graph\Path;
+namespace Rock\Components\Container\Graph\Path;
 
 interface IPath
 {

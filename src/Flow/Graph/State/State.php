@@ -21,14 +21,14 @@
 namespace Rock\Components\Flow\Graph\State;
 
 // <BaseClass>
-use Rock\Componets\Automaton\State\NamedState;
+use Rock\Components\Automaton\State\NamedState;
 
 // <Use>
-use Rock\Componets\Container\Graph\IGraph;
+use Rock\Components\Container\Graph\IGraph;
 use Rock\Components\Flow\Graph\Graph as ExecutableGraph;
 
 // <Use> : Automaton
-use Rock\Componets\Automaton\Input\IInput;
+use Rock\Components\Automaton\Input\IInput;
 /**
  *
  */

@@ -18,10 +18,10 @@
  *
  ************************************************************************************/
 // <Namespace>
-namespace Rock\Componets\Container\Graph\Vertex;
+namespace Rock\Components\Container\Graph\Vertex;
 
 // <Base>
-use Rock\Componets\Container\Graph\IGraphComponent;
+use Rock\Components\Container\Graph\IGraphComponent;
 
 /**
  *

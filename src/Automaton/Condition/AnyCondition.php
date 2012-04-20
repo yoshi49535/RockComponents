@@ -17,15 +17,15 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Componets\Automaton\Condition;
+namespace Rock\Components\Automaton\Condition;
 
 // <Base>
-use Rock\Componets\Container\Graph\Edge\Edge;
+use Rock\Components\Container\Graph\Edge\Edge;
 // <Interface>
-use Rock\Componets\Automaton\Condition\ICondition;
+use Rock\Components\Automaton\Condition\ICondition;
 
 // <Use> : Automaton Component
-use Rock\Componets\Automaton\Input\IInput;
+use Rock\Components\Automaton\Input\IInput;
 /**
  *
  */

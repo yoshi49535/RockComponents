@@ -17,21 +17,21 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Componets\Automaton;
+namespace Rock\Components\Automaton;
 
 // <BaseClass>
-use Rock\Componets\Container\Graph\DirectedGraph;
+use Rock\Components\Container\Graph\DirectedGraph;
 // <Interface>
-use Rock\Componets\Automaton\IAutomaton;
+use Rock\Components\Automaton\IAutomaton;
 
 // <Use> : Graph Component
-use Rock\Componets\Container\Graph\Vertex\IVertex;
-use Rock\Componets\Container\Graph\Path\Path;
+use Rock\Components\Container\Graph\Vertex\IVertex;
+use Rock\Components\Container\Graph\Path\Path;
 
 // <Use> : Automaton Components
-use Rock\Componets\Automaton\State\IState;
-use Rock\Componets\Automaton\Condition\Factory\ConditionFactory;
-use Rock\Componets\Automaton\Input\IInput;
+use Rock\Components\Automaton\State\IState;
+use Rock\Components\Automaton\Condition\Factory\ConditionFactory;
+use Rock\Components\Automaton\Input\IInput;
 
 /**
  *

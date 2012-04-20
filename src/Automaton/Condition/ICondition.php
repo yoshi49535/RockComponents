@@ -19,12 +19,12 @@
  ************************************************************************************/
 
 // <Namespace>
-namespace Rock\Componets\Automaton\Condition;
+namespace Rock\Components\Automaton\Condition;
 
 // <Base>
-use Rock\Componets\Container\Graph\Edge\IEdge;
+use Rock\Components\Container\Graph\Edge\IEdge;
 // <Use> : Automaton Components
-use Rock\Componets\Automaton\Input\IInput;
+use Rock\Components\Automaton\Input\IInput;
 
 interface ICondition extends IEdge
 {

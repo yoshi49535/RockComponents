@@ -22,7 +22,7 @@ use Rock\Components\Flow\Input\Input;
 use Rock\Components\Flow\FlowDirections;
 
 // <Use> : Automaton Components
-use Rock\Componets\Automaton\Input\ScalarInput as AutomatonScalarInput;
+use Rock\Components\Automaton\Input\ScalarInput as AutomatonScalarInput;
 
 class ScalarInput extends Input
 {

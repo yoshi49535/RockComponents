@@ -17,9 +17,9 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Componets\Automaton\State;
+namespace Rock\Components\Automaton\State;
 
-use Rock\Componets\Container\Graph\Vertex\Vertex;
+use Rock\Components\Container\Graph\Vertex\Vertex;
 
 class State extends Vertex
   implements
