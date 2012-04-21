@@ -26,7 +26,7 @@ use Rock\Components\Flow\BaseIO;
 use Rock\Components\Flow\Input\IInput;
 
 // <Use> : Flow Components
-use Rock\Components\Flow\FlowDirections;
+use Rock\Components\Flow\Directions;
 // <Use> : Automaton Components
 use Rock\Components\Automaton\Input\Input as AutomatonInput;
 
@@ -39,7 +39,7 @@ class Input extends BaseIO
 	/**
 	 *
 	 */
-	public function __construct($direction = FlowDirections::FORWARD, array $params = array())
+	public function __construct($direction = Directions::FORWARD, array $params = array())
 	{
 		$this->setDirection($direction);
 
@@ -53,13 +53,13 @@ class Input extends BaseIO
 	{
 		switch($direction)
 		{
-		case FlowDirections::FORWARD;
-		case FlowDirections::BACKWARD;
-		case FlowDirections::STAY;
+		case Directions::FORWARD;
+		case Directions::BACKWARD;
+		case Directions::STAY;
 			$this->direction  = $direction;
 			break;
 		default:
-			$this->direction   = FlowDirections::FORWARD;
+			$this->direction   = Directions::FORWARD;
 			break;
 		}
 	}
@@ -77,7 +77,7 @@ class Input extends BaseIO
 	 */
 	public function convertToAutomaton()
 	{
-		return new AutomatonInput(FlowDirections::convertToAutomaton($this->direction));
+		return new AutomatonInput(Directions::convertToAutomaton($this->direction));
 	}
 
 	public function __toString()

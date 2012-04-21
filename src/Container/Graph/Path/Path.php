@@ -121,6 +121,13 @@ class Path
 	{
 		return count($this->components);
 	}
+	///**
+	// *
+	// */
+	//public function countVertices()
+	//{
+	//	return count();
+	//}
 	/**
 	 *
 	 */

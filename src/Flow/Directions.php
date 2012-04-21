@@ -22,9 +22,9 @@
 namespace Rock\Components\Flow;
 
 // <Use> : Automaton Components
-use Rock\Components\Automaton\AutomatonDirections;
+use Rock\Components\Automaton\Directions as AutomatonDirections;
 
-final class FlowDirections
+final class Directions
 {
 	//
 	const FORWARD      = 'forward';

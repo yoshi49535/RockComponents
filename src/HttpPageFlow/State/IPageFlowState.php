@@ -23,7 +23,7 @@ namespace Rock\Components\Http\Flow\State;
 /**
  *
  */
-interface IHttpFlowState
+interface IPageFlowState
 {
 	/**
 	 *

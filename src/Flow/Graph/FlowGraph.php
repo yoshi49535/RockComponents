@@ -25,18 +25,18 @@ namespace Rock\Components\Flow\Graph;
 use Rock\Components\Automaton\FiniteAutomaton;
 
 // <Use> : Flow Components
-use Rock\Components\Flow\Flow\IFlow;
+use Rock\Components\Flow\IFlow;
 use Rock\Components\Flow\Event\FlowEvents;
 use Rock\Components\Flow\Event\FlowExecuteEvent;
-use Rock\Components\Flow\Flow\Path\IPath as IFlowPath;
-use Rock\Components\Flow\Flow\Step\IStep as IFlowStep;
+use Rock\Components\Flow\Path\IPath as IFlowPath;
+use Rock\Components\Flow\Step\IStep as IFlowStep;
 
-use Rock\Components\Flow\Flow\Input\IInput as IFlowInput;
-use Rock\Components\Flow\Flow\Input\Parameters as FlowInputParameters;
+use Rock\Components\Flow\Input\IInput as IFlowInput;
+use Rock\Components\Flow\Input\Parameters as FlowInputParameters;
 
 // <Use> : Automaton Components
 use Rock\Components\Automaton\State\IState;
-use Rock\Components\Automaton\AutomatonDirections;
+use Rock\Components\Automaton\Directions as AutomatonDirections;
 use Rock\Components\Automaton\Input\IInput as IAutomatonInput;
 
 /**
@@ -154,7 +154,7 @@ class FlowGraph extends FiniteAutomaton
 	{
 		switch($input->getDirection())
 		{
-		//case FlowDirections::BACKWARD:
+		//case Directions::BACKWARD:
 		//	$path  = $this->backward($begin);
 		//	break;
 		case AutomatonDirections::FORWARD:

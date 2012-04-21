@@ -19,7 +19,6 @@
  ************************************************************************************/
 namespace Rock\Components\Flow;
 
-
 // <Interface>
 use Rock\Components\Flow\IFlow;
 
@@ -48,6 +47,7 @@ abstract class Flow
 	 * #var IPath
 	 */
 	protected $path;
+
 
 	/**
 	 *

@@ -22,10 +22,23 @@ namespace Rock\Components\Container\Graph\Path;
 
 interface IPath
 {
+	/**
+	 *
+	 */
 	public function getGraph();
+
+	/**
+	 *
+	 */
 	public function getComponents();
 
+	/**
+	 *
+	 */
 	public function getVertices();
 
+	/**
+	 *
+	 */
 	public function getEdges();
 }

@@ -24,15 +24,35 @@ namespace Rock\Components\Http\Flow\Builder;
 use Rock\Components\Flow\Builder\Builder as BaseBuilder;
 
 // <Use> : Flow Components
-use Rock\OnSymfony\FlowBundle\Configuration\IFlowConfiguration;
-use Rock\Components\Flow\Factory\IFlowFactory;
+use Rock\Components\Flow\Configuration\IFlowConfiguration;
+use Rock\Components\Flow\Factory\IFactory as IFlowFactory;
 
 // <Use> : Http Flow Components
-use Rock\OnSymfony\HttpFlowBundle\Session\ISessionManager;
-use Rock\OnSymfony\HttpFlowBundle\Request\Resolver\IRequestResolver;
+use Rock\Components\Http\Flow\Session\ISessionManager;
+use Rock\Components\Http\Flow\Request\Resolver\IRequestResolver;
+
 /** 
  *
  */
 class Builder extends BaseBuilder
 {
+	protected $sessions;
+
+	public function __construct(IFlowFactory $factory, ISessionManager $sessions)
+	{
+		parent::__construct($factory);
+
+		$this->sessions = $sessions;
+	}
+	/**
+	 *
+	 */
+	public function build($rebuild = false)
+	{
+		$flow = parent::build($rebuild);
+
+		if($flow)
+			$flow->setSessionManager($this->sessions);
+		return $flow;
+	}
 }

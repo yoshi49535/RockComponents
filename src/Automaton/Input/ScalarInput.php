@@ -20,6 +20,9 @@ use Rock\Components\Automaton\Input\Input;
 // <Interface>
 use Rock\Components\Automaton\Input\IScalarInput;
 
+// <Use> : Automaton Components
+use Rock\Components\Automaton\Directions;
+
 
 /**
  *
@@ -30,7 +33,7 @@ class ScalarInput extends Input
 	/**
 	 *
 	 */
-	public function __construct($value, $direction = AutomatonDirections::FORWARD)
+	public function __construct($value, $direction = Directions::FORWARD)
 	{
 		parent::__construct($direction);
 

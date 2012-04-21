@@ -19,7 +19,7 @@ namespace Rock\Components\Flow\Input;
 use Rock\Components\Flow\Input\Input;
 
 // <Use> : Flow Components
-use Rock\Components\Flow\FlowDirections;
+use Rock\Components\Flow\Directions;
 
 // <Use> : Automaton Components
 use Rock\Components\Automaton\Input\ScalarInput as AutomatonScalarInput;
@@ -31,7 +31,7 @@ class ScalarInput extends Input
 	/**
 	 *
 	 */
-	public function __construct($value, $direction=FlowDirections::FORWARD, $params = array())
+	public function __construct($value, $direction=Directions::FORWARD, $params = array())
 	{
 		parent::__construct($direction, $params);
 		$this->value  = $value;
@@ -58,7 +58,7 @@ class ScalarInput extends Input
 	 */
 	public function convertToAutomaton()
 	{
-		return new AutomatonScalarInput($this->getValue(), FlowDirections::convertToAutomaton($this->direction));
+		return new AutomatonScalarInput($this->getValue(), Directions::convertToAutomaton($this->direction));
 	}
 	public function __toString()
 	{

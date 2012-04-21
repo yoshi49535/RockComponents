@@ -23,7 +23,7 @@ namespace Rock\Components\Flow\State;
 use Rock\Components\Flow\State\FlowState;
 // <Use>
 use Rock\Components\Flow\GraphFlow;
-use Rock\Components\Flow\FlowDirection;
+use Rock\Components\Flow\Directions;
 use Rock\Components\Container\Graph\Path\IPath as IGraphPath;
 
 /**

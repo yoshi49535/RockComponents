@@ -13,10 +13,19 @@
  * $Copyrights$
  *
  ************************************************************************************/
+// <Namespace>
+namespace Rock\Components\Http\Flow\Session;
 
-namespace Rock\Components\Automaton;
+// <Use>
+use Rock\Components\Http\Flow\Session\ISession;
 
-class AutomatonDirections
+interface ISessionManager
 {
-	const FORWARD   = 'forward';
+	public function save();
+
+	public function get($key);
+
+	public function set($key, ISession $session);
+
+	public function has($key);
 }

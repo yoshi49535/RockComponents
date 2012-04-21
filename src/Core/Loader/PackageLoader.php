@@ -142,7 +142,7 @@ class PackageLoader
 	protected function convertSubnamespaceToDir($ns)
 	{
 		if(strlen($ns) > 0)
-		  return str_replace('\\', DIRECTORY_SEPARATOR, $subNs);
+		  return str_replace('\\', DIRECTORY_SEPARATOR, $ns);
 		return '.';
 	}
 	/** 

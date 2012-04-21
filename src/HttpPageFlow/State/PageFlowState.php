@@ -23,32 +23,57 @@ namespace Rock\Components\Http\Flow\State;
 // <BaseClass>
 use Rock\Components\Flow\State\GraphFlowState as BaseState;
 // <Interface>
-use Rock\Components\Http\Flow\State\IHttpFlowState;
+use Rock\Components\Http\Flow\State\IPageFlowState;
 // <Use>
 use Rock\Components\Flow\GraphFlow;
-use Rock\OnSymfony\HttpFlowBundle\Session\IFlowSession;
+use Rock\Components\Http\Flow\Session\ISession;
 
 /**
  *
  */
-class HttpState extends BaseState
+class PageFlowState extends BaseState
   implements
-    IHttpFlowState
+    IPageFlowState
 {
 	protected $session;
 
-	public function __construct(GraphFlow $flow, IFlowSession $session = null, IPath $path = null)
+	/** 
+	 *
+	 */
+	public function __construct(GraphFlow $flow, ISession $session, IPath $path = null)
 	{
 		parent::__construct($flow, $path);
 
-		$this->session  = $session;
+		$this->setSession($session);
 	}
-	public function setSession(IFlowSession $session)
+	/** 
+	 *
+	 */
+	public function setSession(ISession $session)
 	{
 		$this->session  = $session;
 	}
+	/** 
+	 *
+	 */
 	public function getSession()
 	{
 		return $this->session;
+	}
+
+	/**
+	 *
+	 */
+	public function getTrail()
+	{
+		if(!$this->trail)
+		{
+			// Create Empty trail
+			parent::getTrail();
+
+			// recover
+			$this->getSession()->recoverTrail($this->trail);
+		}
+		return $this->trail;
 	}
 }

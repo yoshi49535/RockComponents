@@ -25,33 +25,49 @@ use Rock\Components\Flow\GraphFlow as BaseFlow;
 // <Use> : Flow Components
 use Rock\Components\Flow\Input\IInput;
 use Rock\Components\Flow\State\IFlowState;
-use Rock\OnSymfony\FlowBundle\Exception\FlowStateException;
-use Rock\OnSymfony\HttpFlowBundle\Request\FlowRequests;
+use Rock\Components\Flow\Exception\FlowStateException;
+use Rock\Components\Flow\Directions;
 
 // <Use> : Flow Web-Page Components
-use Rock\OnSymfony\HttpFlowBundle\Session\IFlowSession;
-use Rock\Components\Http\Flow\State\HttpState;
+use Rock\Components\Http\Flow\Session\ISession;
+use Rock\Components\Http\Flow\Session\ISessionManager;
+use Rock\Components\Http\Flow\State\PageFlowState;
 
-class Flow extends BaseFlow
+class PageFlow extends BaseFlow
 {
+	/**
+	 *
+	 */
+	protected $name;
+
+	/**
+	 *
+	 */
+	protected $sessions;
+
+	public function __construct()
+	{
+		parent::__construct();
+
+		$this->initName();
+	}
 	/**
 	 *
 	 */
 	public function doRecoverState(IFlowState $state)
 	{
-		// Recover FollowedPath From Session
-		$trail = $this->getPath()->createTrail();
+		// Get graph trail from session 
+		$trail = $state->getTrail();
 
-		$session = $state->getSession();
-
-		if(count($session->getTrails()) == 0)
+		if(count($trail->getComponents()) == 0)
 		{
 			throw new FlowStateException('Flow has never forwarded.');
 		}
-		
-		$trail->unserialize($session->getTrailData());
+	}
 
-		$state->setTrail($trail);
+	public function doShutdown()
+	{
+		$this->getSessionManager()->save();
 	}
 	/**
 	 *
@@ -67,17 +83,17 @@ class Flow extends BaseFlow
 		$newTrail = null;
 
 
-		switch($direction)
+		switch($input->getDirection())
 		{
-		case FlowDirections::BACKWARD:
+		case Directions::BACKWARD:
 			// pop last state from path,
 			// It is also release edges
 			$trail->popLastState();
 			break;
-		case FlowDirections::FORWARD:
+		case Directions::FORWARD:
 			parent::doHandleInput($input, $state);
 			break;
-		case FlowDirections::STAY:
+		case Directions::STAY:
 		default:
 			// Show current state page
 			if($trail->count() === 0)
@@ -100,6 +116,56 @@ class Flow extends BaseFlow
 	 */
 	public function createFlowState()
 	{
-		return new HttpState($this);
+		return new PageFlowState($this, $this->getSessionManager()->get($this->getHash()));
+	}
+
+	/**
+	 *
+	 */
+	public function setSessionManager(ISessionManager $manager)
+	{
+		$this->sessions = $manager;
+	}
+
+	/**
+	 *
+	 */
+	public function getSessionManager()
+	{
+		if(!$this->sessions)
+			throw new \Exception('Session Manager is not initialized.');
+		return $this->sessions;
+	}
+
+	/**
+	 *
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
+
+	/**
+	 *
+	 */
+	public function setName($name)
+	{
+		$this->name  = $name;
+	}
+
+	/**
+	 *
+	 */
+	protected function initName()
+	{
+		$this->name  = strtolower(str_replace(get_class($this), '\\', '.'));
+	}
+	
+	/**
+	 *
+	 */
+	public function getHash()
+	{
+		return md5($this->getName());
 	}
 }

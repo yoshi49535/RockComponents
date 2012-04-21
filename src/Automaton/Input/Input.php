@@ -20,7 +20,7 @@ namespace Rock\Components\Automaton\Input;
 use Rock\Components\Automaton\Input\IInput;
 
 // <use> : Automaton Components
-use Rock\Components\Automaton\AutomatonDirections;
+use Rock\Components\Automaton\Directions;
 
 class Input 
   implements 
@@ -31,7 +31,7 @@ class Input
 	/**
 	 *
 	 */
-	public function __construct($direction = AutomatonDirections::FORWARD)
+	public function __construct($direction = Directions::FORWARD)
 	{
 		$this->setDirection($direction);
 	}
@@ -43,7 +43,7 @@ class Input
 	{
 		switch($direction)
 		{
-		case AutomatonDirections::FORWARD;
+		case Directions::FORWARD;
 			$this->direction  = $direction;
 			break;
 		default:
