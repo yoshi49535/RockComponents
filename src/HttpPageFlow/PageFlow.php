@@ -54,7 +54,7 @@ class PageFlow extends BaseFlow
 	/**
 	 *
 	 */
-	public function doRecoverState(IFlowState $state)
+	protected function doRecoverState(IFlowState $state)
 	{
 		// Get graph trail from session 
 		$trail = $state->getTrail();
@@ -65,14 +65,14 @@ class PageFlow extends BaseFlow
 		}
 	}
 
-	public function doShutdown()
+	protected function doShutdown()
 	{
 		$this->getSessionManager()->save();
 	}
 	/**
 	 *
 	 */
-	public function doHandleInput(IInput $input, IFlowState $state)
+	protected function doHandleInput(IInput $input, IFlowState $state)
 	{
 		$trail    = $state->getTrail();
 		if(!$trail)
@@ -167,5 +167,26 @@ class PageFlow extends BaseFlow
 	public function getHash()
 	{
 		return md5($this->getName());
+	}
+
+	/**
+	 *
+	 */
+	public function setEntryPage($name, $listener = null)
+	{
+		$graph  = $this->getPath();
+		$page   = new Page($graph, $name, $listener);
+		$page->isEntryPoint(true);
+		$graph->addState($page);
+
+		return $page;
+	}
+
+	/**
+	 * 
+	 */
+	public function setEntryPoint($name, $listener = null)
+	{
+		return $this->setEntryPage($name, $listener);
 	}
 }

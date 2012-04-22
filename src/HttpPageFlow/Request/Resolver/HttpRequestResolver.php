@@ -24,7 +24,6 @@ use Rock\Components\Http\Flow\Request\Resolver\IRequestResolver;
 // <Use>
 use Rock\Components\Http\Flow\Input\Input;
 use Rock\Components\Http\Flow\Request\FlowRequests;
-use Rock\OnSymfony\Standard\ComponentExtendBundle\Session\Proxy\ISessionProxyManager;
 
 /**
  *
@@ -40,16 +39,10 @@ abstract class HttpRequestResolver
 	/**
 	 *
 	 */
-	public function __construct(ISessionProxyManager $manager)
+	public function __construct()
 	{
 		$this->idKey       = FlowRequests::FLOW_ID_KEY;
 		$this->dirctionKey = FlowRequests::DIRECTION_KEY;
-
-		$this->sessionManager = $manager;
-	}
-	public function getSessionManager()
-	{
-		return $this->sessionManager;
 	}
 	/**
 	 *
@@ -88,13 +81,6 @@ abstract class HttpRequestResolver
 		return $this->directionKey;
 	}
 
-	/**
-	 * Create new session by SessionManager
-	 */
-	public function resolveSession()
-	{
-		return $this->getSessionManager()->createProxy();
-	}
 	/**
 	 *
 	 */

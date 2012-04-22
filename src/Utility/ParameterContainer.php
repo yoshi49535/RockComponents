@@ -99,5 +99,10 @@ class ParameterContainer
 	{
 		return $this->params;
 	}
+
+	public function setValues(array $values)
+	{
+		$this->params = $values;
+	}
 }
 

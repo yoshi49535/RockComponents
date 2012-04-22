@@ -46,25 +46,7 @@ class TemplateFactory extends FlowFactory
 	/**
 	 *
 	 */
-	public function create($name)
-	{
-		$flow      = null;
-		$template  = $this->getTemplate($name);
-
-		if(!class_exists($template))
-		{
-			throw new \InvalidArgumentException(sprintf(
-				'Flow template "%s" is not a registed template or class not exists.',
-				$template
-			));
-		}
-		
-		return parent::create($template);
-	}
-	/**
-	 *
-	 */
-	public function addTemplate(string $name, string $class)
+	public function addTemplate($name, $class)
 	{
 		$this->templates[$name]  = $class;
 	}
@@ -89,5 +71,23 @@ class TemplateFactory extends FlowFactory
 	public function getTemplate($name)
 	{
 		return isset($this->templates[$name]) ? $this->templates[$name] : $name;
+	}
+	/**
+	 *
+	 */
+	public function create($name)
+	{
+		$flow      = null;
+		$template  = $this->getTemplate($name);
+
+		if(!class_exists($template))
+		{
+			throw new \InvalidArgumentException(sprintf(
+				'Flow template "%s" is not a registed template or class not exists.',
+				$template
+			));
+		}
+		
+		return parent::create($template);
 	}
 }

@@ -26,8 +26,6 @@ use Rock\Components\Automaton\FiniteAutomaton;
 
 // <Use> : Flow Components
 use Rock\Components\Flow\IFlow;
-use Rock\Components\Flow\Event\FlowEvents;
-use Rock\Components\Flow\Event\FlowExecuteEvent;
 use Rock\Components\Flow\Path\IPath as IFlowPath;
 use Rock\Components\Flow\Step\IStep as IFlowStep;
 
@@ -55,30 +53,6 @@ class FlowGraph extends FiniteAutomaton
 	{
 		$this->flow  = $flow;
 		parent::__construct();
-	}
-
-	/**
-	 *
-	 */
-	public function getDispatcher()
-	{
-		return $this->getFlow()->getDispatcher();
-	}
-
-	/**
-	 *
-	 */
-	public function addStateEvent($name, $listener)
-	{
-		$this->getDispatcher()->addListener(FlowEvents::flat($name), $listener);
-	}
-
-	/**
-	 *
-	 */
-	public function handleState(IState $state, $request)
-	{
-		//$this->getFlow()->dispatchState($state);
 	}
 
 	/**
@@ -173,15 +147,24 @@ class FlowGraph extends FiniteAutomaton
 
 		return $path;
 	}
+	/**
+	 *
+	 */
 	public function getSteps()
 	{
 		return $this->getVertices();
 	}
+	/**
+	 *
+	 */
 	public function countSteps()
 	{
 		return $this->countVertices();
 	}
 
+	/**
+	 *
+	 */
 	public function __toString()
 	{
 		return sprintf('Graph[%s][size=%d]', get_class($this), $this->countSteps());

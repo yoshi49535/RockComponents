@@ -24,6 +24,7 @@ namespace Rock\Components\Flow\Factory;
 use Rock\Components\Flow\Factory\IFactory;
 // <Use> : Flow Components
 use Rock\Components\Flow\IFlow;
+use Rock\Components\Flow\Builder\Builder;
 
 class Factory
   implements
@@ -36,6 +37,9 @@ class Factory
 	protected function init()
 	{
 	}
+	/**
+	 * @param string $name Classname of the flow
+	 */
 	public function create($name)
 	{
 		if(!class_exists($name))
@@ -57,5 +61,11 @@ class Factory
 		}
 
 		return $flow;
+	}
+
+	public function createBuilder()
+	{
+		$builder = new Builder($this);
+		return $builder;
 	}
 }

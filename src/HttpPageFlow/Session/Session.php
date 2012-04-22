@@ -31,9 +31,9 @@ class Session extends ParameterContainer
 	/**
 	 *
 	 */
-	public function __construct($hash)
+	public function __construct(array $defaults = array())
 	{
-		$this['flow_hash']  = $hash;
+		$this->setValues($defaults);
 	}
 
 	/**

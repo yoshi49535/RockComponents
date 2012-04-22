@@ -147,9 +147,7 @@ class Test extends TestCase
   {
 	$builder = new FlowBuilder(new FlowFactory());
 	
-	$builder->setFlowClass('\\Rock\\Components\\Flow\\GraphFlow');
-
-	$flow    = $builder->build();
+	$flow    = $builder->build('\\Rock\\Components\\Flow\\GraphFlow');
 	$this->assertTrue($flow instanceof IFlow, 'Flow build assertion');
 
 	return $flow;

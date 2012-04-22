@@ -17,16 +17,14 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-
+// <Namespace>
 namespace Rock\Components\Http\Flow\Builder;
-
 // <Base>
 use Rock\Components\Flow\Builder\Builder as BaseBuilder;
 
 // <Use> : Flow Components
 use Rock\Components\Flow\Configuration\IFlowConfiguration;
 use Rock\Components\Flow\Factory\IFactory as IFlowFactory;
-
 // <Use> : Http Flow Components
 use Rock\Components\Http\Flow\Session\ISessionManager;
 use Rock\Components\Http\Flow\Request\Resolver\IRequestResolver;
@@ -35,24 +33,35 @@ use Rock\Components\Http\Flow\Request\Resolver\IRequestResolver;
  *
  */
 class Builder extends BaseBuilder
+  implements
+    IHttpBuilder
 {
 	protected $sessions;
 
-	public function __construct(IFlowFactory $factory, ISessionManager $sessions)
+	public function __construct(IFlowFactory $factory)
 	{
 		parent::__construct($factory);
+	}
 
+	public function setSessionManager(ISessionManager $sessions)
+	{
 		$this->sessions = $sessions;
+	}
+	public function getSessionManager()
+	{
+		if(!$this->sessions)
+			throw new \Exception('SessionManager is not initialized.');
+		return $this->sessions;
 	}
 	/**
 	 *
 	 */
-	public function build($rebuild = false)
+	public function build($name)
 	{
-		$flow = parent::build($rebuild);
+		$flow = parent::build($name);
 
 		if($flow)
-			$flow->setSessionManager($this->sessions);
+			$flow->setSessionManager($this->getSessionManager());
 		return $flow;
 	}
 }

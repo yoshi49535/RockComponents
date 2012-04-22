@@ -62,14 +62,14 @@ abstract class Flow
 	 * doInit
 	 * 
 	 */
-	public function doInit()
+	protected function doInit()
 	{
 	}
 	/**
 	 * doInitPath
 	 * 
 	 */
-	public function doInitPath()
+	protected function doInitPath()
 	{
 		throw new NotImplementedException('Flow is abstracted. Make sure your extended Flow has onInitPath Function to handle "doInitPath()".');
 	}
@@ -77,21 +77,21 @@ abstract class Flow
 	 * doShutdown
 	 * 
 	 */
-	public function doShutdown()
+	protected function doShutdown()
 	{
 	}
 	/**
 	 * doInitState
 	 * 
 	 */
-	public function doInitState(IFlowState $state)
+	protected function doInitState(IFlowState $state)
 	{
 	}
 	/**
 	 * doRecoverState
 	 * 
 	 */
-	public function doRecoverState(IFlowState $state)
+	protected function doRecoverState(IFlowState $state)
 	{
 	}
 

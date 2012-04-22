@@ -24,7 +24,7 @@ interface IFlowBuilder
 	/**
 	 *
 	 */
-	public function build($rebuild = false);
+	public function build($name);
 
 	/**
 	 *

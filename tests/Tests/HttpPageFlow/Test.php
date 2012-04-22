@@ -24,7 +24,7 @@ use Rock\Components\Flow\IFlow;
 use Rock\Components\Flow\Path\IPath;
 
 use Rock\Components\Http\Flow\Builder\Builder as FlowBuilder;
-use Rock\Components\Flow\Factory\Factory as FlowFactory;
+use Rock\Components\Http\Flow\Factory\Factory as FlowFactory;
 
 use Rock\Components\Flow\Input\Input as FlowInput;
 use Rock\Components\Flow\Input\ScalarInput as FlowScalarInput;
@@ -138,6 +138,15 @@ class Test extends TestCase
 	}
   }
   */
+  public function testType()
+  {
+		printf("testType \n");
+		$factory = new FlowFactory(new TestSessionManager());
+		$builder = $factory->createBuilder('default');
+		$flow    = $builder->build('default');
+		$this->assertTrue($flow instanceof IFlow, 'Flow built success.');
+		printf("=================\n");
+  }
   public function testCreate()
   {
 	$flow = new PageFlow();
@@ -148,11 +157,10 @@ class Test extends TestCase
 
   public function doBuildFlow()
   {
-	$builder = new FlowBuilder(new FlowFactory(), new TestSessionManager());
-	
-	$builder->setFlowClass('\\Rock\\Components\\Http\\Flow\\PageFlow');
+	$builder = new FlowBuilder(new FlowFactory());
+	$builder->setSessionManager(new TestSessionManager());
 
-	$flow    = $builder->build();
+	$flow    = $builder->build('\\Rock\\Components\\Http\\Flow\\PageFlow');
 	$this->assertTrue($flow instanceof IFlow, 'Flow build assertion');
 
 	return $flow;

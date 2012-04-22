@@ -16,9 +16,12 @@
 // <Namespace>
 namespace Rock\Components\Http\Flow\Session;
 
-// <Use>
+// <Interface>
 use Rock\Components\Http\Flow\Session\ISessionManager;
+
+// <Use> : Session
 use Rock\Components\Http\Flow\Session\ISession;
+use Rock\Components\Http\Flow\Session\Session;
 
 abstract class SessionManager
   implements
@@ -27,6 +30,12 @@ abstract class SessionManager
 {
 	protected
 	  $sessions   = array();
+
+	public function load()
+	{
+		// Initialize Sessions
+		$this->sessions = array();
+	}
 	/**
 	 *
 	 */
@@ -57,10 +66,7 @@ abstract class SessionManager
 	{
 		if(!isset($this->sessions[$key]))
 		{
-			// create new Session
-			$class = $this->getSessionClass();
-			$session = new $class($key);
-			$this->sessions[$key]  = $session;
+			$this->sessions[$key] = $this->createSession(array('flow_hash' => $key ));
 		}
 		
 		return $this->sessions[$key];
@@ -124,5 +130,11 @@ abstract class SessionManager
 	{
 		if(isset($this->sessions[$idx]))
 			unset($this->sessions[$idx]);
+	}
+
+	protected function createSession(array $defaults = array())
+	{
+		// create new Session
+		return new Session($defaults);
 	}
 }

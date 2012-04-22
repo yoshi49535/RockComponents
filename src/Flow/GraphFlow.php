@@ -50,7 +50,7 @@ class GraphFlow extends Flow
 	/**
 	 * 
 	 */
-	public function doInitPath()
+	protected function doInitPath()
 	{
 		// Initialize Graph Graph
 		$this->path = new Graph($this);
@@ -73,7 +73,7 @@ class GraphFlow extends Flow
 	/**
 	 *
 	 */
-	public function doHandleInput(IInput $input, IFlowState $state)
+	protected function doHandleInput(IInput $input, IFlowState $state)
 	{
 		$trail     = $state->getTrail();
 		if(!$trail)

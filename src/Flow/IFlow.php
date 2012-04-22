@@ -35,23 +35,4 @@ interface IFlow
      */
 	public function handle(IInput $request, IFlowState $state = null);
 
-    /**
-     *
-     */
-	public function doInit();
-
-    /**
-     *
-     */
-	public function doInitState(IFlowState $state);
-
-    /**
-     *
-     */
-	public function doRecoverState(IFlowState $state);
-
-    /**
-     *
-     */
-	public function doHandleInput(IInput $input, IFlowState $state);
 }

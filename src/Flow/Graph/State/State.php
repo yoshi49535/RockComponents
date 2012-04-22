@@ -17,34 +17,38 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-
+// <Namespace>
 namespace Rock\Components\Flow\Graph\State;
 
-// <BaseClass>
+// <Base>
 use Rock\Components\Automaton\State\NamedState;
-
+// <Interface>
+use Rock\Components\Flow\IFlowComponent;
 // <Use>
 use Rock\Components\Container\Graph\IGraph;
 use Rock\Components\Flow\Graph\Graph as ExecutableGraph;
-
 // <Use> : Automaton
 use Rock\Components\Automaton\Input\IInput;
 /**
  *
  */
 class State extends NamedState
+  implements 
+    IFlowComponent
 {
+	protected $listener;
 	/**
 	 *
 	 */
 	public function __construct(IGraph $graph, $name, $listener = null)
 	{
 		parent::__construct($graph, $name);
-
-		if(($graph instanceof ExecutableGraph) && $listener)
+		
+		if($listener && !is_callable($listener))
 		{
-			$this->getGraph()->addStateEvent($name, $listener);
+			throw new \InvalidArgumentException('Listener has to be a callable or null.');
 		}
+		$this->listener  = $listener;
 	}
 
 	/**
@@ -53,7 +57,9 @@ class State extends NamedState
 	public function addNext($name, $listener = null, $condition = null)
 	{
 		$graph    = $this->getGraph();
-		$newState = new self($graph, $name, $listener);
+
+		$class    = get_class($this);
+		$newState = new $class($graph, $name, $listener);
 
 		$graph->addState($newState);
 
@@ -65,7 +71,8 @@ class State extends NamedState
 
 	public function handle(IInput $input)
 	{
-		$this->getGraph()->handleState($this, $input);
+		if($this->listener)
+			call_user_func($this->listener, $input);
 	}
 
 	public function __toString()
