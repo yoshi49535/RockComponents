@@ -21,5 +21,5 @@ namespace Rock\Components\Container\Graph;
 
 interface IGraphTrail
 {
-	public function getPath();
+	public function getTrail();
 }

@@ -100,6 +100,8 @@ class PageFlow extends BaseFlow
 			{
 				// execute first state
 				$graph       = $this->getPath();
+				// Set direction as Forward
+				$input->setDirection(Directions::FORWARD);
 				$newTrail    = $graph->handle($input);
 				//
 			    foreach($newTrail->getTrail() as $component)

@@ -20,38 +20,40 @@
 
 namespace Rock\Components\Flow\Output;
 
+// <Interface>
+use Rock\Components\Container\Graph\IGraphTrail;
 // <Use>
 use Rock\Components\Flow\Input\IInput;
-use Rock\Components\Container\Graph\Path\IPath;
-use Rock\Components\Container\Graph\IGraphTrail;
+use Rock\Components\Container\Graph\Path\IPath as ITrail;
+
 
 class GraphOutput extends Output
   implements 
     IGraphTrail
 {
-	protected $path;
+	protected $trail;
 
 	/**
 	 *
 	 */
-	public function __construct(IInput $input, IPath $path = null, $params = array())
+	public function __construct(IInput $input, ITrail $trail= null, $params = array())
 	{
 		parent::__construct($input, $params);
 
-		$this->path  = $path;
+		$this->trail = $trail;
 	}
 	/**
 	 *
 	 */
-	public function setPath(IPath $path)
+	public function setTrail(ITrail $trail)
 	{
-		$this->path  = $path;
+		$this->trail = $trail;
 	}
 	/**
 	 *
 	 */
-	public function getPath()
+	public function getTrail()
 	{
-		return $this->path;
+		return $this->trail;
 	}
 }
