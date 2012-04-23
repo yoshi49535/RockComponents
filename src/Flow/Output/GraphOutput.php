@@ -31,14 +31,18 @@ class GraphOutput extends Output
   implements 
     IGraphTrail
 {
+	/**
+	 * Trail of this execution.
+	 *
+	 */
 	protected $trail;
 
 	/**
 	 *
 	 */
-	public function __construct(IInput $input, ITrail $trail= null, $params = array())
+	public function __construct(ITrail $trail= null, $params = array())
 	{
-		parent::__construct($input, $params);
+		parent::__construct($params);
 
 		$this->trail = $trail;
 	}

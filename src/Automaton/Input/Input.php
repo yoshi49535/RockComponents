@@ -19,13 +19,22 @@ namespace Rock\Components\Automaton\Input;
 // <Interface>
 use Rock\Components\Automaton\Input\IInput;
 
-// <use> : Automaton Components
+// <use> : Direction 
 use Rock\Components\Automaton\Directions;
+use Rock\Components\Automaton\IDirectionValidator;
 
 class Input 
   implements 
     IInput
 {
+	/**
+	 *
+	 */
+	protected $validator;
+
+	/**
+	 *
+	 */
 	protected $direction;
 
 	/**
@@ -33,23 +42,37 @@ class Input
 	 */
 	public function __construct($direction = Directions::FORWARD)
 	{
+		$this->init();
+
 		$this->setDirection($direction);
 	}
 
 	/**
 	 *
 	 */
+	protected function init()
+	{
+		$this->setDirectionValidator(new Directions());
+	}
+
+	public function setDirectionValidator(IDirectionValidator $validator)
+	{
+		$this->validator = $validator;
+	}
+	public function getDirectionValidator()
+	{
+		return $this->validator;
+	}
+	/**
+	 *
+	 */
 	public function setDirection($direction)
 	{
-		switch($direction)
+		if(($validator = $this->getDirectionValidator()) && !$validator->isValid($direction))
 		{
-		case Directions::FORWARD;
-			$this->direction  = $direction;
-			break;
-		default:
 			throw new \InvalidArgumentException(sprintf('Direction "%s" is not supported.', (string)$direction));
-			break;
 		}
+		$this->direction  = $direction;
 	}
 	/**
 	 *

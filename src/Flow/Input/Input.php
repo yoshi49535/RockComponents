@@ -21,67 +21,88 @@
 namespace Rock\Components\Flow\Input;
 
 // <Base>
-use Rock\Components\Flow\BaseIO;
+use Rock\Components\Automaton\Input\Input as AutomatonInput;
 // <Interface>
 use Rock\Components\Flow\Input\IInput;
-
+use Rock\Components\Flow\Util\IParameterBag;
 // <Use> : Flow Components
 use Rock\Components\Flow\Directions;
-// <Use> : Automaton Components
-use Rock\Components\Automaton\Input\Input as AutomatonInput;
+// <Use> : ParameterBag
+use Rock\Components\Flow\Util\ParameterBag;
 
-class Input extends BaseIO
+class Input extends AutomatonInput
   implements
-    IInput
+    IInput,
+	IParameterBag
 {
-	protected $direction;
+	/**
+	 *
+	 */
+	protected $params;
 
 	/**
 	 *
 	 */
 	public function __construct($direction = Directions::FORWARD, array $params = array())
 	{
-		$this->setDirection($direction);
+		parent::__construct($direction);
 
-		parent::__construct($params);
+		$this->params  = new ParameterBag($params);
 	}
 
 	/**
 	 *
 	 */
-	public function setDirection($direction)
+	protected function init()
 	{
-		switch($direction)
-		{
-		case Directions::FORWARD;
-		case Directions::BACKWARD;
-		case Directions::STAY;
-			$this->direction  = $direction;
-			break;
-		default:
-			$this->direction   = Directions::FORWARD;
-			break;
-		}
+		$this->setDirectionValidator(new Directions());
 	}
-	
+	// IParameterBag Impl
 	/**
 	 *
 	 */
-	public function getDirection()
+	public function get($idx)
 	{
-		return $this->direction;
+		return $this->params->get($idx);
+	}
+	/**
+	 *
+	 */
+	public function set($idx, $value)
+	{
+		$this->params->set($idx, $value);
+	}
+	/**
+	 *
+	 */
+	public function has($idx)
+	{
+		$this->params->has($idx);
+	}
+	/**
+	 *
+	 */
+	public function all()
+	{
+		return $this->params->all();
 	}
 
 	/**
 	 *
 	 */
-	public function convertToAutomaton()
+	public function getParameterBag()
 	{
-		return new AutomatonInput(Directions::convertToAutomaton($this->direction));
+		return $this->params;
 	}
 
+	//----
+	/**
+	 *
+	 */
 	public function __toString()
 	{
 		return sprintf("Flow Input[%s] : \n\t[Direction='%s']", get_class($this), (string)$this->direction);
 	}
+
+
 }

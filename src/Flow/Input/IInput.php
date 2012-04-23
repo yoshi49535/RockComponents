@@ -18,22 +18,13 @@
  *
  ************************************************************************************/
 
+// <Namespace>
 namespace Rock\Components\Flow\Input;
 
-interface IInput
+use Rock\Components\Automaton\Input\IInput as IBaseInput;
+/**
+ * Flow Input
+ */
+interface IInput extends IBaseInput
 {
-	/**
-	 *
-	 */
-	public function getParameters();
-
-	/**
-	 *
-	 */
-	public function getDirection();
-
-	/**
-	 *
-	 */
-	public function convertToAutomaton();
 }

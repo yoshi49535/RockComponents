@@ -95,14 +95,15 @@ class FlowGraph extends FiniteAutomaton
 	 */
 	public function handle(IFlowInput $input = null, $begin = null)
 	{
-		$repeatTime = $input->getParameter(FlowInputParameters::REPEAT_TIME, FlowInputParameters::REPEAT_TIME_DEFAULT);
-		$graphInput = $input->convertToAutomaton();
+		$repeatTime = $input->has(FlowInputParameters::REPEAT_TIME) 
+			? $input->get(FlowInputParameters::REPEAT_TIME) 
+			: FlowInputParameters::REPEAT_TIME_DEFAULT;
 
 		if($repeatTime)
 		{
 			for($i = 0; $i < $repeatTime; $i++)
 			{
-				$path  = $this->doUpdateStatePosition($graphInput, $begin);
+				$path  = $this->doUpdateStatePosition($input, $begin);
 				if(!$path || (count($path) <= 0))
 					break;
 				$begin = $path->last()->current();
@@ -112,7 +113,7 @@ class FlowGraph extends FiniteAutomaton
 		{
 			while($begin && !$begin->isEndPoint())
 			{
-				$path  = $this->doUpdateStatePosition($graphInput, $begin);
+				$path  = $this->doUpdateStatePosition($input, $begin);
 				if(!$path || (count($path) <= 0))
 					break;
 				$begin = $path->last()->current();

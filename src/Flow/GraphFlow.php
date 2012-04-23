@@ -73,7 +73,7 @@ class GraphFlow extends Flow
 	/**
 	 *
 	 */
-	protected function doHandleInput(IInput $input, IFlowState $state)
+	protected function doHandleInput(IFlowState $state)
 	{
 		$trail     = $state->getTrail();
 		if(!$trail)
@@ -92,7 +92,8 @@ class GraphFlow extends Flow
 		$graph   = $this->getPath();
 
 		// Forward automaton state
-		$newTrail = $graph->handle($input, $current);
+		$newTrail = $graph->handle($state->getInput(), $current);
+		$state->getOutput()->setTrail($newTrail);
 
 		// first component of trail is the current state, thus ignore
 		$trails = $newTrail->getTrail();
@@ -121,6 +122,10 @@ class GraphFlow extends Flow
 	{
 		// Path As Graph
 		$graph   = $this->getPath();
+		if($graph->hasRoot())
+		{
+			throw new \Exception('EntryPoint already exists.');
+		}
 
 		$vertex  = new State($graph, $name, $listener);
 		$vertex->isEntryPoint(true);
@@ -129,8 +134,11 @@ class GraphFlow extends Flow
 		return $vertex;
 	}
 
-	protected function getOutputClass()
+	/**
+	 *
+	 */
+	protected function createOutput()
 	{
-		return 'Rock\\Components\\Flow\\Output\\GraphOutput';
+		return new GraphOutput();
 	}
 }

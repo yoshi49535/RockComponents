@@ -16,14 +16,12 @@
 // <Namespace>
 namespace Rock\Components\Http\Flow;
 // <Base>
-use Rock\Components\Flow\Graph\State\State;
+use Rock\Components\Automaton\State\IState;
 
 /**
  *
  */
-class Page extends State
-  implements
-    IPage
+interface IPage extends IState
 {
 	
 }

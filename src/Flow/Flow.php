@@ -118,8 +118,10 @@ abstract class Flow
 			{
 				$state  = $this->createFlowState();
 			}
+			$state->setInput($input);
+
 			// Initailzie Flow
-			$this->doInit();
+			$this->doInit($state);
 
 			try
 			{
@@ -133,8 +135,12 @@ abstract class Flow
 			    $this->doInitState($state);
 			}
 
+			// Create Output
+			$output   = $this->createOutput();
+			$state->setOutput($output);
+
 			// handle input 
-			$this->doHandleInput($input, $state);
+			$this->doHandleInput($state);
 
 			// Shutdown Flow
 			$this->doShutdown($state);
@@ -145,16 +151,12 @@ abstract class Flow
 			throw $ex;
 		}
 		
-		$class  = $this->getOutputClass();
-		$output = new $class($input);
-		$output->setState($state);
-
 		return $output;
 	}
 
-	protected function getOutputClass()
+	protected function createOutput()
 	{
-		return 'Rock\\Components\\Flow\\Output\\GraphOutput';
+		return new Output();
 	}
 
 	public function setPath(IPath $path)

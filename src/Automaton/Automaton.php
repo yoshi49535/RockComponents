@@ -56,10 +56,16 @@ class Automaton extends DirectedGraph
 		return parent::addVertex($state);
 	}
 
+	/**
+	 *
+	 */
 	public function addEdge(IVertex $source, IVertex $target)
 	{
 		throw new \Exception('Use "addCondtion" instead of "addEdge".');
 	}
+	/**
+	 *
+	 */
 	public function addCondition(IState $source, IState $target, $condition = null)
 	{
 		$this->edges[]  = ($edge = $this->getEdgeFactory()->createCondition($source, $target, $condition));
@@ -81,6 +87,25 @@ class Automaton extends DirectedGraph
 			}
 		}
 		throw new \Exception('Entry Point is not defined.');
+	}
+
+	/**
+	 *
+	 */
+	public function hasRoot()
+	{
+		$hasRoot   = false;
+		$vertices  = $this->getVertices();
+
+		foreach($vertices as $vertex)
+		{
+			if($vertex->isEntryPoint())
+			{
+				$hasRoot  = true;
+				break;
+			}
+		}
+		return $hasRoot;
 	}
 	/**
 	 *

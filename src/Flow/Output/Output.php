@@ -17,27 +17,43 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-
+// <Namespace>
 namespace Rock\Components\Flow\Output;
+// <Interface>
+use Rock\Components\Flow\Util\IParameterBag;
+use Rock\Components\Flow\Output\IOutput;
 
-// <Use>
-use Rock\Components\Flow\BaseIO;
+// <Use> : Flow Components
 use Rock\Components\Flow\Input\IInput;
 use Rock\Components\Flow\State\IFlowState;
+// <Use> : ParameterBag
+use Rock\Components\Flow\Util\ParameterBag;
 
-class Output extends BaseIO
+class Output 
   implements 
-    IOutput
+    IOutput,
+	IParameterBag
 {
+	/**
+	 *
+	 */
 	protected $input;
+	/**
+	 *
+	 */
 	protected $state;
+	/**
+	 *
+	 */
+	protected $params;
 
-	public function __construct(IInput $input , $params = array())
+	/**
+	 *
+	 */
+	public function __construct($params = array())
 	{
-		parent::__construct($params);
-
-		$this->input = $input;
-		$this->state = null;
+		$this->params = new ParameterBag($params);
+		$this->state  = null;
 	}
 
 	
@@ -46,7 +62,7 @@ class Output extends BaseIO
 	 */
 	public function getInput()
 	{
-		return $this->input;
+		return $this->getState()->getInput();
 	}
 
 	/**
@@ -54,6 +70,8 @@ class Output extends BaseIO
 	 */
 	public function getState()
 	{
+		if(!$this->state)
+			throw new \Exception('State is not initialized, yet.');
 		return $this->state;
 	}
 
@@ -65,6 +83,45 @@ class Output extends BaseIO
 		$this->state  = $state;
 	}
 
+	// IParameterBag Impl
+	/**
+	 *
+	 */
+	public function get($idx)
+	{
+		return $this->params->get($idx);
+	}
+	/**
+	 *
+	 */
+	public function set($idx, $value)
+	{
+		$this->params->set($idx, $value);
+	}
+	/**
+	 *
+	 */
+	public function has($idx)
+	{
+		$this->params->has($idx);
+	}
+	/**
+	 *
+	 */
+	public function all()
+	{
+		return $this->params->all();
+	}
+
+	/**
+	 *
+	 */
+	public function getParameterBag()
+	{
+		return $this->params;
+	}
+
+	//
 	/**
 	 *
 	 */

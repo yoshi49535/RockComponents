@@ -22,6 +22,13 @@ namespace Rock\Components\Automaton\State;
 
 interface IState
 {
-	Public function isEntryPoint();
+	/**
+	 *
+	 */
+	public function isEntryPoint();
+
+	/**
+	 *
+	 */
 	public function isEndPoint();
 }

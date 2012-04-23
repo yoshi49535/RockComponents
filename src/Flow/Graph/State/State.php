@@ -27,8 +27,8 @@ use Rock\Components\Flow\IFlowComponent;
 // <Use>
 use Rock\Components\Container\Graph\IGraph;
 use Rock\Components\Flow\Graph\Graph as ExecutableGraph;
-// <Use> : Automaton
-use Rock\Components\Automaton\Input\IInput;
+// <Use> : Flow
+use Rock\Components\Flow\Input\IInput;
 /**
  *
  */
@@ -51,6 +51,12 @@ class State extends NamedState
 		$this->listener  = $listener;
 	}
 
+	public function getFlow()
+	{
+		if(!($graph  = $this->getGraph()) instanceof IFlowPath)
+			throw new \Exception('IFlowComponent holder has to be an IFlowPath');
+		return $graph->getFlow();
+	}
 	/**
 	 * Shortcut function for method-chain
 	 */
@@ -69,12 +75,33 @@ class State extends NamedState
 		return $newState;
 	}
 
+	/**
+	 *
+	 */
+	public function addPreValdiation()
+	{
+		return $this;
+	}
+
+	/**
+	 *
+	 */
+	public function addPostValidation()
+	{
+		return $this;
+	}
+	/**
+	 *
+	 */
 	public function handle(IInput $input)
 	{
 		if($this->listener)
 			call_user_func($this->listener, $input);
 	}
 
+	/**
+	 *
+	 */
 	public function __toString()
 	{
 		return sprintf('Graph Vertex[%s][name=%s] on %s', get_class($this), $this->getName(), $this->getGraph());

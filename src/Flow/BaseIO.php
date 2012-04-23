@@ -24,6 +24,9 @@ abstract class BaseIO
 {
 	protected $params;
 
+	/**
+	 *
+	 */
 	public function __construct(array $params = array())
 	{
 		$this->params = $params;

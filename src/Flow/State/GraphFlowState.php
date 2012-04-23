@@ -35,7 +35,7 @@ use Rock\Components\Container\Graph\Path\IPath as IGraphPath;
 class GraphFlowState extends FlowState
 {
 	/**
-	 * The trail from start point to 
+	 * The trail from start point to current
 	 * 
 	 * @var \Rock\Starndard\Container\Graph\Path\Path
 	 */

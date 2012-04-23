@@ -24,25 +24,28 @@ namespace Rock\Components\Flow;
 // <Use> : Automaton Components
 use Rock\Components\Automaton\Directions as AutomatonDirections;
 
-final class Directions
+/**
+ *
+ */
+class Directions extends AutomatonDirections
 {
 	//
-	const FORWARD      = 'forward';
 	const BACKWARD     = 'backward';
 	const STAY         = 'stay';
 
-	static public function convertToAutomaton($direction)
+
+	public function isValid($direction)
 	{
 		switch($direction)
 		{
-		case self::FORWARD:
-			return AutomatonDirections::FORWARD;
-			break;
 		case self::BACKWARD:
 		case self::STAY:
-			throw new \InvalidArgumentException(sprintf('Automaton Dose not support Direction "%s"', $direction));
+			return true;
+			break;
+		default:
+			return parent::isValid($direction);
 			break;
 		}
-
 	}
+
 }

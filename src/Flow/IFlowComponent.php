@@ -16,9 +16,21 @@
 // <Namespace>
 namespace Rock\Components\Flow;
 // <Use>
-use Rock\Components\Automaton\Input\IInput;
+use Rock\Components\Flow\Input\IInput;
 
+/**
+ *
+ */
 interface IFlowComponent
 {
+
+	/**
+	 *
+	 */
+	public function getFlow();
+
+	/**
+	 *
+	 */
 	public function handle(IInput $input);
 }

@@ -48,7 +48,7 @@ class TemplateFactory extends FlowFactory
 	 */
 	public function addTemplate($name, $class)
 	{
-		$this->templates[$name]  = $class;
+		$this->templates[strtolower($name)]  = $class;
 	}
 	/**
 	 *
@@ -70,7 +70,7 @@ class TemplateFactory extends FlowFactory
 	 */
 	public function getTemplate($name)
 	{
-		return isset($this->templates[$name]) ? $this->templates[$name] : $name;
+		return isset($this->templates[strtolower($name)]) ? $this->templates[strtolower($name)] : $name;
 	}
 	/**
 	 *

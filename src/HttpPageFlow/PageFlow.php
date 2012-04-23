@@ -72,7 +72,7 @@ class PageFlow extends BaseFlow
 	/**
 	 *
 	 */
-	protected function doHandleInput(IInput $input, IFlowState $state)
+	protected function doHandleInput(IFlowState $state)
 	{
 		$trail    = $state->getTrail();
 		if(!$trail)
@@ -83,7 +83,7 @@ class PageFlow extends BaseFlow
 		$newTrail = null;
 
 
-		switch($input->getDirection())
+		switch($state->getInput()->getDirection())
 		{
 		case Directions::BACKWARD:
 			// pop last state from path,
@@ -91,7 +91,7 @@ class PageFlow extends BaseFlow
 			$trail->popLastState();
 			break;
 		case Directions::FORWARD:
-			parent::doHandleInput($input, $state);
+			parent::doHandleInput($state);
 			break;
 		case Directions::STAY:
 		default:
@@ -101,8 +101,10 @@ class PageFlow extends BaseFlow
 				// execute first state
 				$graph       = $this->getPath();
 				// Set direction as Forward
+				$input       = $state->getInput();
 				$input->setDirection(Directions::FORWARD);
 				$newTrail    = $graph->handle($input);
+				$state->getOutput()->setTrail($newTrail);
 				//
 			    foreach($newTrail->getTrail() as $component)
 			    {
@@ -174,12 +176,24 @@ class PageFlow extends BaseFlow
 	/**
 	 *
 	 */
+	protected function createPage($name, $listener)
+	{
+		$page  = new Page($this->getPath(), $name, $listener);
+		$this->getPath()->addState($page);
+
+		return $page;
+	}
+	/**
+	 *
+	 */
 	public function setEntryPage($name, $listener = null)
 	{
-		$graph  = $this->getPath();
-		$page   = new Page($graph, $name, $listener);
+		if($this->getPath()->hasRoot())
+		{
+			throw new \Exception('EntryPoint already exists.');
+		}
+		$page   = $this->createPage($name, $listener);
 		$page->isEntryPoint(true);
-		$graph->addState($page);
 
 		return $page;
 	}

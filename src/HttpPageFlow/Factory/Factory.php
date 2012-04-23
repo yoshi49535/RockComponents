@@ -26,25 +26,44 @@ use Rock\Components\Http\Flow\Builder\IHttpBuilder;
  */
 class Factory extends TypedFactory
 {
+	/**
+	 *
+	 */
 	protected $sessions;
+	/**
+	 *
+	 */
 	public function __construct(ISessionManager $manager = null)
 	{
 		parent::__construct();
 		$this->sessions = $manager;
 	}
+	/**
+	 *
+	 */
 	protected function init()
 	{
 		$this->defaultType = new DefaultType();
 	}
+	/**
+	 *
+	 */
 	public function setSessionManager(ISessionManager $manager)
 	{
 		$this->sessions  = $manager;
 	}
 
+	/**
+	 *
+	 */
 	public function getSessionManager()
 	{
 		return $this->sessions;
 	}
+
+	/**
+	 *
+	 */
 	public function createBuilder($type = null)
 	{
 		$builder = parent::createBuilder($type);
