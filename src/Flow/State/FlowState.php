@@ -35,10 +35,12 @@ abstract class FlowState implements IFlowState
 	 * @var IFlow
 	 */
 	protected $flow;
+
 	/**
 	 * @var IInput
 	 */
 	protected $input;
+
 	/**
 	 * @var IOutput
 	 */

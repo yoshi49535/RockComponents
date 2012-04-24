@@ -26,7 +26,7 @@ use Rock\Components\Flow\GraphFlow as BaseFlow;
 use Rock\Components\Flow\Input\IInput;
 use Rock\Components\Flow\State\IFlowState;
 use Rock\Components\Flow\Exception\FlowStateException;
-use Rock\Components\Flow\Directions;
+use Rock\Components\Http\Flow\Directions;
 
 // <Use> : Flow Web-Page Components
 use Rock\Components\Http\Flow\Session\ISession;
@@ -85,15 +85,15 @@ class PageFlow extends BaseFlow
 
 		switch($state->getInput()->getDirection())
 		{
-		case Directions::BACKWARD:
+		case Directions::PREV:
 			// pop last state from path,
 			// It is also release edges
 			$trail->popLastState();
 			break;
-		case Directions::FORWARD:
+		case Directions::NEXT:
 			parent::doHandleInput($state);
 			break;
-		case Directions::STAY:
+		case Directions::CURRENT:
 		default:
 			// Show current state page
 			if($trail->count() === 0)
@@ -102,7 +102,7 @@ class PageFlow extends BaseFlow
 				$graph       = $this->getPath();
 				// Set direction as Forward
 				$input       = $state->getInput();
-				$input->setDirection(Directions::FORWARD);
+				$input->setDirection(Directions::NEXT);
 				$newTrail    = $graph->handle($input);
 				$state->getOutput()->setTrail($newTrail);
 				//

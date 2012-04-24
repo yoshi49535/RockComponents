@@ -25,27 +25,27 @@ interface IFlowState
 	/**
 	 * @return bool Has next on flow or not
 	 */
-	public function hasPrevStep();
+	public function hasPrev();
 
 	/**
 	 * @return string Return the URL for prev on flow
 	 */
-	public function getPrevStep();
+	public function getPrev();
 
 	/**
 	 * @return bool Has prev on flow or not
 	 */
-	public function hasNextStep();
+	public function hasNext();
 
 	/**
 	 * @return string Return the URL for next on flow
 	 */
-	public function getNextStep();
+	public function getNext();
 
 	/**
 	 * @return string Return the URL for current on flow
 	 */
-	public function getCurrentStep();
+	public function getCurrent();
 
 	/**
 	 *

@@ -19,11 +19,12 @@
  ************************************************************************************/
 // <Namespace>
 namespace Rock\Components\Http\Flow\State;
-
+// <Use>
+use Rock\Components\Flow\State\IFlowState;
 /**
  *
  */
-interface IPageFlowState
+interface IPageFlowState extends IFlowState
 {
 	/**
 	 *

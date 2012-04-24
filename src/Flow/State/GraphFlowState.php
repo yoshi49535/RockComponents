@@ -25,6 +25,7 @@ use Rock\Components\Flow\State\FlowState;
 use Rock\Components\Flow\GraphFlow;
 use Rock\Components\Flow\Directions;
 use Rock\Components\Container\Graph\Path\IPath as IGraphPath;
+use Rock\Components\Container\Graph\Vertex\IVertex;
 
 /**
  * GraphFlowState is an extended Class of FlowState.
@@ -74,38 +75,46 @@ class GraphFlowState extends FlowState
 	/**
 	 * @return bool Has next on flow or not
 	 */
-	public function hasPrevStep()
+	public function hasPrev()
 	{
-		return !$this->getCurrentStep()->isEntryPoint();
+		return !$this->getCurrent()->isEntryPoint();
 	}
 
 	/**
 	 * @return string Return the URL for prev on flow
 	 */
-	public function getPrevStep()
+	public function getPrev()
 	{
-		return null;
+		$ptr = $this->getTrail()->last();
+		while(!($ptr->current() instanceof IVertex))
+			$ptr--;
+		return $ptr->current;
 	}
 	/**
 	 * @return bool Has prev on flow or not
 	 */
-	public function hasNextStep()
+	public function hasNext()
 	{
-		return !$this->getCurrentStep()->isEndPoint();
+		return !$this->getCurrent()->isEndPoint();
 	}
 
 	/**
 	 * @return 
 	 */
-	public function getNextStep()
+	public function getNext()
 	{
-		return null;
+		$cur    = $this->getCurrent();
+		$graph  = $this->getTrail()->getGraph();
+		foreach($graph->getEdgesFrom($cur) as $edge)
+		{
+			return $edge->getTarget();
+		}
 	}
 
 	/**
 	 * @return 
 	 */
-	public function getCurrentStep()
+	public function getCurrent()
 	{
 		return $this->getTrail()->last()->current();
 	}
@@ -115,6 +124,6 @@ class GraphFlowState extends FlowState
 	 */
 	public function isHandled()
 	{
-		return (null !== $this->trail);
+		return ((null !== $this->trail) && ($this->trail->count() > 0));
 	}
 }
