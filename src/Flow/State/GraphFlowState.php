@@ -88,7 +88,7 @@ class GraphFlowState extends FlowState
 		$ptr = $this->getTrail()->last();
 		while(!($ptr->current() instanceof IVertex))
 			$ptr--;
-		return $ptr->current;
+		return $ptr->current();
 	}
 	/**
 	 * @return bool Has prev on flow or not
