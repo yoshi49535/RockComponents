@@ -22,10 +22,15 @@ namespace Rock\Components\Http\Flow;
 
 // <Base>
 use Rock\Components\Flow\GraphFlow as BaseFlow;
-// <Use> : Flow Components
-use Rock\Components\Flow\Input\IInput;
+// <use> : Flow State
 use Rock\Components\Flow\State\IFlowState;
+// <Use> : Flow IO
+use Rock\Components\Flow\Input\IInput;
+use Rock\Components\Http\Flow\Input\IHttpInput;
+use Rock\Components\Http\Flow\Output\Output;
+// <Use> : Exception
 use Rock\Components\Flow\Exception\FlowStateException;
+// <Use> : Flow Direction
 use Rock\Components\Flow\Directions;
 
 // <Use> : Flow Web-Page Components
@@ -65,8 +70,24 @@ class PageFlow extends BaseFlow
 		{
 			throw new FlowStateException('Flow has never forwarded.');
 		}
+
+		// check the request state 
+		if($state->getInput() instanceof IHttpInput)
+		{
+			$stateName = $state->getInput()->get('_state');
+
+			if($trail->last()->current()->getName() !== $stateName)
+			{
+				// State is not match, so 
+				$state->reset();
+			}
+
+		}
 	}
 
+	/**
+	 *
+	 */
 	protected function doShutdown(IFlowState $state)
 	{
 		parent::doShutdown($state);
@@ -95,6 +116,7 @@ class PageFlow extends BaseFlow
 		{
 			$state->getInput()->setDirection(Directions::NEXT);
 		}
+		//
 		switch($state->getInput()->getDirection())
 		{
 		case Directions::NEXT:
@@ -112,16 +134,23 @@ class PageFlow extends BaseFlow
 		case Directions::CURRENT:
 		default:
 			// Show current state page
-			$graph       = $this->getPath();
-			// Set direction as Forward
-			$input       = $state->getInput();
 			$current     = $state->getTrail()->last()->current();
-			$current->handle($input);
-
+			// Create Output
+			$graph       = $this->getPath();
 			$newTrail    = $graph->createPath();
 			$newTrail->push($current);
 			$state->getOutput()->setTrail($newTrail);
+
+			$this->doHandleState($state);
 			break;
+		}
+	}
+
+	protected function doHandleState(IFlowState $state)
+	{
+		if(!$state->getOutput()->useRedirection())
+		{
+			parent::doHandleState($state);
 		}
 	}
 
@@ -214,5 +243,12 @@ class PageFlow extends BaseFlow
 	public function setEntryPoint($name, $listener = null)
 	{
 		return $this->setEntryPage($name, $listener);
+	}
+	/**
+	 *
+	 */
+	protected function createOutput()
+	{
+		return new Output();
 	}
 }

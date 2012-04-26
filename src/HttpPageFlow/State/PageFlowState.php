@@ -95,5 +95,4 @@ class PageFlowState extends BaseState
 	{
 		return !$this->getCurrent()->isEntryPoint() && !$this->getCurrent()->isEndPoint();
 	}
-
 }

@@ -102,6 +102,9 @@ class GraphFlow extends Flow
 		$newTrail = $graph->handle($state->getInput(), $current);
 		$state->getOutput()->setTrail($newTrail);
 
+		// 
+		$this->doHandleState($state);
+
 		// first component of trail is the current state, thus ignore
 		$trails = $newTrail->getTrail();
 		if($trails)
@@ -110,6 +113,15 @@ class GraphFlow extends Flow
 			{
 				$trail->push($component);
 			}
+		}
+	}
+
+	protected function doHandleState(IFlowState $state)
+	{
+		$trail  = $state->getOutput()->getTrail();
+		if($trail && (count($trail) > 0))
+		{
+			$trail->last()->current()->handle($state->getInput());
 		}
 	}
 

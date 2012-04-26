@@ -100,12 +100,26 @@ abstract class FlowState implements IFlowState
 		return $this->output;
 	}
 
+	/**
+	 *
+	 */
 	public function isKeepAlive()
 	{
 		return $this->keepAlive;
 	}
+
+	/**
+	 *
+	 */
 	public function setKeepAlive($bAlive)
 	{
 		$this->keepAlive  = $bAlive;
+	}
+
+	/**
+	 *
+	 */
+	public function reset()
+	{
 	}
 }

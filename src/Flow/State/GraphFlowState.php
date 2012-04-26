@@ -130,4 +130,13 @@ class GraphFlowState extends FlowState
 	{
 		return !$this->getTrail()->last()->current()->isEndPoint();
 	}
+	/**
+	 *
+	 */
+	public function reset()
+	{
+		// create trail
+		$graph = $this->getFlow()->getPath();
+		$this->trail = $graph->createPath();
+	}
 }

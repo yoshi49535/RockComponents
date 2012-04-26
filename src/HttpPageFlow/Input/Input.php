@@ -32,5 +32,4 @@ class Input extends BaseInput
   implements
     IHttpInput
 {
-
 }

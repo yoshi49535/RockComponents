@@ -62,7 +62,7 @@ abstract class Flow
 	 * doInit
 	 * 
 	 */
-	protected function doInit()
+	protected function doInit(IFlowState $state)
 	{
 	}
 	/**
@@ -94,6 +94,8 @@ abstract class Flow
 	protected function doRecoverState(IFlowState $state)
 	{
 	}
+
+	abstract protected function doHandleInput(IFlowState $state);
 
 	/**
 	 * Create new State
@@ -180,4 +182,8 @@ abstract class Flow
 		return $this->path;
 	}
 
+	public function reset(IFlowState $state)
+	{
+
+	}
 }

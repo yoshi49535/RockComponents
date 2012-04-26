@@ -41,6 +41,7 @@ class Input extends AutomatonInput
 	protected $params;
 
 	protected $direction;
+
 	/**
 	 * @override
 	 */

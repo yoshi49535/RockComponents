@@ -129,17 +129,9 @@ class FlowGraph extends FiniteAutomaton
 	{
 		switch($input->getDirection())
 		{
-		//case Directions::BACKWARD:
-		//	$path  = $this->backward($begin);
-		//	break;
 		case Directions::NEXT:
 			// Forward State
 			$path  = $this->forward($input, $begin);
-			// Handle By State
-			if($path && (count($path) > 0))
-			{
-				$path->last()->current()->handle($input);
-			}
 			break;
 		default:
 			throw new \InvalidArgumentException('Direction is unknown fow %s', (string)$input);
