@@ -32,4 +32,12 @@ class Input extends BaseInput
   implements
     IHttpInput
 {
+	public function setRequestState($name)
+	{
+		$this->set('request_state', $name);
+	}
+	public function getRequestState()
+	{
+		return $this->get('request_state', null);
+	}
 }

@@ -26,9 +26,9 @@ class ParameterBag
 	/**
 	 *
 	 */
-	public function get($idx)
+	public function get($idx, $default = null)
 	{
-		return $this->params[$idx];
+		return array_key_exists($idx, $this->params) ? $this->params[$idx] : $default;
 	}
 
 	/**

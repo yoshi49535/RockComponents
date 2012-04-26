@@ -74,14 +74,11 @@ class PageFlow extends BaseFlow
 		// check the request state 
 		if($state->getInput() instanceof IHttpInput)
 		{
-			$stateName = $state->getInput()->get('_state');
-
-			if($trail->last()->current()->getName() !== $stateName)
+			$current = $trail->last()->current();
+			if(!($request = $state->getInput()->getRequestState()) || ($request !== $current->getName()))
 			{
-				// State is not match, so 
 				$state->reset();
 			}
-
 		}
 	}
 
@@ -92,7 +89,7 @@ class PageFlow extends BaseFlow
 	{
 		parent::doShutdown($state);
 		
-		if(!$state->isKeepAlive())
+		if(!$state->isKeepAlive() && !$state->getOutput()->useRedirection())
 		{
 			// remove from session
 			$this->getSessionManager()->remove($this->getHash());

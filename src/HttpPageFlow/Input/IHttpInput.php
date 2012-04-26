@@ -24,4 +24,5 @@ namespace Rock\Components\Http\Flow\Input;
  */
 interface IHttpInput
 {
+	public function getRequestState();
 }
