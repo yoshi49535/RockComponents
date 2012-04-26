@@ -25,7 +25,6 @@ use Rock\Components\Flow\Input\Input as BaseInput;
 // <Interface> : For Type Safe
 use Rock\Components\Http\Flow\Input\IHttpInput;
 
-use Rock\Components\Http\Flow\Directions;
 /**
  *
  */
@@ -33,8 +32,5 @@ class Input extends BaseInput
   implements
     IHttpInput
 {
-	protected function init()
-	{
-		$this->setDirectionValidator(new Directions());
-	}
+
 }

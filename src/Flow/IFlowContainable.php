@@ -17,19 +17,13 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-
-// <Namespace>
-namespace Rock\Components\Flow\Input;
+// <Namespae>
+namespace Rock\Components\Flow;
 // <Base>
-use Rock\Components\Automaton\Input\IInput as IBaseInput;
-
-/**
- * Flow Input
- */
-interface IInput extends IBaseInput
+interface IFlowContainable extends IFlowAware
 {
 	/**
-	 *
+	 * Set IFlow 
 	 */
-	function getDirection(); 
+	function setFlow(IFlow $flow);
 }

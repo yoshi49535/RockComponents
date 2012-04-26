@@ -89,6 +89,13 @@ class GraphFlow extends Flow
 		else
 			$current = null;
 
+		if($current && $current->isEndPoint())
+		{
+			throw new \Exception('Flow already reached to EndPoint.');
+		}
+
+
+
 		$graph   = $this->getPath();
 
 		// Forward automaton state

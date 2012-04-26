@@ -22,30 +22,15 @@
 namespace Rock\Components\Flow;
 
 // <Use> : Automaton Components
-use Rock\Components\Automaton\Directions as AutomatonDirections;
+use Rock\Components\Flow\Direction\IDirectionResolver;
 
 /**
  *
  */
-class Directions extends AutomatonDirections
+class Directions 
 {
-	//
-	const BACKWARD     = 'backward';
-	const STAY         = 'stay';
-
-
-	public function isValid($direction)
-	{
-		switch($direction)
-		{
-		case self::BACKWARD:
-		case self::STAY:
-			return true;
-			break;
-		default:
-			return parent::isValid($direction);
-			break;
-		}
-	}
-
+	// 
+	const NEXT         = 'next';
+	const PREV         = 'prev';
+	const CURRENT      = 'current';
 }

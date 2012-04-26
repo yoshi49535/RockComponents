@@ -23,7 +23,6 @@ namespace Rock\Components\Flow\State;
 use Rock\Components\Flow\State\FlowState;
 // <Use>
 use Rock\Components\Flow\GraphFlow;
-use Rock\Components\Flow\Directions;
 use Rock\Components\Container\Graph\Path\IPath as IGraphPath;
 use Rock\Components\Container\Graph\Vertex\IVertex;
 
@@ -125,5 +124,10 @@ class GraphFlowState extends FlowState
 	public function isHandled()
 	{
 		return ((null !== $this->trail) && ($this->trail->count() > 0));
+	}
+
+	public function isKeepAlive()
+	{
+		return !$this->getTrail()->last()->current()->isEndPoint();
 	}
 }

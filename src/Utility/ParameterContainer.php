@@ -31,9 +31,9 @@ class ParameterContainer
 	/**
 	 *
 	 */
-	public function get($key)
+	public function get($key, $default = null)
 	{
-		return $this[$key];
+		return array_key_exists($key, $this->params) ? $this->params[$key] : $default;
 	}
 
 	/**
@@ -104,5 +104,12 @@ class ParameterContainer
 	{
 		$this->params = $values;
 	}
+
+
+	public function __toString()
+	{
+		return json_encode($this->params);
+	}
 }
+
 

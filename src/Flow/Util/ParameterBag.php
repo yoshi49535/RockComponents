@@ -69,4 +69,15 @@ class ParameterBag
 	{
 		return isset($this->params[$idx]);
 	}
+
+
+	public function __toString()
+	{
+		return sprintf(
+			"ParameterBag[%s] : keys[%s] vlaues[%s]", 
+			get_class($this),
+			implode(',', array_keys($this->params)),
+			implode(',', $this->params)
+		);
+	}
 }

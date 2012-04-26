@@ -21,10 +21,5 @@ interface IInput
 	/**
 	 *
 	 */
-	public function getDirection();
-
-	/**
-	 *
-	 */
 	public function getValue();
 }

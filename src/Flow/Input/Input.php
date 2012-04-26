@@ -40,23 +40,19 @@ class Input extends AutomatonInput
 	 */
 	protected $params;
 
+	protected $direction;
 	/**
-	 *
+	 * @override
 	 */
-	public function __construct($direction = Directions::FORWARD, array $params = array())
+	public function __construct($direction, array $params = array())
 	{
-		parent::__construct($direction);
+		// 
+		parent::__construct();
 
-		$this->params  = new ParameterBag($params);
+		$this->direction = $direction;
+		$this->params    = new ParameterBag($params);
 	}
 
-	/**
-	 *
-	 */
-	protected function init()
-	{
-		$this->setDirectionValidator(new Directions());
-	}
 	// IParameterBag Impl
 	/**
 	 *
@@ -95,6 +91,23 @@ class Input extends AutomatonInput
 		return $this->params;
 	}
 
+	//
+	/**
+	 * @param string $direction
+	 */
+	public function setDirection($direction)
+	{
+		$this->direction  = $direction;
+	}
+	/**
+	 * 
+	 */
+	public function getDirection()
+	{
+		return $this->direction;
+	}
+
+
 	//----
 	/**
 	 *
@@ -103,6 +116,4 @@ class Input extends AutomatonInput
 	{
 		return sprintf("Flow Input[%s] : \n\t[Direction='%s']", get_class($this), (string)$this->direction);
 	}
-
-
 }

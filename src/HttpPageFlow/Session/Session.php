@@ -28,6 +28,7 @@ class Session extends ParameterContainer
   implements
     ISession
 {
+	protected $cleanFunctions = array();
 	/**
 	 *
 	 */
@@ -39,28 +40,20 @@ class Session extends ParameterContainer
 	/**
 	 *
 	 */
-	public function saveTrail(ITrail $trail = null)
+	public function addCleanFunction($callable)
 	{
-		if(is_null($trail))
-		{
-			$this['trail'] = null;
-		}
-		else
-		{
-			$this['trail'] = $trail->serialize();
-		}
+		$this->cleanFunctions[]  = $callable;
 	}
-
 	/**
 	 *
 	 */
-	public function recoverTrail(ITrail $trail)
+	public function clean()
 	{
-		if(isset($this['trail']))
-			$trail->unserialize($this['trail']);
+		foreach($this->cleanFunctions as $func)
+		{
+			call_user_func($func);
+		}
 	}
-
-
 	/**
 	 *
 	 */
@@ -73,4 +66,3 @@ class Session extends ParameterContainer
 		return true;
 	}
 }
-

@@ -29,8 +29,7 @@ class Path
   implements
   	IPath,
     \IteratorAggregate,
-	\Countable,
-	\Serializable
+	\Countable
 {
 	protected $graph;
 	protected $components;
@@ -53,6 +52,11 @@ class Path
 	public function push(IGraphComponent $component)
 	{
 		$this->components[]  = $component;
+	}
+
+	public function pop()
+	{
+		return array_pop($this->components);
 	}
 
 	/**
@@ -155,32 +159,76 @@ class Path
 		return $itr;
 	}
 
+
+	public function merge(IPath $path)
+	{
+		$srcItr  = $path->first();
+		$trgItr  = $this->last();
+		if($srcItr->current() === $trgItr->current())
+		{
+			$srcItr++;	
+			while($srcItr)
+			{
+				if(($srcItr->current() instanceof IEdge) && ($srcItr->current()->getSource() === $trgItr))
+				{
+					$this->push($srcItr->current());
+				}
+				else if(($srcItr->current() instanceof IVertex) && ($trgItr->current()->getTarget() === $srcItr->current()))
+				{
+					$this->push($srcItr->current());
+				}
+				else
+				{
+					throw new \Exception('Failed to merge');
+				}
+				$srcItr++;
+				$trgItr++;
+			}
+		}
+	}
 	/**
 	 *
 	 */
-	public function serialize()
+	public function pack()
 	{
 		//return serialize($this->components);
 		$data  = array();
 
+		if(!$graph = $this->getGraph())
+		{
+			throw new \Exception('Graph for Path is not initialized.');
+		}
 		foreach($this->components as $key => $component)
 		{
-			$data[$key]  = $this->graph->serializeComponentReference($component);
+			$data[$key]  = $graph->serializeComponentReference($component);
 		}
-		return serialize($data);
+		return $data;
 	}
 
 	/**
 	 *
 	 */
-	public function unserialize($data)
+	public function unpack(array $data = array())
 	{
-		$components = unserialize($data);
+		if(!$graph = $this->getGraph())
+		{
+			throw new \Exception('Graph for Path is not initialized.');
+		}
+		$components = $data;
 
 		$this->components  = array();
 		foreach($components as $key => $component)
 		{
-			$this->components[$key]   = $this->graph->unserializeComponentReference($component);
+			$this->components[$key]   = $graph->unserializeComponentReference($component);
 		}
+	}
+
+	public function __toString()
+	{
+		return sprintf(
+			"Graph Path[%s] : \n\t[count=%d]",
+			get_class($this),
+			$this->count()
+		);
 	}
 }

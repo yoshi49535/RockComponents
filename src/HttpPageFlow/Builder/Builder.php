@@ -38,15 +38,24 @@ class Builder extends BaseBuilder
 {
 	protected $sessions;
 
+	/**
+	 *
+	 */
 	public function __construct(IFlowFactory $factory)
 	{
 		parent::__construct($factory);
 	}
 
+	/**
+	 *
+	 */
 	public function setSessionManager(ISessionManager $sessions)
 	{
 		$this->sessions = $sessions;
 	}
+	/**
+	 *
+	 */
 	public function getSessionManager()
 	{
 		if(!$this->sessions)

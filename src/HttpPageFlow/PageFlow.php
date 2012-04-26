@@ -26,12 +26,14 @@ use Rock\Components\Flow\GraphFlow as BaseFlow;
 use Rock\Components\Flow\Input\IInput;
 use Rock\Components\Flow\State\IFlowState;
 use Rock\Components\Flow\Exception\FlowStateException;
-use Rock\Components\Http\Flow\Directions;
+use Rock\Components\Flow\Directions;
 
 // <Use> : Flow Web-Page Components
 use Rock\Components\Http\Flow\Session\ISession;
 use Rock\Components\Http\Flow\Session\ISessionManager;
 use Rock\Components\Http\Flow\State\PageFlowState;
+
+use Rock\Components\Container\Graph\Edge\IEdge;
 
 class PageFlow extends BaseFlow
 {
@@ -65,8 +67,15 @@ class PageFlow extends BaseFlow
 		}
 	}
 
-	protected function doShutdown()
+	protected function doShutdown(IFlowState $state)
 	{
+		parent::doShutdown($state);
+		
+		if(!$state->isKeepAlive())
+		{
+			// remove from session
+			$this->getSessionManager()->remove($this->getHash());
+		}
 		$this->getSessionManager()->save();
 	}
 	/**
@@ -82,35 +91,36 @@ class PageFlow extends BaseFlow
 
 		$newTrail = null;
 
-
+		if($trail->count() === 0)
+		{
+			$state->getInput()->setDirection(Directions::NEXT);
+		}
 		switch($state->getInput()->getDirection())
 		{
-		case Directions::PREV:
-			// pop last state from path,
-			// It is also release edges
-			$trail->popLastState();
-			break;
 		case Directions::NEXT:
 			parent::doHandleInput($state);
 			break;
+		case Directions::PREV:
+			// pop last state from path,
+			// It is also release edges
+			$trail->pop();
+			while($trail && $trail->last()->current() instanceof IEdge)
+			{
+				$trail->pop();
+			}
+			// Keey going to current, cause PREV also show the page
 		case Directions::CURRENT:
 		default:
 			// Show current state page
-			if($trail->count() === 0)
-			{
-				// execute first state
-				$graph       = $this->getPath();
-				// Set direction as Forward
-				$input       = $state->getInput();
-				$input->setDirection(Directions::NEXT);
-				$newTrail    = $graph->handle($input);
-				$state->getOutput()->setTrail($newTrail);
-				//
-			    foreach($newTrail->getTrail() as $component)
-			    {
-			    	$trail->push($component);
-			    }
-			}
+			$graph       = $this->getPath();
+			// Set direction as Forward
+			$input       = $state->getInput();
+			$current     = $state->getTrail()->last()->current();
+			$current->handle($input);
+
+			$newTrail    = $graph->createPath();
+			$newTrail->push($current);
+			$state->getOutput()->setTrail($newTrail);
 			break;
 		}
 	}

@@ -43,13 +43,20 @@ abstract class SessionManager
 	{
 		$sessions = $this->getMergedValues();
 
-		$this->doSave($sessions);
+		if(empty($sessions))
+			$this->doUnmount();
+		else
+			$this->doMount($sessions);
 	}
 
 	/**
 	 *
 	 */
-	abstract protected function doSave(array $sessions);
+	abstract protected function doMount(array $sessions);
+	/**
+	 *
+	 */
+	abstract protected function doUnmount();
 
 	/**
 	 *
@@ -110,6 +117,7 @@ abstract class SessionManager
 		$values  = array();
 		foreach($this->sessions as $key => $session)
 		{
+			$session->clean();
 			$values[$key]  = $session->getValues();
 		}
 		return $values;
@@ -123,6 +131,10 @@ abstract class SessionManager
 		return 'Rock\\Components\\Http\\Flow\\Session\\Session';
 	}
 
+	public function remove($name)
+	{
+		unset($this[$name]);
+	}
 	/**
 	 *
 	 */

@@ -47,11 +47,17 @@ abstract class FlowState implements IFlowState
 	protected $output;
 
 	/**
+	 *
+	 */
+	protected $keepAlive;
+
+	/**
 	 * @param IFlow
 	 */
 	public function __construct(IFlow $flow)
 	{
 		$this->flow  = $flow;
+		$this->keepAlive = true;
 	}
 
 	/**
@@ -92,5 +98,14 @@ abstract class FlowState implements IFlowState
 	public function getOutput()
 	{
 		return $this->output;
+	}
+
+	public function isKeepAlive()
+	{
+		return $this->keepAlive;
+	}
+	public function setKeepAlive($bAlive)
+	{
+		$this->keepAlive  = $bAlive;
 	}
 }

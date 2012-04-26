@@ -1,5 +1,5 @@
 <?php
-/************************************************************************************
+/****
  *
  * Description:
  *      
@@ -8,19 +8,18 @@
  * $Rev$
  * $Author$
  * 
- *  This file is part of the $project$ package.
+ *  This file is part of the $Project$ package.
  *
- *  Copyright (c) 2009, 44services.jp. Inc. All rights reserved.
- *  For the full copyright and license information, please read LICENSE file
- *  that was distributed w/ source code.
+ * $Copyrights$
  *
- *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
- *
- ************************************************************************************/
-
+ ****/
+// <Namespae>
 namespace Rock\Components\Flow;
-
+// <Base>
 interface IFlowAware
 {
-	public function getFlow();
+	/**
+	 * Get IFlow 
+	 */
+	function getFlow();
 }

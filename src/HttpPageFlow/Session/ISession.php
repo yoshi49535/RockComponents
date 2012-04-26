@@ -24,13 +24,13 @@ use Rock\Components\Container\Graph\Path\IPath as ITrail;
  */
 interface ISession 
 {
-	/**
-	 *
-	 */
-	public function saveTrail(ITrail $trail = null);
+	///**
+	// *
+	// */
+	//public function saveTrail(ITrail $trail = null);
 
-	/**
-	 *
-	 */
-	public function recoverTrail(ITrail $trail);
+	///**
+	// *
+	// */
+	//public function recoverTrail(ITrail $trail);
 }

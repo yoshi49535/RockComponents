@@ -90,6 +90,12 @@ class State extends NamedState
 	{
 		return $this;
 	}
+
+	public function end()
+	{
+		$this->isEndPoint(true);
+	}
+
 	/**
 	 *
 	 */

@@ -34,7 +34,7 @@ use Rock\Components\Flow\Input\Parameters as FlowInputParameters;
 
 // <Use> : Automaton Components
 use Rock\Components\Automaton\State\IState;
-use Rock\Components\Automaton\Directions as AutomatonDirections;
+use Rock\Components\Flow\Directions;
 use Rock\Components\Automaton\Input\IInput as IAutomatonInput;
 
 /**
@@ -132,7 +132,7 @@ class FlowGraph extends FiniteAutomaton
 		//case Directions::BACKWARD:
 		//	$path  = $this->backward($begin);
 		//	break;
-		case AutomatonDirections::FORWARD:
+		case Directions::NEXT:
 			// Forward State
 			$path  = $this->forward($input, $begin);
 			// Handle By State

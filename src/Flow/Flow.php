@@ -77,7 +77,7 @@ abstract class Flow
 	 * doShutdown
 	 * 
 	 */
-	protected function doShutdown()
+	protected function doShutdown(IFlowState $state)
 	{
 	}
 	/**

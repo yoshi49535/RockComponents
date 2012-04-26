@@ -31,7 +31,7 @@ class ScalarInput extends Input
 	/**
 	 *
 	 */
-	public function __construct($value, $direction=Directions::FORWARD, $params = array())
+	public function __construct($value, $direction=Directions::CURRENT, $params = array())
 	{
 		parent::__construct($direction, $params);
 		$this->value  = $value;
@@ -53,13 +53,6 @@ class ScalarInput extends Input
 		$this->value  = $value;
 	}
 
-	/**
-	 *
-	 */
-	public function convertToAutomaton()
-	{
-		return new AutomatonScalarInput($this->getValue(), Directions::convertToAutomaton($this->direction));
-	}
 	public function __toString()
 	{
 		return sprintf("Flow Input[%s] : \n\t[Direction='%s']\n\t[value='%s']", get_class($this), (string)$this->direction, (string)$this->value);

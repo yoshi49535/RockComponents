@@ -27,6 +27,9 @@ use Rock\Components\Http\Flow\State\IPageFlowState;
 // <Use>
 use Rock\Components\Flow\GraphFlow;
 use Rock\Components\Http\Flow\Session\ISession;
+// <Use> : Output
+use Rock\Components\Flow\Output\IOutput;
+use Rock\Components\Container\Graph\Path\IPath as IGraphPath;
 
 /**
  *
@@ -52,6 +55,14 @@ class PageFlowState extends BaseState
 	public function setSession(ISession $session)
 	{
 		$this->session  = $session;
+
+		$this->session->addCleanFunction(array($this, 'doCleanSession'));
+	}
+
+	public function doCleanSession()
+	{
+		// clean session 
+		$this->getSession()->set('trail', $this->trail->pack());
 	}
 	/** 
 	 *
@@ -60,7 +71,6 @@ class PageFlowState extends BaseState
 	{
 		return $this->session;
 	}
-
 	/**
 	 *
 	 */
@@ -69,11 +79,21 @@ class PageFlowState extends BaseState
 		if(!$this->trail)
 		{
 			// Create Empty trail
-			parent::getTrail();
+			$this->trail = parent::getTrail();
 
 			// recover
-			$this->getSession()->recoverTrail($this->trail);
+			$trails  = $this->getSession()->get('trail', array());
+			$this->trail->unpack($trails);
 		}
+
 		return $this->trail;
 	}
+	/**
+	 * @return bool Has next on flow or not
+	 */
+	public function hasPrev()
+	{
+		return !$this->getCurrent()->isEntryPoint() && !$this->getCurrent()->isEndPoint();
+	}
+
 }
