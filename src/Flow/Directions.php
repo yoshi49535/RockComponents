@@ -19,10 +19,10 @@
  ************************************************************************************/
 
 // <Namespace>
-namespace Rock\Components\Flow;
+namespace Rock\Component\Flow;
 
-// <Use> : Automaton Components
-use Rock\Components\Flow\Direction\IDirectionResolver;
+// <Use> : Automaton Component
+use Rock\Component\Flow\Direction\IDirectionResolver;
 
 /**
  *

@@ -14,10 +14,10 @@
  *
  ************************************************************************************/
 // <Namespace>
-namespace Rock\Components\Http\Flow\Session;
+namespace Rock\Component\Http\Flow\Session;
 
-// <Use> : Container Components
-use Rock\Components\Container\Graph\Path\IPath as ITrail;
+// <Use> : Container Component
+use Rock\Component\Container\Graph\Path\IPath as ITrail;
 
 /**
  *

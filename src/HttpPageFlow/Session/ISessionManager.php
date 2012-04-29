@@ -14,10 +14,10 @@
  *
  ************************************************************************************/
 // <Namespace>
-namespace Rock\Components\Http\Flow\Session;
+namespace Rock\Component\Http\Flow\Session;
 
 // <Use>
-use Rock\Components\Http\Flow\Session\ISession;
+use Rock\Component\Http\Flow\Session\ISession;
 
 interface ISessionManager
 {

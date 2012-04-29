@@ -18,18 +18,18 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Http\Flow\State;
+namespace Rock\Component\Http\Flow\State;
 
 // <BaseClass>
-use Rock\Components\Flow\State\GraphFlowState as BaseState;
+use Rock\Component\Flow\State\GraphFlowState as BaseState;
 // <Interface>
-use Rock\Components\Http\Flow\State\IPageFlowState;
+use Rock\Component\Http\Flow\State\IPageFlowState;
 // <Use>
-use Rock\Components\Flow\GraphFlow;
-use Rock\Components\Http\Flow\Session\ISession;
+use Rock\Component\Flow\GraphFlow;
+use Rock\Component\Http\Flow\Session\ISession;
 // <Use> : Output
-use Rock\Components\Flow\Output\IOutput;
-use Rock\Components\Container\Graph\Path\IPath as IGraphPath;
+use Rock\Component\Flow\Output\IOutput;
+use Rock\Component\Container\Graph\Path\IPath as IGraphPath;
 
 /**
  *

@@ -17,10 +17,10 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Components\Http\Flow\State;
+namespace Rock\Component\Http\Flow\State;
 
 // <Interface>
-use Rock\Components\Flow\State\IFlowState;
+use Rock\Component\Flow\State\IFlowState;
 // <Use>
 use Symfony\Component\Routing\RouterInterface;
 use Rock\OnSymfony\HttpFlowBundle\Request\FlowRequests;

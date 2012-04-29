@@ -14,7 +14,7 @@
  *
  ************************************************************************************/
 // <Namespace> 
-namespace Rock\Components\Utility;
+namespace Rock\Component\Utility;
 
 // <Use>
 

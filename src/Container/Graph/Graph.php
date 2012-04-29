@@ -18,17 +18,17 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Container\Graph;
+namespace Rock\Component\Container\Graph;
 
 // <Interface>
-use Rock\Components\Container\Graph\IGraph;
-use Rock\Components\Container\IContainer;
+use Rock\Component\Container\Graph\IGraph;
+use Rock\Component\Container\IContainer;
 // <Use> : Container Component
-use Rock\Components\Container\IComponent;
+use Rock\Component\Container\IComponent;
 // <Use> : Graph Component
-use Rock\Components\Container\Graph\Vertex\IVertex;
-use Rock\Components\Container\Graph\Edge\IEdge;
-use Rock\Components\Container\Graph\Edge\Factory\EdgeFactory;
+use Rock\Component\Container\Graph\Vertex\IVertex;
+use Rock\Component\Container\Graph\Edge\IEdge;
+use Rock\Component\Container\Graph\Edge\Factory\EdgeFactory;
 
 
 class Graph
@@ -109,7 +109,7 @@ class Graph
 	 */
 	public function addEdge(IVertex $source, IVertex $target)
 	{
-		$this->edges[]  = $edge = $this->getEdgeFactory()->createEdge($source, $target);
+		$this->edges[]  = ($edge = $this->getEdgeFactory()->createEdge($source, $target));
 
 		return $edge;
 	}
@@ -147,12 +147,16 @@ class Graph
 
 		throw new \Exception('Unknown Component is given.');
 	}
-
+	
+	/**
+	 *
+	 */
 	public function unserializeComponentReference($data)
 	{
 		switch($data[0])
 		{
 		case 'v':
+			throw new \InvalidArgumentException(sprintf('Graph dose not have the vertex at index[%d]', $data[1]));
 		    return $this->vertices[$data[1]];
 			break;
 		case 'e':

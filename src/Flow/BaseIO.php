@@ -18,7 +18,7 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Flow;
+namespace Rock\Component\Flow;
 
 abstract class BaseIO
 {

@@ -13,9 +13,12 @@
  * $Copyrights$
  *
  ****/
-namespace Rock\Components\Automaton;
 
-interface IDirectionValidator
+interface IExecutableGraph
 {
-	public function isValid($direction);
+	/** 
+	 *
+	 */
+	function isHandleException();
+
 }

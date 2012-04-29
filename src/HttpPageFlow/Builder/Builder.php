@@ -18,23 +18,26 @@
  *
  ************************************************************************************/
 // <Namespace>
-namespace Rock\Components\Http\Flow\Builder;
+namespace Rock\Component\Http\Flow\Builder;
 // <Base>
-use Rock\Components\Flow\Builder\Builder as BaseBuilder;
-
-// <Use> : Flow Components
-use Rock\Components\Flow\Configuration\IFlowConfiguration;
-use Rock\Components\Flow\Factory\IFactory as IFlowFactory;
-// <Use> : Http Flow Components
-use Rock\Components\Http\Flow\Session\ISessionManager;
-use Rock\Components\Http\Flow\Request\Resolver\IRequestResolver;
+use Rock\Component\Flow\Builder\Builder as BaseBuilder;
+// <Interface>
+use Rock\Component\Http\Flow\Builder\IHttpFlowBuilder;
+// <Use> : Flow Component
+use Rock\Component\Flow\Configuration\IFlowConfiguration;
+use Rock\Component\Flow\Factory\IFactory as IFlowFactory;
+// <Use> : Session Component
+use Rock\Component\Http\Flow\Session\ISessionManager;
+use Rock\Component\Http\Flow\IHttpPageFlow;
+// <Use> : Request 
+use Rock\Component\Http\Flow\Request\Resolver\IRequestResolver;
 
 /** 
  *
  */
 class Builder extends BaseBuilder
   implements
-    IHttpBuilder
+    IHttpFlowBuilder
 {
 	protected $sessions;
 
@@ -62,6 +65,7 @@ class Builder extends BaseBuilder
 			throw new \Exception('SessionManager is not initialized.');
 		return $this->sessions;
 	}
+
 	/**
 	 *
 	 */
@@ -69,8 +73,50 @@ class Builder extends BaseBuilder
 	{
 		$flow = parent::build($name);
 
-		if($flow)
+		if($flow && ($flow instanceof IHttpPageFlow))
 			$flow->setSessionManager($this->getSessionManager());
+
 		return $flow;
+	}
+
+
+	// Definition Functions
+	/** 
+	 *
+	 */
+	public function addPage($name)
+	{
+		//$lastInserted  = $this->definitions->last();
+		//	
+		//$this->definitions->add(new StateDefinition(array('name' => $name)));
+		//if($lastInserted->isEdge())
+		//{
+		//	// set the target as this definition, and close the definitiom
+		//	$lastInserted->setAttribute('target',$name);
+		//}
+
+		return $this;
+	}
+	/** 
+	 *
+	 */
+	public function addCondition($listener)
+	{
+		//$lastInserted  = $this->defintions->last();
+		//if($lastInserted->isEdge())
+		//{
+		//	// 
+		//	$lastInserted->setAttribute('callback');
+		//}
+		//else
+		//{
+		//	$edgeDefinition = new EdgeDefinition();
+		//	$edgeDefinition->setAttribute('source', $lastInserted->getAttribute('name'));
+		//	$edgeDefinition->setAttribute('listener', new Reference($listener[0]));
+		//	$edgeDefinition->setAttribute('listener', $listener[1]);
+		//	$this->definitions->add($edgeDefinition);
+		//}
+
+		return $this;
 	}
 }

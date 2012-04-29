@@ -14,9 +14,9 @@
  *
  ************************************************************************************/
 // <Namespace>
-namespace Rock\Components\Container;
+namespace Rock\Component\Container;
 // <Use> : IComponent
-use Rock\Components\Container\IComponent;
+use Rock\Component\Container\IComponent;
 
 /**
  *

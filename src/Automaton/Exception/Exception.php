@@ -13,9 +13,15 @@
  * $Copyrights$
  *
  ****/
-namespace Rock\Components\Http\Flow\Builder;
+// <Namespace>
+namespace Rock\Component\Automaton\Exception;
+// <Extends>
+use Exception as BaseException;
 
-interface IHttpBuilder
+/**
+ *
+ */
+class Exception extends BaseException
 {
-	public function getSessionManager();
 }
+

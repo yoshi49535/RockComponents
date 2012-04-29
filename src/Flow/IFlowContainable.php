@@ -18,7 +18,7 @@
  *
  ************************************************************************************/
 // <Namespae>
-namespace Rock\Components\Flow;
+namespace Rock\Component\Flow;
 // <Base>
 interface IFlowContainable extends IFlowAware
 {

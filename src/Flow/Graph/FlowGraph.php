@@ -19,23 +19,23 @@
  ************************************************************************************/
 
 // <Namespace>
-namespace Rock\Components\Flow\Graph;
+namespace Rock\Component\Flow\Graph;
 
 // <Base>
-use Rock\Components\Automaton\FiniteAutomaton;
+use Rock\Component\Automaton\FiniteAutomaton;
 
-// <Use> : Flow Components
-use Rock\Components\Flow\IFlow;
-use Rock\Components\Flow\Path\IPath as IFlowPath;
-use Rock\Components\Flow\Step\IStep as IFlowStep;
+// <Use> : Flow Component
+use Rock\Component\Flow\IFlow;
+use Rock\Component\Flow\Path\IPath as IFlowPath;
+use Rock\Component\Flow\Step\IStep as IFlowStep;
 
-use Rock\Components\Flow\Input\IInput as IFlowInput;
-use Rock\Components\Flow\Input\Parameters as FlowInputParameters;
+use Rock\Component\Flow\Input\IInput as IFlowInput;
+use Rock\Component\Flow\Input\Parameters as FlowInputParameters;
 
-// <Use> : Automaton Components
-use Rock\Components\Automaton\State\IState;
-use Rock\Components\Flow\Directions;
-use Rock\Components\Automaton\Input\IInput as IAutomatonInput;
+// <Use> : Automaton Component
+use Rock\Component\Automaton\State\IState;
+use Rock\Component\Flow\Directions;
+use Rock\Component\Automaton\Input\IInput as IAutomatonInput;
 
 /**
  *

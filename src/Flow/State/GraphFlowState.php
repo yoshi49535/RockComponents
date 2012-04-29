@@ -17,14 +17,14 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Components\Flow\State;
+namespace Rock\Component\Flow\State;
 
 // <BaseClass>
-use Rock\Components\Flow\State\FlowState;
+use Rock\Component\Flow\State\FlowState;
 // <Use>
-use Rock\Components\Flow\GraphFlow;
-use Rock\Components\Container\Graph\Path\IPath as IGraphPath;
-use Rock\Components\Container\Graph\Vertex\IVertex;
+use Rock\Component\Flow\GraphFlow;
+use Rock\Component\Container\Graph\Path\IPath as IGraphPath;
+use Rock\Component\Container\Graph\Vertex\IVertex;
 
 /**
  * GraphFlowState is an extended Class of FlowState.

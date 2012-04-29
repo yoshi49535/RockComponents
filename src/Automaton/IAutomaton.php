@@ -17,13 +17,31 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-
-namespace Rock\Components\Automaton;
-
-// <BaseClass>
-use Rock\Components\Container\Graph\IDirectedGraph;
-
-interface IAutomaton extends IDirectedGraph
+// <Namespace>
+namespace Rock\Component\Automaton;
+// <Base>
+use Rock\Component\Container\Graph\IDirectedGraph;
+// <Use> : Flow IO
+use Rock\Component\Automaton\Input\IInput;
+// <Use> : Automaton State Vertex
+use Rock\Component\Automaton\State\IState;
+/**
+ *
+ */
+interface IAutomaton
 {
+	/**
+	 *
+	 */
 	public function root();
+
+	/**
+	 *
+	 */
+	public function forward(IInput $input = null, IState $begin = null);
+
+	/**
+	 *
+	 */
+	public function isHandleException();
 }

@@ -14,9 +14,9 @@
  *
  ****/
 // <Namspace>
-namespace Rock\Components\Http\Flow\Output;
+namespace Rock\Component\Http\Flow\Output;
 // <Base>
-use Rock\Components\Flow\Output\GraphOutput;
+use Rock\Component\Flow\Output\GraphOutput;
 
 /**
  * 

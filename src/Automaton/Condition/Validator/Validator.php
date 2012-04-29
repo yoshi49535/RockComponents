@@ -18,22 +18,25 @@
  *
  ************************************************************************************/
 // <Namespace>
-namespace Rock\AutomatonBundle\Condition\Validator;
-// <Use> : Automaton Components
-use Rock\AutomatonBundle\Automaton\Input\IInput;
+namespace Rock\Component\Automaton\Condition\Validator;
+// <Use> : Automaton Component
+use Rock\Component\Automaton\Input\IInput;
 
 class Validator
   implements
     IValidator
 {
-	protected $callbak;
+	protected $callback;
+	/**
+	 *
+	 */
 	public function __construct($callback)
 	{
 		if(!is_callable($callback))
 		{
-			throw new \InvalidArgumentException(sprintf('Constructor of Validator only accept callable value, but "%s" given.', $callable));
+			throw new \InvalidArgumentException(sprintf('Constructor of Validator only accept callable value, but "%s" given.', $callback));
 		}
-		else if($callable instanceof Closure)
+		else if($callback instanceof Closure)
 		{
 			$this->callback = $callback;
 		}
@@ -51,17 +54,26 @@ class Validator
 		}
 
 	}
+	/**
+	 *
+	 */
 	static public function convertToClosure($callback)
 	{
-		return function($cond){
+		return function($cond) use ($callback){
 			return call_user_func($callback, $cond);
 		};
 	}
-	public function isValid(IInput $input)
+	/**
+	 *
+	 */
+	public function __invoke(IInput $input)
 	{
 		return call_user_func($this->callback, $input);
 	}
 
+	/**
+	 *
+	 */
 	public function __toString()
 	{
 		return sprintf('Condition Validator[%s]', get_class($this));

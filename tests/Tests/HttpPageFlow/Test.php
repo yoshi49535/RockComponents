@@ -19,17 +19,17 @@ namespace Rock\CompnentTests\Tests\HttpPageFlow;
 use \PHPUnit_Framework_TestCase as TestCase;
 
 // <Use> : GraphFlow
-use Rock\Components\Http\Flow\PageFlow;
-use Rock\Components\Flow\IFlow;
-use Rock\Components\Flow\Path\IPath;
+use Rock\Component\Http\Flow\PageFlow;
+use Rock\Component\Flow\IFlow;
+use Rock\Component\Flow\Path\IPath;
 
-use Rock\Components\Http\Flow\Builder\Builder as FlowBuilder;
-use Rock\Components\Http\Flow\Factory\Factory as FlowFactory;
+use Rock\Component\Http\Flow\Builder\Builder as FlowBuilder;
+use Rock\Component\Http\Flow\Factory\Factory as FlowFactory;
 
-use Rock\Components\Flow\Input\Input as FlowInput;
-use Rock\Components\Flow\Input\ScalarInput as FlowScalarInput;
+use Rock\Component\Flow\Input\Input as FlowInput;
+use Rock\Component\Flow\Input\ScalarInput as FlowScalarInput;
 
-// <Use> : Test Dammy Components
+// <Use> : Test Dammy Component
 use Rock\ComponentTests\Tests\HttpPageFlow\TestSessionManager;
 
 // 
@@ -160,7 +160,7 @@ class Test extends TestCase
 	$builder = new FlowBuilder(new FlowFactory());
 	$builder->setSessionManager(new TestSessionManager());
 
-	$flow    = $builder->build('\\Rock\\Components\\Http\\Flow\\PageFlow');
+	$flow    = $builder->build('\\Rock\\Component\\Http\\Flow\\PageFlow');
 	$this->assertTrue($flow instanceof IFlow, 'Flow build assertion');
 
 	return $flow;

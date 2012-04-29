@@ -14,9 +14,9 @@
  *
  ****/
 // <Namespace> 
-namespace Rock\Components\Flow\Util;
+namespace Rock\Component\Flow\Util;
 // <Interface>
-use Rock\Components\Flow\Util\IParameterBag;
+use Rock\Component\Flow\Util\IParameterBag;
 
 class ParameterBag 
   implements 

@@ -18,14 +18,14 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Flow\Manager;
+namespace Rock\Component\Flow\Manager;
 
 // <Interface>
-use Rock\Components\Flow\Manager\IFlowManager;
+use Rock\Component\Flow\Manager\IFlowManager;
 // <Use>
-use Rock\Components\Flow\IFlow;
-use Rock\Components\Flow\INamedFlow;
-use Rock\Components\Flow\Exception\FlowNotExistsException;
+use Rock\Component\Flow\IFlow;
+use Rock\Component\Flow\INamedFlow;
+use Rock\Component\Flow\Exception\FlowNotExistsException;
 
 
 class FlowManager implements IFlowManager

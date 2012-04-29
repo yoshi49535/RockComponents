@@ -17,13 +17,13 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Components\Http\Flow\Request\Resolver;
+namespace Rock\Component\Http\Flow\Request\Resolver;
 
 // <Interface>
-use Rock\Components\Http\Flow\Request\Resolver\IRequestResolver;
+use Rock\Component\Http\Flow\Request\Resolver\IRequestResolver;
 // <Use>
-use Rock\Components\Http\Flow\Input\Input;
-use Rock\Components\Http\Flow\Request\FlowRequests;
+use Rock\Component\Http\Flow\Input\Input;
+use Rock\Component\Http\Flow\Request\FlowRequests;
 
 /**
  *

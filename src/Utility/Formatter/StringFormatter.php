@@ -14,7 +14,7 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Utility\Formatter\StringFormatter;
+namespace Rock\Component\Utility\Formatter\StringFormatter;
 
 class StringFormatter
 {

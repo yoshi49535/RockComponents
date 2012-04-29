@@ -18,7 +18,7 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Container\Graph\Builder;
+namespace Rock\Component\Container\Graph\Builder;
 
 class Builder
   implements IGraphBuilder

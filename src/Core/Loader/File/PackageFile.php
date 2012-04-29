@@ -14,7 +14,7 @@
  *
  ************************************************************************************/
 // <Namespace>
-namespace Rock\Components\Core\Loader\File;
+namespace Rock\Component\Core\Loader\File;
 
 /**
  *

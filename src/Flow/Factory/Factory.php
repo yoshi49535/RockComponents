@@ -18,24 +18,27 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Flow\Factory;
+namespace Rock\Component\Flow\Factory;
 
 // <Interface>
-use Rock\Components\Flow\Factory\IFactory;
-// <Use> : Flow Components
-use Rock\Components\Flow\IFlow;
-use Rock\Components\Flow\Builder\Builder;
+use Rock\Component\Flow\Factory\IFactory;
+// <Use> : Flow Component
+use Rock\Component\Flow\IFlow;
+use Rock\Component\Flow\Builder\Builder;
 
 class Factory
   implements
 	IFactory
 {
+	protected $builderClass;
+
 	public function __construct()
 	{
 		$this->init();
 	}
 	protected function init()
 	{
+		$this->builderClass  = 'Rock\\Component\\Flow\\Buidler\\Builder';
 	}
 	/**
 	 * @param string $name Classname of the flow
@@ -63,9 +66,16 @@ class Factory
 		return $flow;
 	}
 
+	/**
+	 *
+	 */
 	public function createBuilder()
 	{
-		$builder = new Builder($this);
+		// Default Builder Class
+		$class   = $this->builderClass;
+
+		// Create Builder Instance
+		$builder = new $class($this);
 		return $builder;
 	}
 }

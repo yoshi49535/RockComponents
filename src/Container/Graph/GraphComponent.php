@@ -17,14 +17,14 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Components\Container\Graph;
+namespace Rock\Component\Container\Graph;
 
 
 // <Interface>
-use Rock\Components\Container\Graph\IGraphComponent;
+use Rock\Component\Container\Graph\IGraphComponent;
 
 // <Use>
-use Rock\Components\Container\Graph\IGraph;
+use Rock\Component\Container\Graph\IGraph;
 
 //class GraphComponent extends ContainerComponent
 class GraphComponent

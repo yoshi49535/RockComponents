@@ -15,7 +15,7 @@
 
     <testsuites>
         <testsuite name="RockFlowBundle Test Suite">
-            <directory>tests/Tests/</directory>
+            <directory>tests/Tests/*</directory>
         </testsuite>
     </testsuites>
 

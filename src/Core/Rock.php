@@ -13,7 +13,7 @@
  * $Copyrights$
  *
  ************************************************************************************/
-namespace Rock\Components\Core;
+namespace Rock\Component\Core;
 
 final class Rock
 {

@@ -17,9 +17,9 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Components\Container\Graph\Vertex;
+namespace Rock\Component\Container\Graph\Vertex;
 
-use Rock\Components\Container\Vector;
+use Rock\Component\Container\Vector;
 class VertexList extends Vector
 {
 	

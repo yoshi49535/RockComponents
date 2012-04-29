@@ -15,12 +15,17 @@
  ************************************************************************************/
 namespace Rock\ComponentTests\Tests\HttpPageFlow;
 
-use Rock\Components\Http\Flow\Session\SessionManager;
+use Rock\Component\Http\Flow\Session\SessionManager;
 
 class TestSessionManager extends SessionManager
 {
-	protected function doSave(array $sessions)
+	protected function doMount(array $sessions)
 	{
 		printf("Session Saved [count=%d]\n", count($sessions));
+	}
+
+	protected function doUnmount()
+	{
+		printf("Session Removed\n");
 	}
 }

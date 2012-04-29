@@ -17,7 +17,7 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Components\Http\Flow\Request\Resolver;
+namespace Rock\Component\Http\Flow\Request\Resolver;
 /**
  *
  */

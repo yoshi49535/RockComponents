@@ -14,14 +14,14 @@
  *
  ************************************************************************************/
 // <Namespace>
-namespace Rock\Components\Core\Loader;
+namespace Rock\Component\Core\Loader;
 
 defined('DIRECTORY_SEPARATOR') or define('DIRECTORY_SEPARATOR', '/');
 
 
 class CoreLoader
 {
-	const CORE_NS  = 'Rock\\Components\\Core';
+	const CORE_NS  = 'Rock\\Component\\Core';
 
     /**
      * Registers this instance as an autoloader.

@@ -19,9 +19,9 @@
  ************************************************************************************/
 
 // <Namespace>
-namespace Rock\Components\Flow\Input;
+namespace Rock\Component\Flow\Input;
 // <Base>
-use Rock\Components\Automaton\Input\IInput as IBaseInput;
+use Rock\Component\Automaton\Input\IInput as IBaseInput;
 
 /**
  * Flow Input

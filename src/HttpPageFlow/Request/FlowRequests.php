@@ -17,9 +17,9 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Components\Http\Flow\Request;
+namespace Rock\Component\Http\Flow\Request;
 
-use Rock\Components\Http\Flow\Direction;
+use Rock\Component\Http\Flow\Direction;
 
 final class FlowRequests
 {

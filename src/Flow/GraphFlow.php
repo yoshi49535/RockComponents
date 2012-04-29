@@ -18,22 +18,22 @@
  *
  ************************************************************************************/
 // <Namespace>
-namespace Rock\Components\Flow;
+namespace Rock\Component\Flow;
 
-// <Use> : Flow Components
-use Rock\Components\Flow\State\IFlowState;
-use Rock\Components\Flow\State\GraphFlowState;
-use Rock\Components\Flow\Input\IInput;
-use Rock\Components\Flow\Input\Input;
-use Rock\Components\Flow\Output\GraphOutput;
+// <Use> : Flow Component
+use Rock\Component\Flow\State\IFlowState;
+use Rock\Component\Flow\State\GraphFlowState;
+use Rock\Component\Flow\Input\IInput;
+use Rock\Component\Flow\Input\Input;
+use Rock\Component\Flow\Output\GraphOutput;
 
-// <Use> : Graph Components
-use Rock\Components\Flow\Graph\FlowGraph as Graph;
-use Rock\Components\Flow\Graph\State\State;
+// <Use> : Graph Component
+use Rock\Component\Flow\Graph\FlowGraph as Graph;
+use Rock\Component\Flow\Graph\State\State;
 
 // <Use> : Exceptions
-use Rock\Components\Flow\Exception\InitializeException;
-use Rock\Components\Flow\Exception\FlowStateException;
+use Rock\Component\Flow\Exception\InitializeException;
+use Rock\Component\Flow\Exception\FlowStateException;
 
 /**
  * Class GraphFlow is to use Graph Logic for Flow Implementation.
@@ -43,7 +43,7 @@ use Rock\Components\Flow\Exception\FlowStateException;
 class GraphFlow extends Flow
 {
     /**
-     * @var Rock\Components\Flow\Graph\IFlowGraph
+     * @var Rock\Component\Flow\Graph\IFlowGraph
      */
 	protected $path;
 
@@ -83,7 +83,6 @@ class GraphFlow extends Flow
 		$newTrail = null;
 
 		// push next state into path
-
 		if(count($trail) > 0)
 		    $current = $trail->last()->current();
 		else
@@ -94,8 +93,7 @@ class GraphFlow extends Flow
 			throw new \Exception('Flow already reached to EndPoint.');
 		}
 
-
-
+		//
 		$graph   = $this->getPath();
 
 		// Forward automaton state
@@ -148,7 +146,7 @@ class GraphFlow extends Flow
 
 		$vertex  = new State($graph, $name, $listener);
 		$vertex->isEntryPoint(true);
-		$graph->addState($vertex);
+		$graph->addVertex($vertex);
 
 		return $vertex;
 	}

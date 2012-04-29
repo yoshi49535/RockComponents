@@ -19,11 +19,12 @@
  ************************************************************************************/
 
 // <Namespace>
-namespace Rock\Components\Automaton;
+namespace Rock\Component\Automaton;
 
 /**
  *
  */
 class FiniteAutomaton extends Automaton
 {
+	
 }

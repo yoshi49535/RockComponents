@@ -14,14 +14,14 @@
  *
  ************************************************************************************/
 // <Namespace>
-namespace Rock\Components\Http\Flow\Session;
+namespace Rock\Component\Http\Flow\Session;
 
 // <Interface>
-use Rock\Components\Http\Flow\Session\ISessionManager;
+use Rock\Component\Http\Flow\Session\ISessionManager;
 
 // <Use> : Session
-use Rock\Components\Http\Flow\Session\ISession;
-use Rock\Components\Http\Flow\Session\Session;
+use Rock\Component\Http\Flow\Session\ISession;
+use Rock\Component\Http\Flow\Session\Session;
 
 abstract class SessionManager
   implements
@@ -128,7 +128,7 @@ abstract class SessionManager
 	 */
 	protected function getSessionClass()
 	{
-		return 'Rock\\Components\\Http\\Flow\\Session\\Session';
+		return 'Rock\\Component\\Http\\Flow\\Session\\Session';
 	}
 
 	public function remove($name)

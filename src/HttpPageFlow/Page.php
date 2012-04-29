@@ -14,9 +14,9 @@
  *
  ****/
 // <Namespace>
-namespace Rock\Components\Http\Flow;
+namespace Rock\Component\Http\Flow;
 // <Base>
-use Rock\Components\Flow\Graph\State\State;
+use Rock\Component\Flow\Graph\State\State;
 
 /**
  *

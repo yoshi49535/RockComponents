@@ -19,13 +19,13 @@
  ************************************************************************************/
 
 // <Namepsace>
-namespace Rock\AutomatonBundle\Condition\Validator;
+namespace Rock\Component\Automaton\Condition\Validator;
 
-// <Use> : Automaton Components
-use Rock\AutomatonBundle\Automaton\Input\IInput;
+// <Use> : Automaton Component
+use Rock\Component\Automaton\Input\IInput;
 
 
 interface IValidator
 {
-	public function isValid(IInput $input);
+	public function __invoke(IInput $input);
 }

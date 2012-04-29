@@ -18,7 +18,7 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Automaton\State;
+namespace Rock\Component\Automaton\State;
 
 interface IState
 {

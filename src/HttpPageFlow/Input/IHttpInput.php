@@ -17,7 +17,7 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Components\Http\Flow\Input;
+namespace Rock\Component\Http\Flow\Input;
 
 /**
  *

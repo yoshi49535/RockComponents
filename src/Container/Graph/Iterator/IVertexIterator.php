@@ -18,7 +18,7 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Container\Graph\Iterator;
+namespace Rock\Component\Container\Graph\Iterator;
 
 interface IVertexIterator extends \Iterator
 {

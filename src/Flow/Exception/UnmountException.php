@@ -17,7 +17,7 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Components\Flow\Exception;
+namespace Rock\Component\Flow\Exception;
 
 class UnmountException extends Exception
 {

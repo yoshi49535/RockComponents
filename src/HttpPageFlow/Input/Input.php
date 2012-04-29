@@ -19,11 +19,11 @@
  ************************************************************************************/
 
 // <Namespace>
-namespace Rock\Components\Http\Flow\Input;
+namespace Rock\Component\Http\Flow\Input;
 // <Base>
-use Rock\Components\Flow\Input\Input as BaseInput;
+use Rock\Component\Flow\Input\Input as BaseInput;
 // <Interface> : For Type Safe
-use Rock\Components\Http\Flow\Input\IHttpInput;
+use Rock\Component\Http\Flow\Input\IHttpInput;
 
 /**
  *

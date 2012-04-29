@@ -18,17 +18,17 @@
  *
  ************************************************************************************/
 // <Namespace>
-namespace Rock\Components\Flow\Graph\State;
+namespace Rock\Component\Flow\Graph\State;
 
 // <Base>
-use Rock\Components\Automaton\State\NamedState;
+use Rock\Component\Automaton\State\NamedState;
 // <Interface>
-use Rock\Components\Flow\IFlowComponent;
-// <Use>
-use Rock\Components\Container\Graph\IGraph;
-use Rock\Components\Flow\Graph\Graph as ExecutableGraph;
-// <Use> : Flow
-use Rock\Components\Flow\Input\IInput;
+use Rock\Component\Flow\IFlowComponent;
+// <Use> : Graph
+use Rock\Component\Container\Graph\IGraph;
+//use Rock\Component\Flow\Graph\Graph as ExecutableGraph;
+// <Use> : Flow IO
+use Rock\Component\Flow\Input\IInput;
 /**
  *
  */
@@ -36,7 +36,11 @@ class State extends NamedState
   implements 
     IFlowComponent
 {
+	/**
+	 * @var
+	 */
 	protected $listener;
+
 	/**
 	 *
 	 */
@@ -51,6 +55,9 @@ class State extends NamedState
 		$this->listener  = $listener;
 	}
 
+	/**
+	 *
+	 */
 	public function getFlow()
 	{
 		if(!($graph  = $this->getGraph()) instanceof IFlowPath)
@@ -60,37 +67,60 @@ class State extends NamedState
 	/**
 	 * Shortcut function for method-chain
 	 */
-	public function addNext($name, $listener = null, $condition = null)
+	public function addNext($name, $listener = null)
 	{
 		$graph    = $this->getGraph();
 
 		$class    = get_class($this);
 		$newState = new $class($graph, $name, $listener);
 
-		$graph->addState($newState);
+		$graph->addVertex($newState);
 
 		// Connect from THIS to NEW
-		$graph->addCondition($this, $newState, $condition);
+		$graph->addEdge($this, $newState);
 
 		return $newState;
 	}
 
+	
 	/**
 	 *
 	 */
-	public function addPreValdiation()
+	public function addPreValidator($callable)
 	{
+		// Get the 
+		$graph  = $this->getGraph();
+		//
+		$edges  = $graph->getEdgesTo($this);
+		
+		// Insert Callable Validator 
+		if($edges && is_array($edges))
+			foreach($edges as $edge)
+				$edge->setValidator($callable);
 		return $this;
 	}
 
 	/**
 	 *
 	 */
-	public function addPostValidation()
+	public function addPostValidator($callable)
 	{
+		// Get the 
+		$graph  = $this->getGraph();
+		//
+		$edges  = $graph->getEdgesFrom($this);
+		
+		// Insert Callable Validator 
+		if($edges && is_array($edges))
+			foreach($edges as $edge)
+				$edge->setValidator($callable);
+
 		return $this;
 	}
 
+	/**
+	 *
+	 */
 	public function end()
 	{
 		$this->isEndPoint(true);
@@ -112,4 +142,5 @@ class State extends NamedState
 	{
 		return sprintf('Graph Vertex[%s][name=%s] on %s', get_class($this), $this->getName(), $this->getGraph());
 	}
+
 }

@@ -17,10 +17,10 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Components\Container\Graph;
+namespace Rock\Component\Container\Graph;
 
 // <Use>
-use Rock\Components\Container\Graph\Vertex\IVertex;
+use Rock\Component\Container\Graph\Vertex\IVertex;
 
 class DirectedGraph extends Graph
   implements
@@ -44,7 +44,7 @@ class DirectedGraph extends Graph
 	/**
 	 *
 	 */
-	public function getInbountVerticesOf(IVertex $vertex)
+	public function getInboundVerticesOf(IVertex $vertex)
 	{
 		$vertices  = array();
 		foreach($this->getEdgesTo($vertex) as $edge)
@@ -102,7 +102,7 @@ class DirectedGraph extends Graph
 	/**
 	 *
 	 */
-	public function getOutbountVertices(IVertex $vertex)
+	public function getOutboundVerticesOf(IVertex $vertex)
 	{
 		$vertices  = array();
 		foreach($this->getEdgesFrom($vertex) as $edge)

@@ -18,9 +18,9 @@
  *
  ************************************************************************************/
 // <Namespace>
-namespace Rock\Components\Container\Graph;
+namespace Rock\Component\Container\Graph;
 // <Base>
-use Rock\Components\Container\IComponent;
+use Rock\Component\Container\IComponent;
 
 interface IGraphComponent extends IComponent
 {

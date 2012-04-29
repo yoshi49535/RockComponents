@@ -18,7 +18,7 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Flow\Exception;
+namespace Rock\Component\Flow\Exception;
 
 class InitializeException extends \Exception
 {

@@ -17,21 +17,21 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Components\Flow;
+namespace Rock\Component\Flow;
 
 // <Interface>
-use Rock\Components\Flow\IFlow;
+use Rock\Component\Flow\IFlow;
 
-// <Use> : Flow Components
-use Rock\Components\Flow\State\IFlowState;
-use Rock\Components\Flow\State\FlowState;
-use Rock\Components\Flow\Input\IInput;
-use Rock\Components\Flow\Output\Output;
-use Rock\Components\Flow\Path\IPath;
+// <Use> : Flow Component
+use Rock\Component\Flow\State\IFlowState;
+use Rock\Component\Flow\State\FlowState;
+use Rock\Component\Flow\Input\IInput;
+use Rock\Component\Flow\Output\Output;
+use Rock\Component\Flow\Path\IPath;
 
 // <Use> : Exceptions
-use Rock\Components\Flow\Exception\FlowStateException;
-use Rock\Components\Flow\Exception\InitializeException;
+use Rock\Component\Flow\Exception\FlowStateException;
+use Rock\Component\Flow\Exception\InitializeException;
 
 /**
  * Class "Flow" is the abstract base class of Flow Strategy.

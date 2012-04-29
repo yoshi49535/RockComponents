@@ -14,15 +14,15 @@
  *
  ************************************************************************************/
 // <Namespace>
-namespace Rock\Components\Flow\Input;
+namespace Rock\Component\Flow\Input;
 // <Base>
-use Rock\Components\Flow\Input\Input;
+use Rock\Component\Flow\Input\Input;
 
-// <Use> : Flow Components
-use Rock\Components\Flow\Directions;
+// <Use> : Flow Component
+use Rock\Component\Flow\Directions;
 
-// <Use> : Automaton Components
-use Rock\Components\Automaton\Input\ScalarInput as AutomatonScalarInput;
+// <Use> : Automaton Component
+use Rock\Component\Automaton\Input\ScalarInput as AutomatonScalarInput;
 
 class ScalarInput extends Input
 {

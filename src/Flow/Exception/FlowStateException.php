@@ -18,8 +18,8 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Flow\Exception;
-use Rock\Components\Flow\Exception\Exception;
+namespace Rock\Component\Flow\Exception;
+use Rock\Component\Flow\Exception\Exception;
 
 class FlowStateException extends Exception
 {

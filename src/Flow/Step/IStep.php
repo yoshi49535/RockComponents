@@ -13,7 +13,7 @@
  * $Copyrights$
  *
  ************************************************************************************/
-namespace Rock\Components\Flow\Step;
+namespace Rock\Component\Flow\Step;
 
 //
 interface IStep

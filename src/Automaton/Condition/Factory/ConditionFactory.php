@@ -17,20 +17,19 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Components\Automaton\Condition\Factory;
+namespace Rock\Component\Automaton\Condition\Factory;
 
 // <Interface>
-use Rock\Components\Container\Graph\Edge\Factory\IEdgeFactory;
+use Rock\Component\Container\Graph\Edge\Factory\IEdgeFactory;
 
-// <Use> : Graph Components
-use Rock\Components\Container\Graph\Vertex\IVertex;
+// <Use> : Graph Component
+use Rock\Component\Container\Graph\Vertex\IVertex;
 
-// <Use> : Automaton Components
-use Rock\Components\Automaton\State\IState;
+// <Use> : Automaton Component
+use Rock\Component\Automaton\State\IState;
 
 // <Use> : Automaton Conditions as Graph Edge
-use Rock\Components\Automaton\Condition\AnyCondition;
-use Rock\Components\Automaton\Condition\Condition;
+use Rock\Component\Automaton\Condition\Condition;
 
 /**
  *
@@ -39,15 +38,18 @@ class ConditionFactory
   implements
     IEdgeFactory
 {
+	/**
+	 *
+	 */
 	public function createEdge(IVertex $source, IVertex $target)
 	{
 		return $this->createCondition($source, $target);
 	}
-	public function createCondition(IState $source, IState $target, $validator = null)
+	/**
+	 *
+	 */
+	public function createCondition(IState $source, IState $target)
 	{
-		if(!$validator)
-			return new AnyCondition($source, $target);
-		else
-			return new Condition($source, $target, $validator);
+		return new Condition($source, $target);
 	}
 }

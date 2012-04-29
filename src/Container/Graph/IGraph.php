@@ -18,10 +18,10 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Container\Graph;
+namespace Rock\Component\Container\Graph;
 
 // <Use>
-use Rock\Components\Container\Graph\Vertex\IVertex;
+use Rock\Component\Container\Graph\Vertex\IVertex;
 
 interface IGraph
 {

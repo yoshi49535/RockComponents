@@ -13,11 +13,9 @@
  * $Copyrights$
  *
  ****/
-namespace Rock\Components\Flow\Configuration;
+namespace Rock\Component\Http\Flow\Builder;
 
-/**
- * Configuration 
- */
-abstract class Configuration
+interface IHttpFlowBuilder
 {
+	public function getSessionManager();
 }

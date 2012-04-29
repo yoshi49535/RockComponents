@@ -17,7 +17,7 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Components\Flow\Output;
+namespace Rock\Component\Flow\Output;
 
 interface IGraphOutput extends IOutput
 {

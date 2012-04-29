@@ -13,7 +13,7 @@
  * $Copyrights$
  *
  ****/
-namespace Rock\Components\Flow\Util;
+namespace Rock\Component\Flow\Util;
 interface IParameterBag
 {
 	/**

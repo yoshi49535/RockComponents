@@ -15,10 +15,10 @@
  ************************************************************************************/
 
 // <Namespace>
-namespace Rock\Components\Flow\Path;
+namespace Rock\Component\Flow\Path;
 
-// <Use> : Flow Components
-use Rock\Components\Flow\Step\IStep;
+// <Use> : Flow Component
+use Rock\Component\Flow\Step\IStep;
 
 interface IPath 
 {

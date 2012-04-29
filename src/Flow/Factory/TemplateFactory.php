@@ -18,10 +18,10 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Flow\Factory;
+namespace Rock\Component\Flow\Factory;
 
-use Rock\Components\Flow\Factory\Factory as FlowFactory;
-use Rock\Components\Flow\IFlow;
+use Rock\Component\Flow\Factory\Factory as FlowFactory;
+use Rock\Component\Flow\IFlow;
 
 class TemplateFactory extends FlowFactory
 {
@@ -55,7 +55,10 @@ class TemplateFactory extends FlowFactory
 	 */
 	public function addTemplates(array $templates)
 	{
-		$this->templates  = array_merge($this->templates, $templates);
+		foreach($templates as $name =>  $template)
+		{
+			$this->templates[strtolower($name)] = $template;
+		}
 	}
 
 	/**

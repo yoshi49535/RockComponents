@@ -18,16 +18,16 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Container\Graph;
+namespace Rock\Component\Container\Graph;
 
-use Rock\Components\Container\Graph\Vertex\IVertex;
+use Rock\Component\Container\Graph\Vertex\IVertex;
 
 interface IDirectedGraph extends IGraph
 {
 	public function getInDegreeOf(IVertex $vertex);
-	public function getInbountVerticesOf(IVertex $vertex);
+	public function getInboundVerticesOf(IVertex $vertex);
 	public function getOutDegreeOf(IVertex $vertex);
 
-	public function getOutbountVertices(IVertex $vertex);
+	public function getOutboundVerticesOf(IVertex $vertex);
 }
 

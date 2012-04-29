@@ -18,17 +18,17 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Flow\Input;
+namespace Rock\Component\Flow\Input;
 
 // <Base>
-use Rock\Components\Automaton\Input\Input as AutomatonInput;
+use Rock\Component\Automaton\Input\Input as AutomatonInput;
 // <Interface>
-use Rock\Components\Flow\Input\IInput;
-use Rock\Components\Flow\Util\IParameterBag;
-// <Use> : Flow Components
-use Rock\Components\Flow\Directions;
+use Rock\Component\Flow\Input\IInput;
+use Rock\Component\Flow\Util\IParameterBag;
+// <Use> : Flow Component
+use Rock\Component\Flow\Directions;
 // <Use> : ParameterBag
-use Rock\Components\Flow\Util\ParameterBag;
+use Rock\Component\Flow\Util\ParameterBag;
 
 class Input extends AutomatonInput
   implements

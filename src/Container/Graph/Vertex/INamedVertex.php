@@ -18,10 +18,10 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Container\Graph\Vertex;
+namespace Rock\Component\Container\Graph\Vertex;
 
 // <BaseClass>
-use Rock\Components\Container\Graph\Vertex\IVertex;
+use Rock\Component\Container\Graph\Vertex\IVertex;
 
 interface INamedVertex extends IVertex
 {

@@ -13,25 +13,19 @@
  * $Copyrights$
  *
  ****/
-namespace Rock\Components\Flow\Type;
+namespace Rock\Component\Flow\Type;
 
 // <Use> : Flow Factory
-use Rock\Components\Flow\Factory\IFactory;
-use Rock\Components\Flow\Builder\Builder;
+use Rock\Component\Flow\Factory\IFactory;
 /**
  *
  */
 class DefaultType 
   implements IType
 {
-	public function isType($name)
+	public function __construct()
 	{
-		return 'default' === strtolower($name);
-	}
-
-	public function getBuilder(IFactory $factory)
-	{
-		$factory->addTemplate('default', '\\Rock\\Components\\Flow\\GraphFlow');
-		return new Builder($factory);
+		parent::__construct('flow.default');
+		$this->class = '\\Rock\\Component\\Flow\\GraphFlow';
 	}
 }

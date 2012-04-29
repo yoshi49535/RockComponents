@@ -13,17 +13,28 @@
  * $Copyrights$
  *
  ****/
-namespace Rock\Components\Flow\Type;
+namespace Rock\Component\Flow\Type;
 
 // <Use> : Factory
-use Rock\Components\Flow\Factory\IFactory;
+use Rock\Component\Flow\Factory\IFactory;
 
 /**
  *
  */
 interface IType
 {
-	public function isType($name);
+	/**
+	 *
+	 */
+	public function isSupport($type);
 
-	public function getBuilder(IFactory $factory);
+	/** 
+	 *
+	 */
+	public function getFlowTemplates();
+
+	/**
+	 *
+	 */
+	public function getBuilderClass();
 }

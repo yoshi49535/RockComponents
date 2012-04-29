@@ -18,13 +18,13 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Flow\Output;
+namespace Rock\Component\Flow\Output;
 
 // <Interface>
-use Rock\Components\Container\Graph\IGraphTrail;
+use Rock\Component\Container\Graph\IGraphTrail;
 // <Use>
-use Rock\Components\Flow\Input\IInput;
-use Rock\Components\Container\Graph\Path\IPath as ITrail;
+use Rock\Component\Flow\Input\IInput;
+use Rock\Component\Container\Graph\Path\IPath as ITrail;
 
 
 class GraphOutput extends Output

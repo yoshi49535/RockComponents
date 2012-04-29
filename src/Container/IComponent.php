@@ -18,7 +18,7 @@
  *
  ************************************************************************************/
 // <Namespace>
-namespace Rock\Components\Container;
+namespace Rock\Component\Container;
 
 /**
  *

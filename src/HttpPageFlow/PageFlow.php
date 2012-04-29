@@ -18,29 +18,31 @@
  *
  ************************************************************************************/
 // <Namespace>
-namespace Rock\Components\Http\Flow;
+namespace Rock\Component\Http\Flow;
 
 // <Base>
-use Rock\Components\Flow\GraphFlow as BaseFlow;
+use Rock\Component\Flow\GraphFlow as BaseFlow;
 // <use> : Flow State
-use Rock\Components\Flow\State\IFlowState;
+use Rock\Component\Flow\State\IFlowState;
 // <Use> : Flow IO
-use Rock\Components\Flow\Input\IInput;
-use Rock\Components\Http\Flow\Input\IHttpInput;
-use Rock\Components\Http\Flow\Output\Output;
+use Rock\Component\Flow\Input\IInput;
+use Rock\Component\Http\Flow\Input\IHttpInput;
+use Rock\Component\Http\Flow\Output\Output;
 // <Use> : Exception
-use Rock\Components\Flow\Exception\FlowStateException;
+use Rock\Component\Flow\Exception\FlowStateException;
 // <Use> : Flow Direction
-use Rock\Components\Flow\Directions;
+use Rock\Component\Flow\Directions;
 
-// <Use> : Flow Web-Page Components
-use Rock\Components\Http\Flow\Session\ISession;
-use Rock\Components\Http\Flow\Session\ISessionManager;
-use Rock\Components\Http\Flow\State\PageFlowState;
+// <Use> : Flow Web-Page Component
+use Rock\Component\Http\Flow\Session\ISession;
+use Rock\Component\Http\Flow\Session\ISessionManager;
+use Rock\Component\Http\Flow\State\PageFlowState;
 
-use Rock\Components\Container\Graph\Edge\IEdge;
+use Rock\Component\Container\Graph\Edge\IEdge;
 
 class PageFlow extends BaseFlow
+  implements 
+    IHttpPageFlow
 {
 	/**
 	 *
@@ -66,7 +68,7 @@ class PageFlow extends BaseFlow
 		// Get graph trail from session 
 		$trail = $state->getTrail();
 
-		if(count($trail->getComponents()) == 0)
+		if(count($trail->getComponent()) == 0)
 		{
 			throw new FlowStateException('Flow has never forwarded.');
 		}

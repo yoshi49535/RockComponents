@@ -35,7 +35,7 @@ class PathTrailIterator
 	public function __construct(IPath)
 	{
 		$this->path  = $path;
-		$this->array = &$path->getComponentsByRef();
+		$this->array = &$path->getComponentByRef();
 	}
 	/**
 	 *

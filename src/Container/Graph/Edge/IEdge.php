@@ -18,10 +18,10 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Container\Graph\Edge;
+namespace Rock\Component\Container\Graph\Edge;
 
 // <Base>
-use Rock\Components\Container\Graph\IGraphComponent;
+use Rock\Component\Container\Graph\IGraphComponent;
 interface IEdge extends IGraphComponent
 {
 	/**

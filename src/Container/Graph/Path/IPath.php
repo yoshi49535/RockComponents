@@ -18,7 +18,7 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Container\Graph\Path;
+namespace Rock\Component\Container\Graph\Path;
 
 interface IPath
 {
@@ -30,7 +30,7 @@ interface IPath
 	/**
 	 *
 	 */
-	public function getComponents();
+	public function getComponent();
 
 	/**
 	 *

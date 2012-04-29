@@ -14,15 +14,15 @@
  *
  ************************************************************************************/
 // <Namespace>
-namespace Rock\Components\Core\Loader;
+namespace Rock\Component\Core\Loader;
 
-if(!class_exists('Rock\Components\Core\Rock'))
+if(!class_exists('Rock\Component\Core\Rock'))
 {
 	require_once(__DIR__.'/../Rock.php');
 }
 
 // <Use>
-use Rock\Components\Core\Loader\File\PackageFile;
+use Rock\Component\Core\Loader\File\PackageFile;
 
 class PackageLoader
 {

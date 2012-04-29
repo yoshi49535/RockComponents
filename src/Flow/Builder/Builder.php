@@ -17,15 +17,15 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-
-namespace Rock\Components\Flow\Builder;
-
-
+// <Namespace>
+namespace Rock\Component\Flow\Builder;
 // <Interface>
-
+use Rock\Component\Flow\Builder\IFlowBuilder;
 // <Use>
-use Rock\Components\Flow\Configuration\IConfiguration;
-use Rock\Components\Flow\Factory\IFactory as IFlowFactory;
+use Rock\Component\Flow\Configuration\IConfiguration;
+use Rock\Component\Flow\Factory\IFactory as IFlowFactory;
+// @use : Flow Definition
+use Rock\Component\Flow\Definition\FlowDefinition;
 
 /**
  * Flow Builder.
@@ -35,17 +35,17 @@ class Builder
 	IFlowBuilder
 {
 	/**
-	 *
+	 * @var
 	 */
 	protected $factory;
 
 	/**
 	 *
 	 */
-	public function __construct(IFlowFactory $factory)
+	public function __construct(IFlowFactory $factory, IFlowDefinition $definition = null)
 	{
-
-		$this->factory  = $factory;
+		$this->factory    = $factory;
+		$this->definition = is_null($definition) ? new FlowDefinition() : $definition;
 	}
 	/**
 	 *
@@ -55,11 +55,56 @@ class Builder
 		return $this->factory;
 	}
 
-	/**
-	 *
-	 */
-	public function build($name)
+	public function buildState(IStateDefinition $definition)
 	{
+		// Create Page Instance from Definition
+		$class = $definition->getClass();
+		$state = new $class($component->getName(), $component->getListener());
+
+		if(!$state instanceof IState)
+		{
+			throw new \Exception(sprintf('Flow State Definition includes invalid class  "%s", but IState is needed.', $class));
+		}
+
+		return $page;
+	}
+	
+	/**
+	 * @param ConditionDefinition $definition
+	 */
+	public function buildCondition(IConditionDefinition $definition)
+	{
+		
+	}
+
+	/**
+	 * @param string $id
+	 * @return Flow
+	 */
+	public function build($id)
+	{
+		// Get Root Flow Definition
+		$definition = $this->getDefinition();
+
+		$components  = $definition->getChildren();
+		$path 	= $flow->getPath();
+		//
+		foreach($definition->getStateDefinitions() as $component)
+		{
+			// 
+			$state  = $this->buildState($component);
+			// Set Additional Attribute
+			if($path->countStates())
+				$state->isEntryPoint(true);
+
+			$path->addState($state);
+		}
+
+		// Create Connections
+		{
+
+		}
+
 		// try to compare, if it is recovered 
 		$flow = $this->getFactory()->create($name);
 

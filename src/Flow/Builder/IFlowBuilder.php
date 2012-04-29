@@ -17,7 +17,7 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Components\Flow\Builder;
+namespace Rock\Component\Flow\Builder;
 
 interface IFlowBuilder
 {

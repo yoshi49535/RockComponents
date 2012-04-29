@@ -18,13 +18,13 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Flow\State;
+namespace Rock\Component\Flow\State;
 
 // <Use>
-use Rock\Components\Flow\IFlow;
+use Rock\Component\Flow\IFlow;
 // <Use> : Flow IO
-use Rock\Components\Flow\Input\IInput;
-use Rock\Components\Flow\Output\IOutput;
+use Rock\Component\Flow\Input\IInput;
+use Rock\Component\Flow\Output\IOutput;
 
 /**
  * State class is a FlowAccessor or Proxy, which provide concealed-access-methods for current Flow State.

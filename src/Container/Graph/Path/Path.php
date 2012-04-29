@@ -18,12 +18,12 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Container\Graph\Path;
+namespace Rock\Component\Container\Graph\Path;
 
 // <Use>
-use Rock\Components\Container\Graph\IGraph;
-use Rock\Components\Container\Graph\IGraphComponent;
-use Rock\Components\Container\Vector;
+use Rock\Component\Container\Graph\IGraph;
+use Rock\Component\Container\Graph\IGraphComponent;
+use Rock\Component\Container\Vector;
 
 class Path
   implements
@@ -64,19 +64,19 @@ class Path
 	 */
 	public function getTrail()
 	{
-		return $this->getComponents();
+		return $this->getComponent();
 	}
 	/**
 	 *
 	 */
-	public function getComponents()
+	public function getComponent()
 	{
 		return $this->components;
 	}
 	/**
 	 *
 	 */
-	public function & getComponentsByRef()
+	public function & getComponentByRef()
 	{
 		return $this->components;
 	}
@@ -86,7 +86,7 @@ class Path
 	public function getVertices()
 	{
 		$vertices   = array();
-		$components = $this->getComponents();
+		$components = $this->getComponent();
 
 		foreach($components as $component)
 		{
@@ -101,7 +101,7 @@ class Path
 	 */
 	public function getEdges()
 	{
-		$components = $this->getComponents();
+		$components = $this->getComponent();
 
 		foreach($components as $component)
 		{
@@ -217,6 +217,7 @@ class Path
 		$components = $data;
 
 		$this->components  = array();
+
 		foreach($components as $key => $component)
 		{
 			$this->components[$key]   = $graph->unserializeComponentReference($component);

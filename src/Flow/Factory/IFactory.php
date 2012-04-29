@@ -18,7 +18,7 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Flow\Factory;
+namespace Rock\Component\Flow\Factory;
 
 interface IFactory
 {

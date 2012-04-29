@@ -19,15 +19,15 @@ namespace Rock\CompnentTests\Tests\Flow;
 use \PHPUnit_Framework_TestCase as TestCase;
 
 // <Use> : GraphFlow
-use Rock\Components\Flow\GraphFlow;
-use Rock\Components\Flow\IFlow;
-use Rock\Components\Flow\Path\IPath;
+use Rock\Component\Flow\GraphFlow;
+use Rock\Component\Flow\IFlow;
+use Rock\Component\Flow\Path\IPath;
 
-use Rock\Components\Flow\Builder\Builder as FlowBuilder;
-use Rock\Components\Flow\Factory\Factory as FlowFactory;
+use Rock\Component\Flow\Builder\Builder as FlowBuilder;
+use Rock\Component\Flow\Factory\Factory as FlowFactory;
 
-use Rock\Components\Flow\Input\Input as FlowInput;
-use Rock\Components\Flow\Input\ScalarInput as FlowScalarInput;
+use Rock\Component\Flow\Input\Input as FlowInput;
+use Rock\Component\Flow\Input\ScalarInput as FlowScalarInput;
 
 // 
 class Test extends TestCase
@@ -147,7 +147,7 @@ class Test extends TestCase
   {
 	$builder = new FlowBuilder(new FlowFactory());
 	
-	$flow    = $builder->build('\\Rock\\Components\\Flow\\GraphFlow');
+	$flow    = $builder->build('\\Rock\\Component\\Flow\\GraphFlow');
 	$this->assertTrue($flow instanceof IFlow, 'Flow build assertion');
 
 	return $flow;

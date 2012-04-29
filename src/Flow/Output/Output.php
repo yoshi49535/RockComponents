@@ -18,16 +18,16 @@
  *
  ************************************************************************************/
 // <Namespace>
-namespace Rock\Components\Flow\Output;
+namespace Rock\Component\Flow\Output;
 // <Interface>
-use Rock\Components\Flow\Util\IParameterBag;
-use Rock\Components\Flow\Output\IOutput;
+use Rock\Component\Flow\Util\IParameterBag;
+use Rock\Component\Flow\Output\IOutput;
 
-// <Use> : Flow Components
-use Rock\Components\Flow\Input\IInput;
-use Rock\Components\Flow\State\IFlowState;
+// <Use> : Flow Component
+use Rock\Component\Flow\Input\IInput;
+use Rock\Component\Flow\State\IFlowState;
 // <Use> : ParameterBag
-use Rock\Components\Flow\Util\ParameterBag;
+use Rock\Component\Flow\Util\ParameterBag;
 
 class Output 
   implements 

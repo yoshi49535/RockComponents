@@ -14,10 +14,10 @@
  *
  ************************************************************************************/
 // <Namespace>
-namespace Rock\Components\Automaton\Input;
+namespace Rock\Component\Automaton\Input;
 
 // <Base>
-use Rock\Components\Automaton\Input\IInput;
+use Rock\Component\Automaton\Input\IInput;
 
 /**
  * IScalarInput is type-safe Interface, which dose not provide any definition, but

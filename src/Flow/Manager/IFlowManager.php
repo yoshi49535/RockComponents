@@ -18,7 +18,7 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Flow\Manager;
+namespace Rock\Component\Flow\Manager;
 
 interface IFlowManager
 {

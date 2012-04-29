@@ -14,14 +14,14 @@
  *
  */
 // <Namespace>
-namespace Rock\Components\Automaton\Input;
+namespace Rock\Component\Automaton\Input;
 // <Base>
-use Rock\Components\Automaton\Input\Input;
+use Rock\Component\Automaton\Input\Input;
 // <Interface>
-use Rock\Components\Automaton\Input\IScalarInput;
+use Rock\Component\Automaton\Input\IScalarInput;
 
-// <Use> : Automaton Components
-use Rock\Components\Automaton\Directions;
+// <Use> : Automaton Component
+use Rock\Component\Automaton\Directions;
 
 
 /**

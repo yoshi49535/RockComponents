@@ -14,13 +14,13 @@
  *
  ****/
 // <Interface>
-namespace Rock\Components\Http\Flow\Factory;
+namespace Rock\Component\Http\Flow\Factory;
 // <Base>
-use Rock\Components\Flow\Factory\TypedFactory;
+use Rock\Component\Flow\Factory\TypedFactory;
 // <Use>
-use Rock\Components\Http\Flow\Session\ISessionManager;
-use Rock\Components\Http\Flow\Type\DefaultType;
-use Rock\Components\Http\Flow\Builder\IHttpBuilder;
+use Rock\Component\Http\Flow\Session\ISessionManager;
+use Rock\Component\Http\Flow\Type\DefaultType;
+use Rock\Component\Http\Flow\Builder\IHttpFlowBuilder;
 /**
  *
  */
@@ -43,7 +43,8 @@ class Factory extends TypedFactory
 	 */
 	protected function init()
 	{
-		$this->defaultType = new DefaultType();
+		$this->defaultTypeClass = '\\Rock\\Component\\Http\\Flow\\Type\\DefaultType';
+		$this->builderClass  = 'Rock\\Component\\Http\\Flow\\Buidler\\Builder';
 	}
 	/**
 	 *
@@ -67,7 +68,7 @@ class Factory extends TypedFactory
 	public function createBuilder($type = null)
 	{
 		$builder = parent::createBuilder($type);
-		if(($builder instanceof IHttpBuilder) && $this->sessions)
+		if(($builder instanceof IHttpFlowBuilder) && $this->sessions)
 			$builder->setSessionManager($this->getSessionManager());
 		return $builder;
 	}

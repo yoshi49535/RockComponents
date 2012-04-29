@@ -14,21 +14,30 @@
  *
  ****/
 // <Namespace>
-namespace Rock\Components\Http\Flow\Type;
+namespace Rock\Component\Http\Flow\Type;
 // <Base>
-use Rock\Components\Flow\Type\DefaultType as BaseType;
+use Rock\Component\Flow\Type\DefaultType as BaseType;
 // <Use> : Builder
-use Rock\Components\Http\Flow\Builder\Builder;
-use Rock\Components\Flow\Factory\IFactory;
+use Rock\Component\Http\Flow\Builder\Builder;
+use Rock\Component\Flow\Factory\IFactory;
 
 /**
  *
  */
 class DefaultType extends BaseType
 {
-	public function getBuilder(IFactory $factory)
+	/** 
+	 *
+	 */
+	public function getFlowTemplates()
 	{
-		$factory->addTemplate('default', '\\Rock\\Components\\Http\\Flow\\PageFlow');
-		return new Builder($factory);
+		return array('default' => 'Rock\\Component\\Http\\Flow\\PageFlow');
+	}
+	/** 
+	 *
+	 */
+	public function getBuilderClass()
+	{
+		return 'Rock\\Component\\Http\\Flow\\Builder\\Builder';
 	}
 }

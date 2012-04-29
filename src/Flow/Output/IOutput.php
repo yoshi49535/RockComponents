@@ -18,7 +18,7 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Flow\Output;
+namespace Rock\Component\Flow\Output;
 
 interface IOutput
 {

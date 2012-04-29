@@ -18,7 +18,7 @@
  *
  ************************************************************************************/
 
-namespace Rock\Components\Flow\State;
+namespace Rock\Component\Flow\State;
 
 interface IFlowState
 {

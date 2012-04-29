@@ -14,15 +14,15 @@
  *
  ************************************************************************************/
 // <Namespace>
-namespace Rock\Components\Http\Flow\Session;
+namespace Rock\Component\Http\Flow\Session;
 
-// <Base> : Utility Components
-use Rock\Components\Utility\ParameterContainer;
+// <Base> : Utility Component
+use Rock\Component\Utility\ParameterContainer;
 // <Interface>
-use Rock\Components\Http\Flow\Session\ISession;
+use Rock\Component\Http\Flow\Session\ISession;
 
-// <Use> : Container Components
-use Rock\Components\Container\Graph\Path\IPath as ITrail;
+// <Use> : Container Component
+use Rock\Component\Container\Graph\Path\IPath as ITrail;
 
 class Session extends ParameterContainer
   implements

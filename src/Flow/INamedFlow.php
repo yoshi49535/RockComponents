@@ -17,10 +17,10 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Components\Flow;
+namespace Rock\Component\Flow;
 
 // <Use>
-use Rock\Components\Flow\Input\IInput;
+use Rock\Component\Flow\Input\IInput;
 interface INamedFlow extends IFlow
 {
 	public function getName();
