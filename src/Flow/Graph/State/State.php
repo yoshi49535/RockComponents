@@ -148,4 +148,12 @@ class State extends NamedState
 		return sprintf('Graph Vertex[%s][name=%s] on %s', get_class($this), $this->getName(), $this->getGraph());
 	}
 
+
+	/**
+	 * @override Rock\Component\Automaton\State\State
+	 */
+	public function isEndPoint()
+	{
+		return (0 === $this->getGraph()->getOutDegreeOf($this));
+	}
 }
