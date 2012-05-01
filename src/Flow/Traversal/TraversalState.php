@@ -18,7 +18,7 @@
  *
  ************************************************************************************/
 
-namespace Rock\Component\Flow\State;
+namespace Rock\Component\Flow\Traversal;
 
 // <Use>
 use Rock\Component\Flow\IFlow;
@@ -27,7 +27,7 @@ use Rock\Component\Flow\Input\IInput;
 use Rock\Component\Flow\Output\IOutput;
 
 /**
- * State class is a FlowAccessor or Proxy, which provide concealed-access-methods for current Flow State.
+ * Traversal class is a FlowAccessor or Proxy, which provide concealed-access-methods for current TraversalStae.
  */
 abstract class TraversalState implements ITraversalState
 {
@@ -89,7 +89,7 @@ abstract class TraversalState implements ITraversalState
 	public function setOutput(IOutput $output)
 	{
 		$this->output  = $output;
-		$this->output->setState($this);
+		$this->output->setTraversal($this);
 	}
 
 	/**

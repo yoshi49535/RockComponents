@@ -18,7 +18,7 @@
  *
  ************************************************************************************/
 
-namespace Rock\Component\Flow\State;
+namespace Rock\Component\Flow\Traversal;
 
 interface ITraversalState
 {

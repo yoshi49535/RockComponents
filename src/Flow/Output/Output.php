@@ -62,16 +62,16 @@ class Output
 	 */
 	public function getInput()
 	{
-		return $this->getState()->getInput();
+		return $this->getTraversal()->getInput();
 	}
 
 	/**
 	 *
 	 */
-	public function getState()
+	public function getTraversal()
 	{
 		if(!$this->traversal)
-			throw new \Exception('State is not initialized, yet.');
+			throw new \Exception('Traversal is not initialized, yet.');
 		return $this->traversal;
 	}
 

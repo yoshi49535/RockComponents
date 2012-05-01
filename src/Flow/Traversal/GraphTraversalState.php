@@ -17,10 +17,10 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Component\Flow\State;
+namespace Rock\Component\Flow\Traversal;
 
 // <BaseClass>
-use Rock\Component\Flow\State\TraversalState;
+use Rock\Component\Flow\Traversal\TraversalState;
 // <Use>
 use Rock\Component\Flow\GraphFlow;
 use Rock\Component\Container\Graph\Path\IPath as IGraphPath;

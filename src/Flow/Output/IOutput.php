@@ -30,5 +30,5 @@ interface IOutput
 	/**
 	 *
 	 */
-	public function getState();
+	public function getTraversal();
 }
