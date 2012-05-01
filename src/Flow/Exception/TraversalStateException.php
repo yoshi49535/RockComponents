@@ -17,18 +17,10 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Component\Flow\Builder;
 
-interface IFlowBuilder
+namespace Rock\Component\Flow\Exception;
+use Rock\Component\Flow\Exception\Exception;
+
+class TraversalStateException extends Exception
 {
-	/**
-	 *
-	 */
-	public function build($name);
-
-	/**
-	 *
-	 */
-	public function getFactory();
-
 }

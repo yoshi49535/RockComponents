@@ -17,38 +17,17 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-
-namespace Rock\Component\Flow\State;
-
-interface IFlowState
+// <Namespace>
+namespace Rock\Component\Http\Flow\Traversal;
+// <Use>
+use Rock\Component\Flow\Traversal\ITraversalState;
+/**
+ *
+ */
+interface IHttpPageTraversalState extends ITraversalState
 {
-	/**
-	 * @return bool Has next on flow or not
-	 */
-	public function hasPrev();
-
-	/**
-	 * @return string Return the URL for prev on flow
-	 */
-	public function getPrev();
-
-	/**
-	 * @return bool Has prev on flow or not
-	 */
-	public function hasNext();
-
-	/**
-	 * @return string Return the URL for next on flow
-	 */
-	public function getNext();
-
-	/**
-	 * @return string Return the URL for current on flow
-	 */
-	public function getCurrent();
-
 	/**
 	 *
 	 */
-	public function isHandled();
+	public function getSession();
 }

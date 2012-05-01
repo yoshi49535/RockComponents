@@ -14,19 +14,13 @@
  *
  ****/
 // @namespace
-namespace Rock\Component\Configuration\Defintion\Reference;
-// @use 
-use Rock\Component\Configuration\Definition\IContainer;
+namespace Rock\Component\Configuration\Definition;
 
 /**
  *
  */
 class Reference
 {
-	/** 
-	 * @var IContainer Container instance where the reference target is contained.
-	 */
-	protected $container;
 	/** 
 	 * @var string Id of the reference target
 	 */
@@ -39,20 +33,15 @@ class Reference
 	/** 
 	 *
 	 */
-	public function __construct(IContainer $container, $id)
+	public function __construct($id)
 	{
-		$this->container  = $container;
 		$this->id         = $id;
-
-		// Initialize scope w/ current container scope
-		$this->scope      = $this->container->getScope();
+		$this->scope      = false;
 	}
 
-	/**
-	 * @return mixin The reference target instance
-	 */
-	public function get()
+	public function getId()
 	{
-		return $this->container->get($this->id, $this->scope);
+		return $this->id;
 	}
 }
+

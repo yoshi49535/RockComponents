@@ -22,21 +22,21 @@ namespace Rock\Component\Http\Flow;
 
 // <Base>
 use Rock\Component\Flow\GraphFlow as BaseFlow;
-// <use> : Flow State
-use Rock\Component\Flow\State\IFlowState;
+// <use> : Flow Traversal
+use Rock\Component\Flow\Traversal\ITraversalState;
 // <Use> : Flow IO
 use Rock\Component\Flow\Input\IInput;
 use Rock\Component\Http\Flow\Input\IHttpInput;
 use Rock\Component\Http\Flow\Output\Output;
 // <Use> : Exception
-use Rock\Component\Flow\Exception\FlowStateException;
+use Rock\Component\Flow\Exception\TraversalStateException;
 // <Use> : Flow Direction
 use Rock\Component\Flow\Directions;
 
 // <Use> : Flow Web-Page Component
 use Rock\Component\Http\Flow\Session\ISession;
 use Rock\Component\Http\Flow\Session\ISessionManager;
-use Rock\Component\Http\Flow\State\PageFlowState;
+use Rock\Component\Http\Flow\Traversal\HttpPageTraversalState;
 
 use Rock\Component\Container\Graph\Edge\IEdge;
 
@@ -54,6 +54,9 @@ class PageFlow extends BaseFlow
 	 */
 	protected $sessions;
 
+	/**
+	 *
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -63,14 +66,14 @@ class PageFlow extends BaseFlow
 	/**
 	 *
 	 */
-	protected function doRecoverState(IFlowState $state)
+	protected function doRecoverTraversal(ITraversalState $state)
 	{
 		// Get graph trail from session 
 		$trail = $state->getTrail();
 
 		if(count($trail->getComponent()) == 0)
 		{
-			throw new FlowStateException('Flow has never forwarded.');
+			throw new TraversalStateException('Flow has never forwarded.');
 		}
 
 		// check the request state 
@@ -87,7 +90,7 @@ class PageFlow extends BaseFlow
 	/**
 	 *
 	 */
-	protected function doShutdown(IFlowState $state)
+	protected function doShutdown(ITraversalState $state)
 	{
 		parent::doShutdown($state);
 		
@@ -101,7 +104,7 @@ class PageFlow extends BaseFlow
 	/**
 	 *
 	 */
-	protected function doHandleInput(IFlowState $state)
+	protected function doHandleInput(ITraversalState $state)
 	{
 		$trail    = $state->getTrail();
 		if(!$trail)
@@ -145,7 +148,11 @@ class PageFlow extends BaseFlow
 		}
 	}
 
-	protected function doHandleState(IFlowState $state)
+	/**
+	 * @override GraphFlow::doHandleState 
+	 * 
+	 */
+	protected function doHandleState(ITraversalState $state)
 	{
 		if(!$state->getOutput()->useRedirection())
 		{
@@ -156,9 +163,9 @@ class PageFlow extends BaseFlow
 	/**
 	 *
 	 */
-	public function createFlowState()
+	public function createTraversalState()
 	{
-		return new PageFlowState($this, $this->getSessionManager()->get($this->getHash()));
+		return new HttpPageTraversalState($this, $this->getSessionManager()->get($this->getHash()));
 	}
 
 	/**

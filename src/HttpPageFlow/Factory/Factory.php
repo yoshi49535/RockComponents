@@ -33,19 +33,12 @@ class Factory extends TypedFactory
 	/**
 	 *
 	 */
-	public function __construct(ISessionManager $manager = null)
+	public function __construct(IContainer $container, ISessionManager $manager = null)
 	{
-		parent::__construct();
+		parent::__construct($container);
 		$this->sessions = $manager;
 	}
-	/**
-	 *
-	 */
-	protected function init()
-	{
-		$this->defaultTypeClass = '\\Rock\\Component\\Http\\Flow\\Type\\DefaultType';
-		$this->builderClass  = 'Rock\\Component\\Http\\Flow\\Buidler\\Builder';
-	}
+
 	/**
 	 *
 	 */
@@ -65,11 +58,13 @@ class Factory extends TypedFactory
 	/**
 	 *
 	 */
-	public function createBuilder($type = null)
+	public function create($alias)
 	{
-		$builder = parent::createBuilder($type);
-		if(($builder instanceof IHttpFlowBuilder) && $this->sessions)
-			$builder->setSessionManager($this->getSessionManager());
-		return $builder;
+
+		$flow  = parent::create($alias);
+
+		if(($flow instanceof IHttpPageFlow) && $this->sessions)
+			$flow->setSessionManager($this->getSessionManager());
+		return $flow;
 	}
 }

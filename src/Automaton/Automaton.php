@@ -162,4 +162,13 @@ class Automaton extends DirectedGraph
 	{
 		$this->debug = $debug;
 	}
+
+	public function addVertex(IVertex $vertex)
+	{
+		if($this->countVertices() === 0)
+		{
+			$vertex->isEntryPoint(true);
+		}
+		parent::addVertex($vertex);
+	}
 }

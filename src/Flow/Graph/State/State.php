@@ -39,20 +39,17 @@ class State extends NamedState
 	/**
 	 * @var
 	 */
-	protected $listener;
+	protected $handler;
 
 	/**
 	 *
 	 */
-	public function __construct(IGraph $graph, $name, $listener = null)
+	public function __construct(IGraph $graph, $name, $callable = null)
 	{
 		parent::__construct($graph, $name);
 		
-		if($listener && !is_callable($listener))
-		{
-			throw new \InvalidArgumentException('Listener has to be a callable or null.');
-		}
-		$this->listener  = $listener;
+		if($callable)
+			$this->setHandler($callable);
 	}
 
 	/**
@@ -77,7 +74,7 @@ class State extends NamedState
 		$graph->addVertex($newState);
 
 		// Connect from THIS to NEW
-		$graph->addEdge($this, $newState);
+		$graph->addEdgeBetween($this, $newState);
 
 		return $newState;
 	}
@@ -126,13 +123,21 @@ class State extends NamedState
 		$this->isEndPoint(true);
 	}
 
+	public function setHandler($callable = null)
+	{
+		if($callable&& !is_callable($callable))
+		{
+			throw new \InvalidArgumentException('Listener has to be a callable or null.');
+		}
+		$this->handler = $callable;
+	}
 	/**
 	 *
 	 */
 	public function handle(IInput $input)
 	{
-		if($this->listener)
-			call_user_func($this->listener, $input);
+		if($this->handler)
+			call_user_func($this->handler, $input);
 	}
 
 	/**

@@ -13,27 +13,15 @@
  * $Copyrights$
  *
  ****/
-// <Namespace>
+// @namespace
 namespace Rock\Component\Flow\Definition;
 
 /**
  *
  */
-class Definition extends BaseDefinition
+interface IFlowComponentDefinition
 {
-	/**
-	 *
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
+	function getGraph();
 
-	/**
-	 *
-	 */
-	public function end()
-	{
-		return $this->parent;
-	}
+	function setGraph(GraphDefinition $definition);
 }

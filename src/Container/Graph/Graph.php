@@ -107,7 +107,16 @@ class Graph
 	/**
 	 *
 	 */
-	public function addEdge(IVertex $source, IVertex $target)
+	public function addEdge(IEdge $edge)
+	{
+		$this->edges[]  = $edge;
+
+		return $edge;
+	}
+	/**
+	 *
+	 */
+	public function addEdgeBetween(IVertex $source, IVertex $target)
 	{
 		$this->edges[]  = ($edge = $this->getEdgeFactory()->createEdge($source, $target));
 
@@ -156,7 +165,6 @@ class Graph
 		switch($data[0])
 		{
 		case 'v':
-			throw new \InvalidArgumentException(sprintf('Graph dose not have the vertex at index[%d]', $data[1]));
 		    return $this->vertices[$data[1]];
 			break;
 		case 'e':

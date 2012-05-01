@@ -17,17 +17,37 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-
+// @namespace
 namespace Rock\Component\Container\Graph;
-
-// <Use>
+// @use Graph Vertex
 use Rock\Component\Container\Graph\Vertex\IVertex;
+// @use Graph Edge
+use Rock\Component\Container\Graph\Edge\IEdge;
 
+/**
+ *
+ */
 interface IGraph
 {
-	public function addVertex(IVertex $vertex);	
-	public function addEdge(IVertex $vertex, IVertex $source);
+	/**
+	 *
+	 */
+	function addVertex(IVertex $vertex);	
+	/**
+	 *
+	 */
+	function addEdge(IEdge $edge);
+	/**
+	 *
+	 */
+	function addEdgeBetween(IVertex $vertex, IVertex $source);
 
-	public function getVertices();
-	public function getEdges();
+	/**
+	 *
+	 */
+	function getVertices();
+	/**
+	 *
+	 */
+	function getEdges();
 }

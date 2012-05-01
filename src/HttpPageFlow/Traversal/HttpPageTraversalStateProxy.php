@@ -17,18 +17,18 @@
  *  Contact Us : Yoshi Aoki <yoshi@44services.jp>
  *
  ************************************************************************************/
-namespace Rock\Component\Http\Flow\State;
+namespace Rock\Component\Http\Flow\Traversal;
 
 // <Interface>
-use Rock\Component\Flow\State\IFlowState;
+use Rock\Component\Flow\Traversal\ITraversalState;
 // <Use>
 use Symfony\Component\Routing\RouterInterface;
 use Rock\OnSymfony\HttpFlowBundle\Request\FlowRequests;
 
-class FlowStateHttpProxy 
+class HttpPageTraversalStateProxy 
   implements
-    IFlowState,
-	IHttpFlowState
+    ITraversalState,
+	IHttpPageTraversalState
 {
 	/**
 	 *
@@ -51,10 +51,10 @@ class FlowStateHttpProxy
 	/**
 	 *
 	 */
-	public function __construct(IFlowState $state, RouterInterface $router, $route, $routeParams = array())
+	public function __construct(ITraversalState $traversal, RouterInterface $router, $route, $routeParams = array())
 	{
 		// Initialize attributes
-		$this->parent      = $state;
+		$this->parent      = $traversal;
 		$this->router      = $router;
 		$this->route       = $route;
 		$this->routeParams = $routeParams;

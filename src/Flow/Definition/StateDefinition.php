@@ -13,46 +13,45 @@
  * $Copyrights$
  *
  ****/
-// <Namespace>
+// @namespace
 namespace Rock\Component\Flow\Definition;
+// @extend
+
+// @use Call
+use Rock\Component\Configuration\Definition\Call;
 
 /**
  *
  */
-class StateDefinition extends BaseDefinition
-  implements
-    IStateDefinition
+class StateDefinition extends FlowComponentDefinition
 {
 	/**
 	 *
 	 */
-	public function __construct()
+	public function __construct($id)
 	{
-		parent::__construct();
+		parent::__construct($id);
 		$this->class = 'Rock\\Component\\Flow\\Graph\\State\\State';
 	}
 
-	/**
-	 *
-	 */
-	public function addNext($name)
+	public function getArguments()
 	{
-		// Add State Definition
-		$newState = new StateDefinition($name);
-		$this->getContainer()->addDefinition($newState);
-
-		// Add Edge Definition
-		$newEdge  = new EdgeDefinition($this, $newState);
-		$this->getContainer()->addDefinition($newEdge);
-
-		return $this;
+		return array(
+			$this->getGraph()->getReference(), 
+			$this->hasAttribute('name') ? $this->getAttribute('name') : $this->getId(), 
+			$this->hasAttribute('handler') ? $this->getAttribute('handler') : null
+		);
 	}
 
-	/**
-	 *
-	 */
-	public function end()
+	public function setGraph(GraphDefinition $graph)
 	{
-		return $this->parent;
+		parent::setGraph($graph);
+
+		$graph->addCall(
+			new Call(
+				'addVertex',
+				array($this->getReference())
+			)
+		);
 	}
 }

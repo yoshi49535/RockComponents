@@ -20,19 +20,19 @@
 namespace Rock\Component\Flow\State;
 
 // <BaseClass>
-use Rock\Component\Flow\State\FlowState;
+use Rock\Component\Flow\State\TraversalState;
 // <Use>
 use Rock\Component\Flow\GraphFlow;
 use Rock\Component\Container\Graph\Path\IPath as IGraphPath;
 use Rock\Component\Container\Graph\Vertex\IVertex;
 
 /**
- * GraphFlowState is an extended Class of FlowState.
+ * GraphTraversalState is an extended Class of TraversalState.
  * This class hold current state in Automaton,
  * the total path to current state,
  * and so on.
  */
-class GraphFlowState extends FlowState
+class GraphTraversalState extends TraversalState
 {
 	/**
 	 * The trail from start point to current

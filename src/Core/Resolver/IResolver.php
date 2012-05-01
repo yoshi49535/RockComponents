@@ -13,9 +13,16 @@
  * $Copyrights$
  *
  ****/
-namespace Rock\Component\Http\Flow\Builder;
+// @namespace
+namespace Rock\Component\Core\Resolver;
 
-interface IHttpFlowBuilder
+/** 
+ *
+ */
+interface IResolver
 {
-	public function getSessionManager();
+	/** 
+	 * @param mixin 
+	 */
+	function resolve($value);
 }

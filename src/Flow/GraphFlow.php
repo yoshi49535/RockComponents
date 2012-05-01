@@ -21,8 +21,8 @@
 namespace Rock\Component\Flow;
 
 // <Use> : Flow Component
-use Rock\Component\Flow\State\IFlowState;
-use Rock\Component\Flow\State\GraphFlowState;
+use Rock\Component\Flow\Traversal\ITraversalState;
+use Rock\Component\Flow\Traversal\GraphTraversalState;
 use Rock\Component\Flow\Input\IInput;
 use Rock\Component\Flow\Input\Input;
 use Rock\Component\Flow\Output\GraphOutput;
@@ -33,7 +33,7 @@ use Rock\Component\Flow\Graph\State\State;
 
 // <Use> : Exceptions
 use Rock\Component\Flow\Exception\InitializeException;
-use Rock\Component\Flow\Exception\FlowStateException;
+use Rock\Component\Flow\Exception\TraversalStateException;
 
 /**
  * Class GraphFlow is to use Graph Logic for Flow Implementation.
@@ -41,6 +41,8 @@ use Rock\Component\Flow\Exception\FlowStateException;
  *
  */
 class GraphFlow extends Flow
+  implements
+    \Countable
 {
     /**
      * @var Rock\Component\Flow\Graph\IFlowGraph
@@ -58,9 +60,9 @@ class GraphFlow extends Flow
 
 	///**
 	// */
-	//public function dispatchState($state)
+	//public function dispatchState($traversal)
 	//{
-	//	$name  = $state->getName();
+	//	$name  = $traversal->getName();
 
 	//	$event = $this->dispatcher->top();
 	//	if($event instanceof IFlowEvent)
@@ -73,16 +75,16 @@ class GraphFlow extends Flow
 	/**
 	 *
 	 */
-	protected function doHandleInput(IFlowState $state)
+	protected function doHandleInput(ITraversalState $traversal)
 	{
-		$trail     = $state->getTrail();
+		$trail     = $traversal->getTrail();
 		if(!$trail)
 		{
 		  throw new InitializeException('Failed to initialize Flow.');
 		}
 		$newTrail = null;
 
-		// push next state into path
+		// push next traversal into path
 		if(count($trail) > 0)
 		    $current = $trail->last()->current();
 		else
@@ -96,14 +98,14 @@ class GraphFlow extends Flow
 		//
 		$graph   = $this->getPath();
 
-		// Forward automaton state
-		$newTrail = $graph->handle($state->getInput(), $current);
-		$state->getOutput()->setTrail($newTrail);
+		// Forward automaton traversal
+		$newTrail = $graph->handle($traversal->getInput(), $current);
+		$traversal->getOutput()->setTrail($newTrail);
 
 		// 
-		$this->doHandleState($state);
+		$this->doHandleState($traversal);
 
-		// first component of trail is the current state, thus ignore
+		// first component of trail is the current traversal, thus ignore
 		$trails = $newTrail->getTrail();
 		if($trails)
 		{
@@ -114,12 +116,12 @@ class GraphFlow extends Flow
 		}
 	}
 
-	protected function doHandleState(IFlowState $state)
+	protected function doHandleState(ITraversalState $traversal)
 	{
-		$trail  = $state->getOutput()->getTrail();
+		$trail  = $traversal->getOutput()->getTrail();
 		if($trail && (count($trail) > 0))
 		{
-			$trail->last()->current()->handle($state->getInput());
+			$trail->last()->current()->handle($traversal->getInput());
 		}
 	}
 
@@ -127,9 +129,9 @@ class GraphFlow extends Flow
 	/**
 	 *
 	 */
-	public function createFlowState()
+	public function createTraversalState()
 	{
-		return new GraphFlowState($this);
+		return new GraphTraversalState($this);
 	}
 
 	/*
@@ -157,5 +159,13 @@ class GraphFlow extends Flow
 	protected function createOutput()
 	{
 		return new GraphOutput();
+	}
+
+	/**
+	 *
+	 */
+	public function count()
+	{
+		return $this->getPath()->countVertices();
 	}
 }

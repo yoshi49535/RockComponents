@@ -53,4 +53,19 @@ class ContainerTest extends BaseTestCase
 		// 
 		return $definition;
 	}
+
+	public function testAlias()
+	{
+		$container  = new Container();
+		$definition  = $this->createDefinition();
+		$definition->setAttribute('alias', 'foo');
+
+		$container->addDefinition($definition);
+
+
+		$instance = $container->getByAlias('foo');
+
+		$this->assertTrue(!is_null($instance), 'assert not NULL');
+		$this->assertTrue($instance instanceof FooComponent, 'assert instanceof FooComponent');
+	}
 }

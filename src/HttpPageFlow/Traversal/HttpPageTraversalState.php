@@ -18,12 +18,12 @@
  *
  ************************************************************************************/
 
-namespace Rock\Component\Http\Flow\State;
+namespace Rock\Component\Http\Flow\Traversal;
 
 // <BaseClass>
-use Rock\Component\Flow\State\GraphFlowState as BaseState;
+use Rock\Component\Flow\Traversal\GraphTraversalState as BaseTraversal;
 // <Interface>
-use Rock\Component\Http\Flow\State\IPageFlowState;
+use Rock\Component\Http\Flow\Traversal\IHttpPageTraversalState;
 // <Use>
 use Rock\Component\Flow\GraphFlow;
 use Rock\Component\Http\Flow\Session\ISession;
@@ -34,9 +34,9 @@ use Rock\Component\Container\Graph\Path\IPath as IGraphPath;
 /**
  *
  */
-class PageFlowState extends BaseState
+class HttpPageTraversalState extends BaseTraversal
   implements
-    IPageFlowState
+    IHttpPageTraversalState
 {
 	protected $session;
 

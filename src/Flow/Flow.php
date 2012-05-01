@@ -23,14 +23,14 @@ namespace Rock\Component\Flow;
 use Rock\Component\Flow\IFlow;
 
 // <Use> : Flow Component
-use Rock\Component\Flow\State\IFlowState;
-use Rock\Component\Flow\State\FlowState;
+use Rock\Component\Flow\Traversal\ITraversalState;
+use Rock\Component\Flow\Traversal\TraversalState;
 use Rock\Component\Flow\Input\IInput;
 use Rock\Component\Flow\Output\Output;
 use Rock\Component\Flow\Path\IPath;
 
 // <Use> : Exceptions
-use Rock\Component\Flow\Exception\FlowStateException;
+use Rock\Component\Flow\Exception\TraversalStateException;
 use Rock\Component\Flow\Exception\InitializeException;
 
 /**
@@ -48,13 +48,12 @@ abstract class Flow
 	 */
 	protected $path;
 
-
 	/**
 	 *
 	 */
 	public function __construct()
 	{
-		$this->path  = null;
+		$this->path      = null;
 	}
 
 
@@ -62,7 +61,7 @@ abstract class Flow
 	 * doInit
 	 * 
 	 */
-	protected function doInit(IFlowState $state)
+	protected function doInit(ITraversalState $traversal)
 	{
 	}
 	/**
@@ -77,75 +76,75 @@ abstract class Flow
 	 * doShutdown
 	 * 
 	 */
-	protected function doShutdown(IFlowState $state)
+	protected function doShutdown(ITraversalState $traversal)
 	{
 	}
 	/**
-	 * doInitState
+	 * doInitTraversal
 	 * 
 	 */
-	protected function doInitState(IFlowState $state)
+	protected function doInitTraversal(ITraversalState $traversal)
 	{
 	}
 	/**
-	 * doRecoverState
+	 * doRecoverTraversal
 	 * 
 	 */
-	protected function doRecoverState(IFlowState $state)
+	protected function doRecoverTraversal(ITraversalState $traversal)
 	{
 	}
 
-	abstract protected function doHandleInput(IFlowState $state);
+	abstract protected function doHandleInput(ITraversalState $traversal);
 
 	/**
-	 * Create new State
+	 * Create new Traversal
 	 */
-	public function createFlowState()
+	public function createTraversalState()
 	{
-		return new FlowState($this);
+		return new TraversalState($this);
 	}
 	/** 
 	 * handle
 	 *   Handle the Flow Request.
 	 *   This is the time to construct, recover, and execute the Flow.
-	 *   On the first step, the flow construct the states.
-	 *   On the second step, the flow recover the state from the IFlowState
-	 *   Then, on third, flow modify the state for Input.
+	 *   On the first step, the flow construct the traversals.
+	 *   On the second step, the flow recover the traversal from the ITraversalState
+	 *   Then, on third, flow modify the traversal for Input.
 	 */
-	public function handle(IInput $input, IFlowState $state = null)
+	public function handle(IInput $input, ITraversalState $traversal = null)
 	{
 		try
 		{
-			if(!$state)
+			if(!$traversal)
 			{
-				$state  = $this->createFlowState();
+				$traversal  = $this->createTraversalState();
 			}
-			$state->setInput($input);
+			$traversal->setInput($input);
 
 			// Initailzie Flow
-			$this->doInit($state);
+			$this->doInit($traversal);
 
 			try
 			{
-				// try recover the state from $state
-				$this->doRecoverState($state);
+				// try recover the traversal from $traversal
+				$this->doRecoverTraversal($traversal);
 			}
-			catch(FlowStateException $ex)
+			catch(TraversalStateException $ex)
 			{
-				// Failed to recover $state
+				// Failed to recover $traversal
 			    // Initialize step
-			    $this->doInitState($state);
+			    $this->doInitTraversal($traversal);
 			}
 
 			// Create Output
 			$output   = $this->createOutput();
-			$state->setOutput($output);
+			$traversal->setOutput($output);
 
 			// handle input 
-			$this->doHandleInput($state);
+			$this->doHandleInput($traversal);
 
 			// Shutdown Flow
-			$this->doShutdown($state);
+			$this->doShutdown($traversal);
 		}
 		catch(Exception $ex)
 		{
@@ -182,8 +181,8 @@ abstract class Flow
 		return $this->path;
 	}
 
-	public function reset(IFlowState $state)
+	public function reset(ITraversalState $traversal)
 	{
-
+		
 	}
 }

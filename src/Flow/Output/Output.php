@@ -25,7 +25,7 @@ use Rock\Component\Flow\Output\IOutput;
 
 // <Use> : Flow Component
 use Rock\Component\Flow\Input\IInput;
-use Rock\Component\Flow\State\IFlowState;
+use Rock\Component\Flow\Traversal\ITraversalState;
 // <Use> : ParameterBag
 use Rock\Component\Flow\Util\ParameterBag;
 
@@ -41,7 +41,7 @@ class Output
 	/**
 	 *
 	 */
-	protected $state;
+	protected $traversal;
 	/**
 	 *
 	 */
@@ -53,7 +53,7 @@ class Output
 	public function __construct($params = array())
 	{
 		$this->params = new ParameterBag($params);
-		$this->state  = null;
+		$this->traversal  = null;
 	}
 
 	
@@ -70,17 +70,17 @@ class Output
 	 */
 	public function getState()
 	{
-		if(!$this->state)
+		if(!$this->traversal)
 			throw new \Exception('State is not initialized, yet.');
-		return $this->state;
+		return $this->traversal;
 	}
 
 	/**
 	 *
 	 */
-	public function setState(IFlowState $state)
+	public function setTraversal(ITraversalState $traversal)
 	{
-		$this->state  = $state;
+		$this->traversal  = $traversal;
 	}
 
 	// IParameterBag Impl

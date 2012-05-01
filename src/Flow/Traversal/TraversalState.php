@@ -29,7 +29,7 @@ use Rock\Component\Flow\Output\IOutput;
 /**
  * State class is a FlowAccessor or Proxy, which provide concealed-access-methods for current Flow State.
  */
-abstract class FlowState implements IFlowState
+abstract class TraversalState implements ITraversalState
 {
 	/**
 	 * @var IFlow

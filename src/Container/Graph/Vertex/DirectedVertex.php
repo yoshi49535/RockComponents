@@ -30,7 +30,7 @@ class DirectedVertex extends Vertex
 	public function addNext(IVertex $vertex)
 	{
 		$this->getGraph()->addVertex($vertex);
-		$this->getGraph()->addEdge($this, $vertex);
+		$this->getGraph()->addEdgeBetween($this, $vertex);
 
 		return $vertex;
 	}

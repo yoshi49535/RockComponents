@@ -15,26 +15,13 @@
  ****/
 namespace Rock\Component\Flow\Type;
 
-// <Use> : Factory
-use Rock\Component\Flow\Factory\IFactory;
 
 /**
  *
  */
 interface IType
 {
-	/**
-	 *
-	 */
-	public function isSupport($type);
+	function addState($name, $callback);
 
-	/** 
-	 *
-	 */
-	public function getFlowTemplates();
-
-	/**
-	 *
-	 */
-	public function getBuilderClass();
+	function addCondition($callback);
 }

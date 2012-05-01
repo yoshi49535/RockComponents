@@ -18,9 +18,37 @@
  *
  ************************************************************************************/
 
-namespace Rock\Component\Flow\Exception;
-use Rock\Component\Flow\Exception\Exception;
+namespace Rock\Component\Flow\State;
 
-class FlowStateException extends Exception
+interface ITraversalState
 {
+	/**
+	 * @return bool Has next on flow or not
+	 */
+	public function hasPrev();
+
+	/**
+	 * @return string Return the URL for prev on flow
+	 */
+	public function getPrev();
+
+	/**
+	 * @return bool Has prev on flow or not
+	 */
+	public function hasNext();
+
+	/**
+	 * @return string Return the URL for next on flow
+	 */
+	public function getNext();
+
+	/**
+	 * @return string Return the URL for current on flow
+	 */
+	public function getCurrent();
+
+	/**
+	 *
+	 */
+	public function isHandled();
 }

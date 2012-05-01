@@ -13,20 +13,26 @@
  * $Copyrights$
  *
  ****/
+// @namespace
+namespace Rock\Component\Flow\Definition;
+// @use Base Definition 
+use Rock\Component\Configuration\Definition\Container;
+use Rock\Component\Configuration\Definition\Definition;
+// @use Builder
+use Rock\Component\Flow\Builder\Builder as FlowBuilder;
 
-class FlowDefinitionContainer extends Container
+/**
+ *
+ */
+class FlowContainer extends Container
 {
-	public function init()
-	{
-		if(!$this->builder)
-			$this->builder  = new FlowBuilder();
-	}
-	public function addDefinition(IDefinition $definition)
-	{
-		if($definition instanceof FlowDefinition)
-		{
-			$this->definitions[$definition->id]  = $definition;
-		}
-	}
-
+	/**
+	 *
+	 */
+	//public function getComponentBuilder()
+	//{
+	//	if(!$this->builder)
+	//		$this->builder  = new FlowBuilder($this);
+	//	return $this->builder;
+	//}
 }
