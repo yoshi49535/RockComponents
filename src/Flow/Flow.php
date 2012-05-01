@@ -92,6 +92,7 @@ abstract class Flow
 	 */
 	protected function doRecoverTraversal(ITraversalState $traversal)
 	{
+
 	}
 
 	abstract protected function doHandleInput(ITraversalState $traversal);

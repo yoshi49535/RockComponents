@@ -36,7 +36,6 @@ class ContainerTest extends BaseTestCase
 		$definition = new FlowDefinition('flow');
 		$container->addDefinition($definition);
 
-		printf("Container : %s\n", get_class($definition->getContainer()));
 		// 
 		$state      = new StateDefinition('flow.step.first');
 		$definition->addStateDefinition($state);
@@ -56,12 +55,8 @@ class ContainerTest extends BaseTestCase
 		$this->assertTrue($graph->countEdges() === 1, sprintf('Count is not 1[%d]', $flow->count()));
 
 		$edges   = $graph->getEdges();
-		foreach($edges as $edge)
-		{
-			printf("Edge : %s\n", $edge);
-		}
 
-
+		
 	}
 }
 

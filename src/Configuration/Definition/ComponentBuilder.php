@@ -84,11 +84,11 @@ class ComponentBuilder
 		$container  = $this->getContainer();
 		$definition = $container->getDefinition($id);
 		
-		$container->enterScope($id);
 
 		$instance   = $this->createInstanceFromDefinition($definition);
 		$container->set($id, $instance);
 
+		$container->enterScope($id);
 		// Get Calls and call as initialization
 		$calls   = $definition->getCalls();
 		if($calls && is_array($calls))

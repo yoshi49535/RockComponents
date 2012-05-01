@@ -29,8 +29,10 @@ class Container
   implements
     IContainer
 {
-	const SCOPE_SINGLETON  = '_singleton';
-	const SCOPE_CURRENT    = '_current';
+	const SCOPE_COMPONENT_ROOT = '_component';
+
+	const SCOPE_SINGLETON      = '_singleton';
+	const SCOPE_CURRENT        = '_current';
 	/**
 	 * @var
 	 */
@@ -149,6 +151,14 @@ class Container
 		// 
 		if(array_key_exists($id, $this->definitions))
 		{
+			$bScoped  = false;
+
+			$definition = $this->getDefinition($id);
+			if(($this->countScopes() === 1) && !$definition->isSingleton())
+			{
+				$this->enterScope(self::SCOPE_COMPONENT_ROOT);
+				$bScoped = true;
+			}
 			// Build service from definition
 			$builder  = $this->getComponentBuilder();
 			$instance = $builder->build($id);
@@ -158,13 +168,17 @@ class Container
 			}
 			
 			// Regist component as a singleton
-			if(($definition = $this->getDefinition($id)->hasAttribute('singleton')) && 
-				$definition->getAttribute('singleton'))
+			if($definition->isSingleton())
 			{
 				$this->components[self::SCOPE_SINGLETON][$id] = $instance;
 				//unset($this->definitions[$id]);
 			}
 
+			if($bScoped)
+			{
+				$this->leaveScope();
+				// Leave From SCOPE_COMPONENT_ROOT
+			}
 			return $instance;
 		}
 
@@ -223,6 +237,10 @@ class Container
 		unset($this->components[$scope]);
 	}
 
+	public function countScopes()
+	{
+		return count($this->scopes);
+	}
 	public function getScopes()
 	{
 		return $this->scopes;

@@ -183,4 +183,10 @@ class Definition
 	{
 		return new Reference($this->id);
 	}
+
+	public function isSingleton()
+	{
+		return $this->hasAttribute('singleton') && (bool)$this->getAttribute('singleton');
+	}
+
 }

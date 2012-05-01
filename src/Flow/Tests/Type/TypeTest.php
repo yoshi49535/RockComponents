@@ -60,10 +60,6 @@ class TypeTest extends BaseTestCase
 		$this->assertTrue($graph->countEdges() === 1, sprintf('Count is not 1[%d]', $flow->count()));
 
 		$edges   = $graph->getEdges();
-		foreach($edges as $edge)
-		{
-			printf("Edge : %s\n", $edge);
-		}
 
 
 	}
