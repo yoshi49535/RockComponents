@@ -86,9 +86,14 @@ class ComponentBuilder
 		
 
 		$instance   = $this->createInstanceFromDefinition($definition);
+
+		if($container instanceof IFilterInjectionAware)
+			$container->applyFilters($instance);
+
 		$container->set($id, $instance);
 
 		$container->enterScope($id);
+
 		// Get Calls and call as initialization
 		$calls   = $definition->getCalls();
 		if($calls && is_array($calls))

@@ -95,10 +95,12 @@ class FlowGraph extends FiniteAutomaton
 	 */
 	public function handle(IFlowInput $input = null, IState $begin = null)
 	{
+		//
 		$repeatTime = $input->has(FlowInputParameters::REPEAT_TIME) 
 			? $input->get(FlowInputParameters::REPEAT_TIME) 
 			: FlowInputParameters::REPEAT_TIME_DEFAULT;
 
+		//  
 		if($repeatTime)
 		{
 			for($i = 0; $i < $repeatTime; $i++)
@@ -119,6 +121,8 @@ class FlowGraph extends FiniteAutomaton
 				$begin = $path->last()->current();
 			}
 		}
+
+		//
 		return $path;
 	}
 

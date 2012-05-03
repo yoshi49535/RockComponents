@@ -62,6 +62,7 @@ class Container
 	 */
 	protected $builder;
 
+	protected $filters     = array();
 	/**
 	 *
 	 */

@@ -52,6 +52,9 @@ class Input extends BaseInput
 			$direction = Directions::CURRENT;
 		parent::__construct($direction, $params);
 	}
+	/**
+	 *
+	 */
 	public function getRequestedDirection()
 	{
 		return $this->requestedDirection;

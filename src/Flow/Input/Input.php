@@ -74,7 +74,7 @@ class Input extends AutomatonInput
 	 */
 	public function has($idx)
 	{
-		$this->params->has($idx);
+		return $this->params->has($idx);
 	}
 	/**
 	 *

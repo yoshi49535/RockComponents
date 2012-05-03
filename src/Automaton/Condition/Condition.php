@@ -23,8 +23,8 @@ namespace Rock\Component\Automaton\Condition;
 use Rock\Component\Automaton\Condition\AnyCondition;
 
 // <Use> : Automaton Condition
-use Rock\Component\Automaton\Condition\Validator\Validator as ConditionalValidator;
-use Rock\Component\Automaton\Condition\Validator\IValidator as IConditionalValidator;
+use Rock\Component\Automaton\Condition\Validator\ClosureValidator;
+use Rock\Component\Automaton\Condition\Validator\IValidator;
 
 // <Use> : Automaton Component
 use Rock\Component\Automaton\State\IState;
@@ -33,31 +33,42 @@ use Rock\Component\Automaton\Input\ScalarInput;
 
 class Condition extends AnyCondition
 {
-	protected $condition;
+	protected $validator;
 
 	/**
 	 *
 	 */
-	public function __construct(IState $source, IState $target, $condition = null)
+	public function __construct(IState $source, IState $target, $validator = null)
 	{
 		parent::__construct($source, $target);
 
-		$this->setValidator($condition);
+		$this->setValidator($validator);
 	}
 
 	/**
 	 *
 	 */
-	public function setValidator($condition)
+	public function setValidator($validator)
 	{
 		// For Array Type Callback, and Closure
-		if(is_callable($condition))
+		if($validator)
 		{
-			$this->condition = new ConditionalValidator($condition);
+			switch($validator)
+			{
+			case is_object($validator) && ($validator instanceof ClosureValidator):
+			case is_array($validator) && is_callable($validator):
+				$this->validator = new ClosureValidator($validator);
+				break;
+			case !is_array($validator) && !is_object($validator):
+				$this->validator = new ScalarCompareValidator($validator);
+				break;
+			default:
+				throw new \InvalidArgumentException('Validator is invalid type.');
+			}
 		}
 		else
 		{
-			$this->condition = $condition;
+			$this->validator = null;
 		}
 	}
 
@@ -68,27 +79,27 @@ class Condition extends AnyCondition
 	{
 		$bRet  = null;
 
-		if(is_null($this->condition))
+		if(is_null($this->validator))
 		{
 			$bRet  = parent::isValid($input);
 		}
 		else
 		{
-		    if(is_callable($this->condition))
+		    if(is_callable($this->validator))
 			{
-		    	$bRet  = call_user_func($this->condition, $input);
+		    	$bRet  = call_user_func($this->validator, $input);
 			}
-			else if($this->condition instanceof IConditionValidator)
+			else if($this->validator instanceof IValidator)
 			{
-				$bRet  = $this->condition($input);
+				$bRet  = $this->validator($input);
 			}
 		    else if($input instanceof ScalarInput)
 			{
-		    	$bRet  = ($this->condition == $input->getValue());
+		    	$bRet  = ($this->validator == $input->getValue());
 			}
 			else
 			{
-				throw new \Exception(get_class($this->condition));
+				throw new \Exception('Invalid Input Type is given.');
 			}
 		}
 
@@ -108,7 +119,7 @@ class Condition extends AnyCondition
 		return sprintf(
 		  "Graph Edge[%s]:\n\t[src=%s] -> [trg=%s]",
 		  get_class($this), 
-		  //$this->condition,
+		  //$this->validator,
 		  $this->source, 
 		  $this->target);
 	}

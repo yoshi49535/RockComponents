@@ -22,45 +22,48 @@ namespace Rock\Component\Automaton\Condition\Validator;
 // <Use> : Automaton Component
 use Rock\Component\Automaton\Input\IInput;
 
-class Validator
+/**
+ *
+ */
+class ClosureValidator 
   implements
     IValidator
 {
-	protected $callback;
+	protected $closure;
 	/**
 	 *
 	 */
-	public function __construct($callback)
+	public function __construct($closure)
 	{
-		if(!is_callable($callback))
+		if($closure instanceof Closure)
 		{
-			throw new \InvalidArgumentException(sprintf('Constructor of Validator only accept callable value, but "%s" given.', $callback));
+			$this->closure = $closure;
 		}
-		else if($callback instanceof Closure)
+		else if(is_callable($closure))
 		{
-			$this->callback = $callback;
+			$this->closure = $this->convertToClosure($closure);
 		}
 		else
 		{
-			$this->callback = $this->convertToClosure($callback);
+			throw new \InvalidArgumentException(sprintf('Constructor of Validator only accept callable value, but "%s" given.', $closure));
 		}
 
 
 		// 
-		$reflection = new \ReflectionFunction($this->callback);
+		$reflection = new \ReflectionFunction($this->closure);
 		if($reflection->getNumberOfParameters() !== 1)
 		{
-			throw new \InvalidArgumentException('The API of Validator Callback must only accept one parameter for call.');
+			throw new \InvalidArgumentException('The API of Validator Callback must only accept one parameter[IInput] for call.');
 		}
 
 	}
 	/**
 	 *
 	 */
-	static public function convertToClosure($callback)
+	public function convertToClosure($closure)
 	{
-		return function($cond) use ($callback){
-			return call_user_func($callback, $cond);
+		return function($cond) use ($closure){
+			return call_user_func($closure, $cond);
 		};
 	}
 	/**
@@ -68,7 +71,7 @@ class Validator
 	 */
 	public function __invoke(IInput $input)
 	{
-		return call_user_func($this->callback, $input);
+		return call_user_func($this->closure, $input);
 	}
 
 	/**

@@ -108,8 +108,8 @@ class GraphFlow extends Flow
 			// 
 			$this->doHandleState($traversal);
 
-			// first component of trail is the current traversal, thus ignore
-
+			// first component of trail is the current traversal, 
+			// thus ignore
 			$trail->merge($newTrail);
 			$traversal->getOutput()->success();
 		}

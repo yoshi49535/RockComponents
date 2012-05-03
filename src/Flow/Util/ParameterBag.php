@@ -23,6 +23,14 @@ class ParameterBag
     IParameterBag
 {
 	protected $params  = array();
+
+	public function __construct($values = array())
+	{
+		if(is_array($values))
+			$this->params = $values;
+		else if($values instanceof self)
+			$this->params = $values->all();
+	}
 	/**
 	 *
 	 */
@@ -47,6 +55,17 @@ class ParameterBag
 		return $this->params;
 	}
 	
+	public function merge($values)
+	{
+		if($values instanceof self)
+		{
+			$this->params = array_merge($this->params, $values->all());
+		}
+		else if(is_array($values))
+		{
+			$this->params = array_merge($this->params, $values);
+		}
+	}
 	/**
 	 *
 	 */
