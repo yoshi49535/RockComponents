@@ -93,7 +93,7 @@ class FlowGraph extends FiniteAutomaton
 	 * @param 
 	 * @param  
 	 */
-	public function handle(IFlowInput $input = null, $begin = null)
+	public function handle(IFlowInput $input = null, IState $begin = null)
 	{
 		$repeatTime = $input->has(FlowInputParameters::REPEAT_TIME) 
 			? $input->get(FlowInputParameters::REPEAT_TIME) 
@@ -125,7 +125,7 @@ class FlowGraph extends FiniteAutomaton
 	/**
 	 *
 	 */
-	protected function doUpdateStatePosition(IAutomatonInput $input, $begin)
+	protected function doUpdateStatePosition(IAutomatonInput $input, IState $begin = null)
 	{
 		switch($input->getDirection())
 		{

@@ -29,6 +29,6 @@ class GraphDefinition extends Definition
 	public function __construct($id)
 	{
 		parent::__construct($id);
-		$this->class = 'Rock\\Component\\Flow\\Graph\\FlowGraph';
+		$this->class = '\\Rock\\Component\\Flow\\Graph\\FlowGraph';
 	}
 }

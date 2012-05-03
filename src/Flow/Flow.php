@@ -147,7 +147,7 @@ abstract class Flow
 			// Shutdown Flow
 			$this->doShutdown($traversal);
 		}
-		catch(Exception $ex)
+		catch (\Exception $ex)
 		{
 			// Failed on some
 			throw $ex;

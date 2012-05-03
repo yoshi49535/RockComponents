@@ -17,18 +17,21 @@
 namespace Rock\Component\Http\Flow\Type;
 // @extend
 use Rock\Component\Flow\Type\BaseType as BaseTypeBase;
+// @use Call
+use Rock\Component\Configuration\Definition\Call;
 
 /**
  *
  */
 abstract class BaseType extends BaseTypeBase
 {
+	protected $defaultPageClass;
 	public function __construct($id)
 	{
 		parent::__construct($id);
 		
 		$this->class = '\\Rock\\Component\\Http\\Flow\\PageFlow';
-		$this->defaultStateClass      = '\\Rock\\Component\\Http\\Flow\\Definition\\PageDefinition';
+		$this->defaultPageClass    = '\\Rock\\Component\\Http\\Flow\\Definition\\PageDefinition';
 	}
 
 	// Shortcut functions
@@ -40,6 +43,14 @@ abstract class BaseType extends BaseTypeBase
 	 */
 	public function addPage($name, $callback = null)
 	{
-		return $this->addState($name, $callback);
+		$class       = $this->defaultPageClass;
+		$definition  = new $class($this->generateSubId($name));
+		$definition->setAttribute('name', $name);
+		
+		if($callback)
+			$definition->addCall(new Call('setHandler', array($callback)));
+	
+		$this->addStateDefinition($definition);
+		return $this;
 	}
 }

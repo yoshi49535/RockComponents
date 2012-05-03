@@ -23,7 +23,9 @@ namespace Rock\Component\Container\Graph\Path;
 // <Use>
 use Rock\Component\Container\Graph\IGraph;
 use Rock\Component\Container\Graph\IGraphComponent;
-use Rock\Component\Container\Vector;
+// @use Graph Component Interface
+use Rock\Component\Container\Graph\Edge\IEdge;
+use Rock\Component\Container\Graph\Vertex\IVertex;
 
 class Path
   implements
@@ -64,19 +66,19 @@ class Path
 	 */
 	public function getTrail()
 	{
-		return $this->getComponent();
+		return $this->getComponents();
 	}
 	/**
 	 *
 	 */
-	public function getComponent()
+	public function getComponents()
 	{
 		return $this->components;
 	}
 	/**
 	 *
 	 */
-	public function & getComponentByRef()
+	public function & getComponentsByRef()
 	{
 		return $this->components;
 	}
@@ -86,7 +88,7 @@ class Path
 	public function getVertices()
 	{
 		$vertices   = array();
-		$components = $this->getComponent();
+		$components = $this->getComponents();
 
 		foreach($components as $component)
 		{
@@ -101,7 +103,7 @@ class Path
 	 */
 	public function getEdges()
 	{
-		$components = $this->getComponent();
+		$components = $this->getComponents();
 
 		foreach($components as $component)
 		{
@@ -162,27 +164,37 @@ class Path
 
 	public function merge(IPath $path)
 	{
-		$srcItr  = $path->first();
-		$trgItr  = $this->last();
-		if($srcItr->current() === $trgItr->current())
+		if($path->count() === 0)
 		{
-			$srcItr++;	
-			while($srcItr)
+			// do not merge any
+			return ;
+		}
+		else if($this->count() === 0)
+		{
+			// copy all components from path
+			$this->components  = $path->getComponents();
+		}
+		else
+		{
+			$srcItr  = $path->first();
+			$trgItr  = $this->last();
+
+			if(!$srcItr->valid() || !$trgItr->valid())
 			{
-				if(($srcItr->current() instanceof IEdge) && ($srcItr->current()->getSource() === $trgItr))
+				throw new \Exception('Invalid state iterator');
+			}
+			else if($srcItr->current() === $trgItr->current())
+			{
+				$srcItr->next();
+				while($srcItr->valid())
 				{
 					$this->push($srcItr->current());
+					$srcItr->next();
 				}
-				else if(($srcItr->current() instanceof IVertex) && ($trgItr->current()->getTarget() === $srcItr->current()))
-				{
-					$this->push($srcItr->current());
-				}
-				else
-				{
-					throw new \Exception('Failed to merge');
-				}
-				$srcItr++;
-				$trgItr++;
+			}
+			else
+			{
+				throw new \InvalidArgumentException('The end component of Source and the first component of Target is difference.' );
 			}
 		}
 	}
@@ -227,9 +239,10 @@ class Path
 	public function __toString()
 	{
 		return sprintf(
-			"Graph Path[%s] : \n\t[count=%d]",
+			"Graph Path[%s][count=%d]\n\t%s",
 			get_class($this),
-			$this->count()
+			$this->count(),
+			implode("\n\t", $this->components)
 		);
 	}
 }

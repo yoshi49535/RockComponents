@@ -158,6 +158,22 @@ class Definition
 	/**
 	 *
 	 */
+	public function getAlias()
+	{
+		return $this->getAttribute('alias');
+	}
+
+	/**
+	 *
+	 */
+	public function setAlias($alias)
+	{
+		$this->setAttribute('alias', $alias);
+	}
+
+	/**
+	 *
+	 */
 	public function setArguments(array $arguments)
 	{
 		$this->arguments  = $arguments;

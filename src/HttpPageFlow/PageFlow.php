@@ -66,23 +66,23 @@ class PageFlow extends BaseFlow
 	/**
 	 *
 	 */
-	protected function doRecoverTraversal(ITraversalState $state)
+	protected function doRecoverTraversal(ITraversalState $traversal)
 	{
 		// Get graph trail from session 
-		$trail = $state->getTrail();
+		$trail = $traversal->getTrail();
 
-		if(count($trail->getComponent()) == 0)
+		if(count($trail) === 0)
 		{
 			throw new TraversalStateException('Flow has never forwarded.');
 		}
 
-		// check the request state 
-		if($state->getInput() instanceof IHttpInput)
+		// check the request traversal 
+		if($traversal->getInput() instanceof IHttpInput)
 		{
 			$current = $trail->last()->current();
-			if(!($request = $state->getInput()->getRequestState()) || ($request !== $current->getName()))
+			if(!($request = $traversal->getInput()->getRequestState()) || ($request !== $current->getName()))
 			{
-				$state->reset();
+				$traversal->reset();
 			}
 		}
 	}
@@ -90,73 +90,81 @@ class PageFlow extends BaseFlow
 	/**
 	 *
 	 */
-	protected function doShutdown(ITraversalState $state)
+	protected function doShutdown(ITraversalState $traversal)
 	{
-		parent::doShutdown($state);
+		parent::doShutdown($traversal);
 		
-		if(!$state->isKeepAlive() && !$state->getOutput()->useRedirection())
+		if(!$traversal->isKeepAlive() && !$traversal->getOutput()->needRedirect())
 		{
 			// remove from session
 			$this->getSessionManager()->remove($this->getHash());
 		}
-		$this->getSessionManager()->save();
+
+		// 
+		if($traversal->getOutput()->isSuccess())
+		{
+			$this->getSessionManager()->save();
+		}
 	}
 	/**
 	 *
 	 */
-	protected function doHandleInput(ITraversalState $state)
+	protected function doHandleInput(ITraversalState $traversal)
 	{
-		$trail    = $state->getTrail();
-		if(!$trail)
+		try
 		{
-			throw new InitializeException('Failed to initilize Flow.');
-		}
-
-		$newTrail = null;
-
-		if($trail->count() === 0)
-		{
-			$state->getInput()->setDirection(Directions::NEXT);
-		}
-		//
-		switch($state->getInput()->getDirection())
-		{
-		case Directions::NEXT:
-			parent::doHandleInput($state);
-			break;
-		case Directions::PREV:
-			// pop last state from path,
-			// It is also release edges
-			$trail->pop();
-			while($trail && $trail->last()->current() instanceof IEdge)
+			$trail    = $traversal->getTrail();
+			if(!$trail)
 			{
-				$trail->pop();
+				throw new InitializeException('Failed to initilize Flow.');
 			}
-			// Keey going to current, cause PREV also show the page
-		case Directions::CURRENT:
-		default:
-			// Show current state page
-			$current     = $state->getTrail()->last()->current();
-			// Create Output
-			$graph       = $this->getPath();
-			$newTrail    = $graph->createPath();
-			$newTrail->push($current);
-			$state->getOutput()->setTrail($newTrail);
 
-			$this->doHandleState($state);
-			break;
+			$newTrail = null;
+
+			if($trail->count() === 0)
+			{
+				$traversal->getInput()->setDirection(Directions::NEXT);
+			}
+			//
+			$direction = $traversal->getInput()->getDirection();
+			if(Directions::NEXT === $direction)
+			{
+				do
+				{
+					parent::doHandleInput($traversal);
+				}
+				while($traversal->getOutput()->isSuccess() && !($traversal->getTrail()->last()->current() instanceof IPage));
+			}
+			else if(Directions::PREV === $direction)
+			{
+				// pop last state from path,
+				// It is also release edges
+				do
+				{
+					$trail->pop();
+				}
+				while(($trail->count() > 1) && !($trail->last()->current() instanceof IPage));
+				// Keey going to current, cause PREV also show the page
+			}
+
+			if(Directions::NEXT !== $direction)
+			{
+				// Show current state page
+				$current     = $traversal->getTrail()->last()->current();
+				// Create Output
+				$graph       = $this->getPath();
+				$newTrail    = $graph->createPath();
+				$newTrail->push($current);
+				$traversal->getOutput()->setTrail($newTrail);
+
+				$this->doHandleState($traversal);
+			}
 		}
-	}
-
-	/**
-	 * @override GraphFlow::doHandleState 
-	 * 
-	 */
-	protected function doHandleState(ITraversalState $state)
-	{
-		if(!$state->getOutput()->useRedirection())
+		catch (\Exception $ex)
 		{
-			parent::doHandleState($state);
+			// lnitlaize Output
+			$traversal->getOutput()->fail();
+			throw $ex;
 		}
 	}
 
@@ -223,6 +231,7 @@ class PageFlow extends BaseFlow
 	 */
 	protected function createPage($name, $listener)
 	{
+		throw new \Exception('Not Impl');
 		$page  = new Page($this->getPath(), $name, $listener);
 		$this->getPath()->addState($page);
 
@@ -255,6 +264,6 @@ class PageFlow extends BaseFlow
 	 */
 	protected function createOutput()
 	{
-		return new Output();
+		return new Output($this->getPath()->createPath());
 	}
 }

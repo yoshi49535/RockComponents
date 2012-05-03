@@ -17,19 +17,53 @@
 namespace Rock\Component\Http\Flow\Output;
 // <Base>
 use Rock\Component\Flow\Output\GraphOutput;
+// @use Page Interface
+use Rock\Component\Http\Flow\IPage;
 
 /**
  * 
  */
 class Output extends GraphOutput
 {
-	protected $bUseRedirection = false;
-	public function setUseRedirection($bUse)
+	/**
+	 *
+	 */
+	protected $redirectTo    = null;
+
+	/**
+	 *
+	 */
+	public function isStopRedirect()
 	{
-		$this->bUseRedirection = $bUse;
+		return !$this->isSuccess();
 	}
-	public function useRedirection()
+	/**
+	 *
+	 */
+	public function setRedirectTo(IPage $page)
 	{
-		return $this->bUseRedirection;
+		$this->redirectTo   = $page;
+	}
+
+	/**
+	 *
+	 */
+	public function getRedirectTo()
+	{
+		return $this->needRedirect() ?
+			$this->redirectTo : 
+			null;
+	}
+
+	public function hasRedirectTo()
+	{
+		return !is_null($this->redirectTo);
+	}
+	/**
+	 *
+	 */
+	public function needRedirect()
+	{
+		return ($this->isSuccess() && (!is_null($this->redirectTo)));
 	}
 }

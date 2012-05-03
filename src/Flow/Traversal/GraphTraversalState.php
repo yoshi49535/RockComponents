@@ -126,6 +126,9 @@ class GraphTraversalState extends TraversalState
 		return ((null !== $this->trail) && ($this->trail->count() > 0));
 	}
 
+	/**
+	 *
+	 */
 	public function isKeepAlive()
 	{
 		return !$this->getTrail()->last()->current()->isEndPoint();

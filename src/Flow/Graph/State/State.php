@@ -22,8 +22,6 @@ namespace Rock\Component\Flow\Graph\State;
 
 // <Base>
 use Rock\Component\Automaton\State\NamedState;
-// <Interface>
-use Rock\Component\Flow\IFlowComponent;
 // <Use> : Graph
 use Rock\Component\Container\Graph\IGraph;
 //use Rock\Component\Flow\Graph\Graph as ExecutableGraph;
@@ -34,7 +32,7 @@ use Rock\Component\Flow\Input\IInput;
  */
 class State extends NamedState
   implements 
-    IFlowComponent
+    IState
 {
 	/**
 	 * @var
@@ -136,8 +134,10 @@ class State extends NamedState
 	 */
 	public function handle(IInput $input)
 	{
-		if($this->handler)
-			call_user_func($this->handler, $input);
+		if($this->handler && is_callable($this->handler))
+		{
+			call_user_func_array($this->handler, array($input));
+		}
 	}
 
 	/**

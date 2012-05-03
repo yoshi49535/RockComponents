@@ -129,6 +129,7 @@ class Automaton extends DirectedGraph
 		}
 		else
 		{
+			$path->push($begin);
 			foreach($this->getEdgesFrom($begin) as $edge)
 			{
 				if($edge->isValid($input))
@@ -136,12 +137,7 @@ class Automaton extends DirectedGraph
 					// Push the path
 					$path->push($edge);
 					$path->push($edge->getTarget());
-
 					break;
-				}
-				else
-				{
-					throw new InvalidConditionException(sprintf('Condition is not valid[%s].', $edge));
 				}
 			}
 		}

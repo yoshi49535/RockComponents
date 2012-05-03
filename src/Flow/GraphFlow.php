@@ -29,6 +29,7 @@ use Rock\Component\Flow\Output\GraphOutput;
 
 // <Use> : Graph Component
 use Rock\Component\Flow\Graph\FlowGraph as Graph;
+use Rock\Component\Flow\IFlowComponent;
 use Rock\Component\Flow\Graph\State\State;
 
 // <Use> : Exceptions
@@ -77,51 +78,66 @@ class GraphFlow extends Flow
 	 */
 	protected function doHandleInput(ITraversalState $traversal)
 	{
-		$trail     = $traversal->getTrail();
-		if(!$trail)
+		try
 		{
-		  throw new InitializeException('Failed to initialize Flow.');
-		}
-		$newTrail = null;
-
-		// push next traversal into path
-		if(count($trail) > 0)
-		    $current = $trail->last()->current();
-		else
-			$current = null;
-
-		if($current && $current->isEndPoint())
-		{
-			throw new \Exception('Flow already reached to EndPoint.');
-		}
-
-		//
-		$graph   = $this->getPath();
-
-		// Forward automaton traversal
-		$newTrail = $graph->handle($traversal->getInput(), $current);
-		$traversal->getOutput()->setTrail($newTrail);
-
-		// 
-		$this->doHandleState($traversal);
-
-		// first component of trail is the current traversal, thus ignore
-		$trails = $newTrail->getTrail();
-		if($trails)
-		{
-			foreach($trails as $component)
+			$trail     = $traversal->getTrail();
+			if(!$trail)
 			{
-				$trail->push($component);
+			  throw new InitializeException('Failed to initialize Flow.');
 			}
+			$newTrail = null;
+
+			// push next traversal into path
+			if(count($trail) > 0)
+			    $current = $trail->last()->current();
+			else
+				$current = null;
+
+			if($current && $current->isEndPoint())
+			{
+				throw new \Exception('Flow already reached to EndPoint.');
+			}
+
+			//
+			$graph   = $this->getPath();
+
+			// Forward automaton traversal
+			$newTrail = $graph->handle($traversal->getInput(), $current);
+			$traversal->getOutput()->getTrail()->merge($newTrail);
+
+			// 
+			$this->doHandleState($traversal);
+
+			// first component of trail is the current traversal, thus ignore
+
+			$trail->merge($newTrail);
+			$traversal->getOutput()->success();
+		}
+		catch(\Exception $ex)
+		{
+			$traversal->getOutput()->fail();
+			throw $ex;
 		}
 	}
 
+	/**
+	 *
+	 */
 	protected function doHandleState(ITraversalState $traversal)
 	{
 		$trail  = $traversal->getOutput()->getTrail();
 		if($trail && (count($trail) > 0))
 		{
-			$trail->last()->current()->handle($traversal->getInput());
+			try
+			{
+				$current = $trail->last()->current();
+				if($current instanceof IFlowComponent)
+					$current->handle($traversal->getInput());
+			}
+			catch(\Exception $ex)
+			{
+				throw $ex;
+			}
 		}
 	}
 
@@ -158,7 +174,7 @@ class GraphFlow extends Flow
 	 */
 	protected function createOutput()
 	{
-		return new GraphOutput();
+		return new GraphOutput($this->getPath()->createPath());
 	}
 
 	/**

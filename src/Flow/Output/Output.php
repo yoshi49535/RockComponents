@@ -50,10 +50,15 @@ class Output
 	/**
 	 *
 	 */
+	protected $bSuccess;
+	/**
+	 *
+	 */
 	public function __construct($params = array())
 	{
 		$this->params = new ParameterBag($params);
 		$this->traversal  = null;
+		$this->bSuccess   = true;
 	}
 
 	
@@ -128,5 +133,28 @@ class Output
 	public function __toString()
 	{
 		return sprintf("Flow Output:[Class='%s']", get_class($this));
+	}
+
+	/**
+	 *
+	 */
+	public function isSuccess()
+	{
+		return $this->bSuccess;
+	}
+
+	/**
+	 *
+	 */
+	public function success()
+	{
+		$this->bSuccess = true;
+	}
+	/**
+	 *
+	 */
+	public function fail()
+	{
+		$this->bSuccess = false;
 	}
 }

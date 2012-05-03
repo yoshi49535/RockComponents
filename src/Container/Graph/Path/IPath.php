@@ -30,7 +30,7 @@ interface IPath
 	/**
 	 *
 	 */
-	public function getComponent();
+	public function getComponents();
 
 	/**
 	 *

@@ -31,7 +31,7 @@ class StateDefinition extends FlowComponentDefinition
 	public function __construct($id)
 	{
 		parent::__construct($id);
-		$this->class = 'Rock\\Component\\Flow\\Graph\\State\\State';
+		$this->class = '\\Rock\\Component\\Flow\\Graph\\State\\State';
 	}
 
 	public function getArguments()
