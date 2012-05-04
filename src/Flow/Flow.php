@@ -95,6 +95,9 @@ abstract class Flow
 
 	}
 
+	/**
+	 *
+	 */
 	abstract protected function doHandleInput(ITraversalState $traversal);
 
 	/**
@@ -104,6 +107,7 @@ abstract class Flow
 	{
 		return new TraversalState($this);
 	}
+
 	/** 
 	 * handle
 	 *   Handle the Flow Request.
@@ -156,15 +160,22 @@ abstract class Flow
 		return $output;
 	}
 
+	/**
+	 *
+	 */
 	protected function createOutput()
 	{
 		return new Output();
 	}
 
+	/**
+	 *
+	 */
 	public function setPath(IPath $path)
 	{
 		$this->path  = $path;
 	}
+
 	/**
 	 *
 	 */
@@ -182,6 +193,9 @@ abstract class Flow
 		return $this->path;
 	}
 
+	/**
+	 *
+	 */
 	public function reset(ITraversalState $traversal)
 	{
 		

@@ -34,6 +34,9 @@ class StateDefinition extends FlowComponentDefinition
 		$this->class = '\\Rock\\Component\\Flow\\Graph\\State\\State';
 	}
 
+	/**
+	 *
+	 */
 	public function getArguments()
 	{
 		return array(
@@ -43,6 +46,9 @@ class StateDefinition extends FlowComponentDefinition
 		);
 	}
 
+	/**
+	 *
+	 */
 	public function setGraph(GraphDefinition $graph)
 	{
 		parent::setGraph($graph);

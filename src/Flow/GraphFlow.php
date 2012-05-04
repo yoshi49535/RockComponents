@@ -150,25 +150,6 @@ class GraphFlow extends Flow
 		return new GraphTraversalState($this);
 	}
 
-	/*
-	 *
-	 */
-	public function setEntryPoint($name, $listener = null)
-	{
-		// Path As Graph
-		$graph   = $this->getPath();
-		if($graph->hasRoot())
-		{
-			throw new \Exception('EntryPoint already exists.');
-		}
-
-		$vertex  = new State($graph, $name, $listener);
-		$vertex->isEntryPoint(true);
-		$graph->addVertex($vertex);
-
-		return $vertex;
-	}
-
 	/**
 	 *
 	 */

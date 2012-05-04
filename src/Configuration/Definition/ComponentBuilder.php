@@ -67,6 +67,9 @@ class ComponentBuilder
 		return $this->container;
 	}
 
+	/**
+	 *
+	 */
 	protected function initResolver()
 	{
 		//

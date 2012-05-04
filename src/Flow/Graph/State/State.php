@@ -59,68 +59,10 @@ class State extends NamedState
 			throw new \Exception('IFlowComponent holder has to be an IFlowPath');
 		return $graph->getFlow();
 	}
-	/**
-	 * Shortcut function for method-chain
-	 */
-	public function addNext($name, $listener = null)
-	{
-		$graph    = $this->getGraph();
-
-		$class    = get_class($this);
-		$newState = new $class($graph, $name, $listener);
-
-		$graph->addVertex($newState);
-
-		// Connect from THIS to NEW
-		$graph->addEdgeBetween($this, $newState);
-
-		return $newState;
-	}
-
-	
-	/**
-	 *
-	 */
-	public function addPreValidator($callable)
-	{
-		// Get the 
-		$graph  = $this->getGraph();
-		//
-		$edges  = $graph->getEdgesTo($this);
-		
-		// Insert Callable Validator 
-		if($edges && is_array($edges))
-			foreach($edges as $edge)
-				$edge->setValidator($callable);
-		return $this;
-	}
 
 	/**
 	 *
 	 */
-	public function addPostValidator($callable)
-	{
-		// Get the 
-		$graph  = $this->getGraph();
-		//
-		$edges  = $graph->getEdgesFrom($this);
-		
-		// Insert Callable Validator 
-		if($edges && is_array($edges))
-			foreach($edges as $edge)
-				$edge->setValidator($callable);
-
-		return $this;
-	}
-
-	/**
-	 *
-	 */
-	public function end()
-	{
-		$this->isEndPoint(true);
-	}
-
 	public function setHandler($callable = null)
 	{
 		if($callable&& !is_callable($callable))
@@ -129,6 +71,7 @@ class State extends NamedState
 		}
 		$this->handler = $callable;
 	}
+
 	/**
 	 *
 	 */
@@ -148,12 +91,4 @@ class State extends NamedState
 		return sprintf('Graph Vertex[%s][name=%s] on %s', get_class($this), $this->getName(), $this->getGraph());
 	}
 
-
-	/**
-	 * @override Rock\Component\Automaton\State\State
-	 */
-	public function isEndPoint()
-	{
-		return (0 === $this->getGraph()->getOutDegreeOf($this));
-	}
 }

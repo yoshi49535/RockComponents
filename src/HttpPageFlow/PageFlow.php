@@ -231,41 +231,6 @@ class PageFlow extends BaseFlow
 	/**
 	 *
 	 */
-	protected function createPage($name, $listener)
-	{
-		throw new \Exception('Not Impl');
-		$page  = new Page($this->getPath(), $name, $listener);
-		$this->getPath()->addState($page);
-
-		return $page;
-	}
-
-	/**
-	 *
-	 */
-	public function setEntryPage($name, $listener = null)
-	{
-		if($this->getPath()->hasRoot())
-		{
-			throw new \Exception('EntryPoint already exists.');
-		}
-		$page   = $this->createPage($name, $listener);
-		$page->isEntryPoint(true);
-
-		return $page;
-	}
-
-	/**
-	 * 
-	 */
-	public function setEntryPoint($name, $listener = null)
-	{
-		return $this->setEntryPage($name, $listener);
-	}
-
-	/**
-	 *
-	 */
 	protected function createOutput()
 	{
 		return new Output($this->getPath()->createPath());

@@ -25,7 +25,6 @@ class State extends Vertex
   implements
     IState
 {
-	protected $isEndPoint;
 	protected $isEntryPoint;
 
 	/**
@@ -33,11 +32,7 @@ class State extends Vertex
 	 */
 	public function isEndPoint($isEndPoint = null)
 	{
-		if(null !== $isEndPoint)
-		{
-			$this->isEndPoint  = (bool)$isEndPoint;
-		}
-		return $this->isEndPoint;
+		return (0 === $this->getGraph()->getOutDegreeOf($this));
 	}
 	/**
 	 *
