@@ -92,4 +92,13 @@ class HttpPageTraversalState extends BaseTraversal
 	{
 		return !$this->getCurrent()->isEntryPoint() && !$this->getCurrent()->isEndPoint();
 	}
+
+	public function reset()
+	{
+		parent::reset();
+		$this->getSession()->replace(array('flow_hash' => $this->getSession()->get('flow_hash')));
+
+		// Force save
+		$this->getFlow()->getSessionManager()->save();
+	}
 }

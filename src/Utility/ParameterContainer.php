@@ -111,5 +111,27 @@ class ParameterContainer
 	{
 		return json_encode($this->params);
 	}
+
+	public function removeAll()
+	{
+		$this->params = array();
+	}
+
+	public function all()
+	{
+		return $this->params;
+	}
+	public function replace($replace)
+	{
+		if($replace instanceof ParameterContainer)
+		{
+			$this->params = $replace->all();
+		}
+		else if(is_array($replace))
+		{
+			$this->params = $replace;
+		}
+	}
+
 }
 
