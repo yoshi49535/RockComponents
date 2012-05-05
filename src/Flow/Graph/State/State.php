@@ -25,6 +25,9 @@ use Rock\Component\Container\Graph\IGraph;
 //use Rock\Component\Flow\Graph\Graph as ExecutableGraph;
 // <Use> : Flow IO
 use Rock\Component\Flow\Input\IInput;
+// @use State Delegator Interface
+use Rock\Component\Flow\Delegate\IStateDelegate;
+
 /**
  *
  */
@@ -77,7 +80,7 @@ class State extends NamedState
 	{
 		if($this->handler)
 		{
-			if($this->handler instanceof IFlowStateDelegator)
+			if($this->handler instanceof IStateDelegate)
 			{
 				$this->handler->delegate($this, $input);
 			}

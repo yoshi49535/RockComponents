@@ -16,8 +16,17 @@
 // @namespace
 namespace Rock\Component\Flow\Delegate;
 
+/**
+ *
+ */
 interface IStateDelegate
 {
+	/**
+	 *
+	 */
 	function getInvoker();
+	/**
+	 *
+	 */
 	function delegate($invoker);
 }

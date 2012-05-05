@@ -23,21 +23,36 @@ class AbstractStateDelegator
   implements
     IStateDelegate
 {
+	/**
+	 *
+	 */
 	protected $invoker = null;
+	/**
+	 * @return object Current Invoker
+	 */
 	public function getInvoker()
 	{
 		return $this->invoker;
 	}
+	/**
+	 * @param object Set current Invoker
+	 */
 	protected function setInvoker($invoker)
 	{
 		$this->invoker  = $invoker;
 	}
+	/**
+	 * Reset invoker as set null
+	 */
 	protected function resetInvoker()
 	{
 		$this->invoker  = null;
 	}
 
-
+	/**
+	 * @param object Invoker object
+	 * @return mixin Return value of extend codes
+	 */
 	public function delegate($invoker)
 	{
 		$args  = func_get_arg();
@@ -53,5 +68,8 @@ class AbstractStateDelegator
 		return $ret;
 	}
 
+	/**
+	 * @abstract
+	 */
 	abstract protected function doDelegate();
 }
