@@ -91,6 +91,9 @@ class ParameterBag
 		return isset($this->params[$idx]);
 	}
 
+	/**
+	 *
+	 */
 	public function __toString()
 	{
 		return sprintf(

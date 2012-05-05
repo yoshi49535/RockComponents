@@ -30,9 +30,11 @@ use Rock\Component\Flow\Graph\FlowGraph as Graph;
 use Rock\Component\Flow\IFlowComponent;
 use Rock\Component\Flow\Graph\State\State;
 
-// <Use> : Exceptions
+// @use Exceptions
 use Rock\Component\Flow\Exception\InitializeException;
 use Rock\Component\Flow\Exception\TraversalStateException;
+// @use Deleggate Interface
+use Rock\Component\Flow\Delegate\IStateDelegate;
 
 /**
  * Class GraphFlow is to use Graph Logic for Flow Implementation.
@@ -161,5 +163,16 @@ class GraphFlow extends Flow
 	public function count()
 	{
 		return $this->getPath()->countVertices();
+	}
+	/**
+	 *
+	 */
+	public function setStateDelegator($name, IStateDelegate $delegator)
+	{
+		$vertex = $this->getPath()->getVertexByName($name);
+		if($vertex)
+		{
+			$vertex->setHandler($delegator);
+		}
 	}
 }

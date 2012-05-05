@@ -77,8 +77,6 @@ class InterfaceAwareInjectionFilter extends AbstractFilter
 	 */
 	public function getInjection()
 	{
-		if(!is_object($this->inject))
-			throw new \Exception('Injection Source Object has to be an Object.');
 		return $this->inject;
 	}
 

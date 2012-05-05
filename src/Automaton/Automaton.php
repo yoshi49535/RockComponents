@@ -165,4 +165,23 @@ class Automaton extends DirectedGraph
 		}
 		parent::addVertex($vertex);
 	}
+
+	/**
+	 *
+	 */
+	public function getVertexByName($name)
+	{
+		$ret  = null;
+		//
+		foreach($this->getVertices() as $vertex)
+		{
+			if($name === $vertex->getName())
+			{
+				$ret = $vertex;
+				break;
+			}
+		}
+
+		return $ret;
+	}
 }

@@ -30,6 +30,8 @@ use Rock\Component\Flow\Path\IPath;
 // <Use> : Exceptions
 use Rock\Component\Flow\Exception\TraversalStateException;
 use Rock\Component\Flow\Exception\InitializeException;
+// @use Deleggate Interface
+use Rock\Component\Flow\Delegate\IStateDelegate;
 
 /**
  * Class "Flow" is the abstract base class of Flow Strategy.
@@ -196,5 +198,10 @@ abstract class Flow
 	public function reset(ITraversalState $traversal)
 	{
 		
+	}
+
+	public function setStateDelegator($name, IStateDelegate $delegator)
+	{
+		throw new \Exception('Not Supported');
 	}
 }

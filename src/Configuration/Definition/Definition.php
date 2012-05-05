@@ -54,6 +54,9 @@ class Definition
 		$this->id          = $id;
 		$this->attributes  = $attributes;
 		$this->arguments   = array();
+
+		if(array_key_exists('class', $attributes))
+			$this->class = $attributes['class'];
 	}
 
 	/**

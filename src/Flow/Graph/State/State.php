@@ -27,6 +27,8 @@ use Rock\Component\Container\Graph\IGraph;
 use Rock\Component\Flow\Input\IInput;
 // @use State Delegator Interface
 use Rock\Component\Flow\Delegate\IStateDelegate;
+// @use FlowPath Interface
+use Rock\Component\Flow\Path\IPath as IFlowPath;
 
 /**
  *
@@ -43,12 +45,12 @@ class State extends NamedState
 	/**
 	 *
 	 */
-	public function __construct(IGraph $graph, $name, $callable = null)
+	public function __construct(IGraph $graph, $name, $handler = null)
 	{
 		parent::__construct($graph, $name);
 		
-		if($callable)
-			$this->setHandler($callable);
+		if($handler)
+			$this->setHandler($handler);
 	}
 
 	/**
@@ -64,13 +66,16 @@ class State extends NamedState
 	/**
 	 *
 	 */
-	public function setHandler($callable = null)
+	public function setHandler($handler = null)
 	{
-		if($callable&& !is_callable($callable))
+		if($handler)
 		{
-			throw new \InvalidArgumentException('Listener has to be a callable or null.');
+			if(!($handler instanceof IStateDelegate) && !is_callable($handler))
+			{
+				throw new \InvalidArgumentException('Listener has to be a handler or null.');
+			}
 		}
-		$this->handler = $callable;
+		$this->handler = $handler;
 	}
 
 	/**

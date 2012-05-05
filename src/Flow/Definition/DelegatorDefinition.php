@@ -14,20 +14,10 @@
  *
  ****/
 // @namespace
-namespace Rock\Component\Flow\Delegate;
+namespace Rock\Component\Flow\Definition;
+// @extends 
+use Rock\Component\Configuration\Definition\Definition;
 
-/**
- *
- */
-interface IStateDelegate
+class DelegatorDefinition extends Definition
 {
-	/**
-	 *
-	 */
-	function getInvoker();
-
-	/**
-	 *
-	 */
-	function delegate($invoker);
 }
