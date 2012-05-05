@@ -75,9 +75,16 @@ class State extends NamedState
 	 */
 	public function handle(IInput $input)
 	{
-		if($this->handler && is_callable($this->handler))
+		if($this->handler)
 		{
-			call_user_func_array($this->handler, array($input));
+			if($this->handler instanceof IFlowStateDelegator)
+			{
+				$this->handler->delegate($this, $input);
+			}
+			else if(is_callable($this->handler))
+			{
+				call_user_func_array($this->handler, array($input));
+			}
 		}
 	}
 
