@@ -167,12 +167,19 @@ class GraphFlow extends Flow
 	/**
 	 *
 	 */
-	public function setStateDelegator($name, IStateDelegate $delegator)
+	public function setStateDelegator($name, $delegator)
 	{
-		$vertex = $this->getPath()->getVertexByName($name);
-		if($vertex)
+		if(($delegator instanceof IStateDelegate) || is_callable($delegator))
 		{
-			$vertex->setHandler($delegator);
+			$vertex = $this->getPath()->getVertexByName($name);
+			if($vertex)
+			{
+				$vertex->setHandler($delegator);
+			}
+		}
+		else
+		{
+			throw new \Exception('Delegator has to be an instanceof IStateDelegate, or callable.');
 		}
 	}
 }

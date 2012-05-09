@@ -29,6 +29,7 @@ use Rock\Component\Flow\Path\IPath;
 
 // <Use> : Exceptions
 use Rock\Component\Flow\Exception\TraversalStateException;
+use Rock\Component\Flow\Exception\FlowHandleException;
 use Rock\Component\Flow\Exception\InitializeException;
 // @use Deleggate Interface
 use Rock\Component\Flow\Delegate\IStateDelegate;
@@ -150,10 +151,14 @@ abstract class Flow
 			// Shutdown Flow
 			$this->doShutdown($traversal);
 		}
+		catch (FlowRuntimeExeption $ex)
+		{
+			throw $ex;
+		}
 		catch (\Exception $ex)
 		{
 			// Failed on some
-			throw $ex;
+			throw new FlowHandleException($this, 'Failed to handle flow.', 0, $ex);
 		}
 		
 		return $output;
@@ -200,7 +205,7 @@ abstract class Flow
 		
 	}
 
-	public function setStateDelegator($name, IStateDelegate $delegator)
+	public function setStateDelegator($name, $delegator)
 	{
 		throw new \Exception('Not Supported');
 	}

@@ -22,7 +22,13 @@ namespace Rock\Component\Flow\Type;
  */
 interface IType
 {
+	/**
+	 *
+	 */
 	function addState($name, $callback);
 
+	/**
+	 *
+	 */
 	function addCondition($callback);
 }

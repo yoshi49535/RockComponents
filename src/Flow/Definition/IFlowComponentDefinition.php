@@ -23,7 +23,7 @@ namespace Rock\Component\Flow\Definition;
  */
 interface IFlowComponentDefinition
 {
-	function getGraph();
+	function getGraphDefinition();
 
-	function setGraph(GraphDefinition $definition);
+	function setGraphDefinition(GraphDefinition $definition);
 }

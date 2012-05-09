@@ -31,28 +31,28 @@ class CompositeDefinition extends Definition
 	/**
 	 *
 	 */
-	public function addChild($id, $ns = self::DEFAULT_NS)
+	public function addChild($id)
 	{
-		if(!isset($this->children[$ns]))
-			$this->children[$ns] = array();
+		if(!isset($this->children))
+			$this->children = array();
 
 		// push new id
-		$this->children[$ns][]  = $id;	
+		$this->children[]  = $id;	
 	}
 
 	/** 
 	 *
 	 */
-	public function getChildrenIds($ns = false)
+	public function getChildrenIds()
 	{
-		if(!$ns)
+		return $this->children;
+	}
+
+	protected function doConfigurateDefinition()
+	{
+		foreach($this->children as $child)
 		{
-			// flat 
-			return array();
-		}
-		else
-		{
-			return $this->children[$ns];
+			$child->configurateDefinition();
 		}
 	}
 }

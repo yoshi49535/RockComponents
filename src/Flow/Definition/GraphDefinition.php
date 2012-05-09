@@ -18,12 +18,12 @@
 // @namespace
 namespace Rock\Component\Flow\Definition;
 // @extend
-use Rock\Component\Configuration\Definition\Definition;
+use Rock\Component\Configuration\Definition\CompositeDefinition;
 
 /**
  *
  */
-class GraphDefinition extends Definition
+class GraphDefinition extends CompositeDefinition
 {
 	/**
 	 *
@@ -32,5 +32,14 @@ class GraphDefinition extends Definition
 	{
 		parent::__construct($id);
 		$this->class = '\\Rock\\Component\\Flow\\Graph\\FlowGraph';
+	}
+
+	public function addChild($component)
+	{
+		parent::addChild($component);
+		if($component instanceof IFlowComponentDefinition)
+		{
+			$component->setGraphDefinition($this);
+		}
 	}
 }

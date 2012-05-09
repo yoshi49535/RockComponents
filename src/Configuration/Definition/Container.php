@@ -129,19 +129,19 @@ class Container
 		}
 	}
 
-	public function getByAlias($alias)
+	public function getByAlias($alias, $params = array())
 	{
 		if(!array_key_exists($alias, $this->aliases))
 			throw new \Exception(sprintf('Alias "%s" is not defined.', $alias));
 		//
 		$id  = $this->aliases[$alias];
 
-		return $this->get($id);
+		return $this->get($id, $params);
 	}
 	/**
 	 *
 	 */
-	public function get($id)
+	public function get($id, $params = array())
 	{
 		// Check the scope components
 		foreach($this->getScopes() as $scope)
@@ -164,6 +164,7 @@ class Container
 			// Build service from definition
 			$builder  = $this->getComponentBuilder();
 			$instance = $builder->build($id);
+
 			if($instance instanceof IContainerAware)
 			{
 				$instance->setContainer($this);

@@ -75,7 +75,8 @@ class FlowDefinition extends Definition
 		if(($container = $this->getContainer()) && ($component instanceof Definition))
 			$container->addDefinition($component);
 
-		$component->setGraph($this->getGraphDefinition());
+		$this->getGraphDefinition()->addChild($component);
+		//$component->setGraph($this->getGraphDefinition());
 
 		$this->last  = $component;
 	}
@@ -127,7 +128,13 @@ class FlowDefinition extends Definition
 	/**
 	 *
 	 */
-	public function getSubFlowDefinitions()
+	public function addFlowDefinion(FlowDefinition $definition)
+	{
+	}
+	/**
+	 *
+	 */
+	public function getFlowDefinitions()
 	{
 		throw new NotImplementedException();
 	}
@@ -139,14 +146,21 @@ class FlowDefinition extends Definition
 	{
 	}
 
+	protected function doConfigurateDefinition()
+	{
+		$this->addCall(new Call('setPath', array($this->getGraphDefinition()->getReference())));
+	}
+	/**
+	 *
+	 */
 	public function getGraphDefinition()
 	{
 		if(!$this->graph)
 		{
 			$definition = new GraphDefinition($this->getId().'.graph');
-			$definition->addArgument(new Reference($this->getId()));
+			$definition->addArgument($this->getReference());
 			
-			$this->addCall(new Call('setPath', array($definition->getReference())));
+			//$this->addCall(new Call('setPath', array($definition->getReference())));
 
 			// Regist into container
 			$this->getContainer()->addDefinition($definition);
@@ -156,6 +170,9 @@ class FlowDefinition extends Definition
 
 		return $this->graph;
 	}
+	/**
+	 *
+	 */
 	public function getContainer()
 	{
 		if(!$this->container)
@@ -164,6 +181,9 @@ class FlowDefinition extends Definition
 		}
 		return $this->container;
 	}
+	/**
+	 *
+	 */
 	public function setContainer(IContainer $container)
 	{
 		$this->container = $container;

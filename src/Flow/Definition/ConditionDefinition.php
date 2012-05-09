@@ -92,18 +92,24 @@ class ConditionDefinition extends FlowComponentDefinition
 	}
 
 	/**
-	 *
+	 * @override Rock\Configuration\Definition\Definition
 	 */
-	public function setGraph(GraphDefinition $definition)
+	protected function doConfigurateDefinition()
 	{
-		parent::setGraph($definition);
-
 		// Add addEdge method call on graph construct
-		$definition->addCall(
+		$this->getGraphDefinition()->addCall(
 			new Call(
 				'addEdge',
 				array($this->getReference())
 			)
 		);
+
+		if($this->hasAttribute('validator'))
+		{
+			$this->addCall(new Call(
+				'setValidator',
+				array($this->getAttribute('validator'))
+			));
+		}
 	}
 }

@@ -43,37 +43,51 @@ abstract class BaseType extends FlowDefinition
 		$this->defaultStateClass      = '\\Rock\\Component\\Flow\\Definition\\StateDefinition';
 		$this->defaultConditionClass  = '\\Rock\\Component\\Flow\\Definition\\ConditionDefinition';
 	}
-	public function setContainer(IContainer $container)
-	{
-		parent::setContainer($container);
 
-		// Configuration CompositeConfiguration
+	/**
+	 *
+	 */
+	protected function doConfigurateDefinition()
+	{
+		//
+		parent::doConfigurateDefinition();
+
+		// Configurate Graph Path Template
 		$this->configure();
 	}
 	abstract protected function configure();
-
+	
 	// Shortcut Method-Chain Functions
+	/**
+	 *
+	 */
 	public function addState($name, $callback = null)
 	{
 		$class       = $this->defaultStateClass;
 		$definition  = new $class($this->generateSubId($name));
 		$definition->setAttribute('name', $name);
+		$definition->setAttribute('handler', $callback);
 		
-		if($callback)
-			$definition->addCall(new Call('setHandler', array($callback)));
-	
 		$this->addStateDefinition($definition);
 		return $this;
 	}
+
+	/**
+	 *
+	 */
 	public function addCondition($callback)
 	{
 		$class      = $this->defaultConditionClass;
 		$definition = new $class($this->getContainer()->generateUniqueId($this->getId()));
-		$definition->addCall(new Call('setValidator', array($callback)));
+
+		$definition->setAttribute('validator', $callback);
 		$this->addConditionDefinition($definition);
 		return $this;
 	}
 
+	/**
+	 *
+	 */
 	protected function generateSubId($id)
 	{
 		return sprintf('%s.%s',$this->getId(),$id);

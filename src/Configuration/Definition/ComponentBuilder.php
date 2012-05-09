@@ -80,12 +80,14 @@ class ComponentBuilder
 	/**
 	 *
 	 */
-	public function build($id)
+	public function build($id, $params = array())
 	{
 		// Get Container Definition for Target Component
 		$container  = $this->getContainer();
 		$definition = $container->getDefinition($id);
-		
+
+		// create ComponentDefinition
+		$definition = $definition->instantiate($params);
 
 		$instance   = $this->createInstanceFromDefinition($definition);
 

@@ -14,10 +14,9 @@
  * please read the LICENSE file that is distributed with the source code.
  *
  ****/
-
 // @namespace
 namespace Rock\Component\Configuration\Definition;
-
+// @use
 use Rock\Component\Configuration\Definition\Reference;
 
 /**
@@ -37,15 +36,18 @@ class Definition
 	 * @var
 	 */
 	protected $attributes = array();
+
 	/** 
 	 * @var
 	 */
 	protected $arguments = array();
+
 	/** 
 	 * @var
 	 */
 	protected $calls = array();
 	
+	protected $configured;
 	/**
 	 *
 	 */
@@ -54,10 +56,31 @@ class Definition
 		$this->id          = $id;
 		$this->attributes  = $attributes;
 		$this->arguments   = array();
+		$this->configured  = false;
 
 		if(array_key_exists('class', $attributes))
 			$this->class = $attributes['class'];
 	}
+
+	/**
+	 * @final
+	 * @param void
+	 * @return void
+	 */
+	final public function configurateDefinition()
+	{
+		if(!$this->configured)
+		{
+			$this->doConfigurateDefinition();
+			$this->configured = true;
+		}
+	}
+
+	protected function doConfigurateDefinition()
+	{
+	}
+
+
 
 	/**
 	 *
@@ -105,6 +128,11 @@ class Definition
 		$this->attributes  = $attrs;
 	}
 
+
+	public function setCalls($calls)
+	{
+		$this->calls    = $calls;
+	}
 	/**
 	 *
 	 */
@@ -207,6 +235,31 @@ class Definition
 	public function isSingleton()
 	{
 		return $this->hasAttribute('singleton') && (bool)$this->getAttribute('singleton');
+	}
+
+	public function instantiate($params = array())
+	{
+		if(!$params)
+		{
+			$params  = $this->getAttributes();
+		}
+		else if(is_array($params))
+		{
+			$params  = array_merge($this->getAttributes(), $params);
+		}
+
+		// Before initialize ComponentDefinition, initializeDefinition
+		$this->configurateDefinition();
+
+		$definition  = new ComponentDefinition($this->getId(), $params, $this);
+
+		// 
+		$definition->setClass($this->getClass());
+		$definition->setArguments($this->getArguments());
+		//
+		$definition->setCalls($this->getCalls());
+
+		return $definition;
 	}
 
 }

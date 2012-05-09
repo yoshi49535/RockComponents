@@ -32,12 +32,13 @@ abstract class FlowComponentDefinition extends BaseDefinition
 {
 
 	protected $graph;
-	public function getGraph()
+	public function getGraphDefinition()
 	{
 		return $this->graph;
 	}
-	public function setGraph(GraphDefinition $definition)
+	public function setGraphDefinition(GraphDefinition $definition)
 	{
 		$this->graph  = $definition;
 	}
+
 }

@@ -55,4 +55,5 @@ abstract class BaseType extends BaseTypeBase
 		$this->addStateDefinition($definition);
 		return $this;
 	}
+
 }

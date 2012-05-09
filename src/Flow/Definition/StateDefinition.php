@@ -42,7 +42,7 @@ class StateDefinition extends FlowComponentDefinition
 	public function getArguments()
 	{
 		return array(
-			$this->getGraph()->getReference(), 
+			$this->getGraphDefinition()->getReference(), 
 			$this->hasAttribute('name') ? $this->getAttribute('name') : $this->getId(), 
 			$this->hasAttribute('handler') ? $this->getAttribute('handler') : null
 		);
@@ -51,15 +51,23 @@ class StateDefinition extends FlowComponentDefinition
 	/**
 	 *
 	 */
-	public function setGraph(GraphDefinition $graph)
+	protected function doConfigurateDefinition()
 	{
-		parent::setGraph($graph);
-
-		$graph->addCall(
+		$this->getGraphDefinition()->addCall(
 			new Call(
 				'addVertex',
 				array($this->getReference())
 			)
 		);
+
+		if($this->hasAttribute('handler'))
+		{
+			$this->addCall(
+			  new Call(
+			  	'setHandler',
+				array($this->getAttribute('handler'))
+			  )
+			);
+		}
 	}
 }
