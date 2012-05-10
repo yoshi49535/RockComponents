@@ -49,24 +49,56 @@ abstract class BaseType extends FlowDefinition
 	 */
 	protected function doConfigurateDefinition()
 	{
-		//
-		parent::doConfigurateDefinition();
 
 		// Configurate Graph Path Template
 		$this->configure();
+
+		//
+		parent::doConfigurateDefinition();
 	}
+	/**
+	 * configure 
+	 *  Configuration of the Graph Path.
+	 * 
+	 * @abstract
+	 * @access protected
+	 * @return void
+	 */
 	abstract protected function configure();
 	
 	// Shortcut Method-Chain Functions
 	/**
-	 *
+	 * addState 
+	 * Add StateDefinition into GraphDefinition
+	 * 
+	 * @param mixed $name 
+	 * @param mixed $callback 
+	 * @access public
+	 * @return void
 	 */
-	public function addState($name, $callback = null)
+	public function addState($name, $callback = null, array $params = array())
 	{
-		$class       = $this->defaultStateClass;
-		$definition  = new $class($this->generateSubId($name));
-		$definition->setAttribute('name', $name);
-		$definition->setAttribute('handler', $callback);
+		// merge parameters
+		$params = array_merge(
+			// Defaults
+			array(
+				'class' => $this->defaultStateClass,
+				'attributes' => array()
+			), 
+			$params);
+		
+		// merge attributes
+		$attrs  = array_merge(
+			$params['attributes'],
+			array(
+				'name'    => $name,
+				'handler' => $callback
+			));
+
+		// 
+		$class       = $params['class'];
+		$definition  = new $class($this->generateSubId($name), $attrs);
+
 		
 		$this->addStateDefinition($definition);
 		return $this;
@@ -75,12 +107,28 @@ abstract class BaseType extends FlowDefinition
 	/**
 	 *
 	 */
-	public function addCondition($callback)
+	public function addCondition($callback, array $params = array())
 	{
-		$class      = $this->defaultConditionClass;
-		$definition = new $class($this->getContainer()->generateUniqueId($this->getId()));
+		// merge parameters
+		$params = array_merge(
+			// Defaults
+			array(
+				'class' => $this->defaultConditionClass,
+				'attributes' => array()
+			), 
+			$params);
+		
+		// merge attributes
+		$attrs  = array_merge(
+			$params['attributes'],
+			array(
+				'validator' => $callback
+			));
+		
+		// Create definition 
+		$class      = $params['class'];
+		$definition = new $class($attrs);
 
-		$definition->setAttribute('validator', $callback);
 		$this->addConditionDefinition($definition);
 		return $this;
 	}
