@@ -30,9 +30,9 @@ class StateDefinition extends FlowComponentDefinition
 	/**
 	 *
 	 */
-	public function __construct($id)
+	public function __construct($id, array $attributes = array())
 	{
-		parent::__construct($id);
+		parent::__construct($id, $attributes);
 		$this->class = '\\Rock\\Component\\Flow\\Graph\\State\\State';
 	}
 
@@ -53,13 +53,6 @@ class StateDefinition extends FlowComponentDefinition
 	 */
 	protected function doConfigurateDefinition()
 	{
-		$this->getGraphDefinition()->addCall(
-			new Call(
-				'addVertex',
-				array($this->getReference())
-			)
-		);
-
 		if($this->hasAttribute('handler'))
 		{
 			$this->addCall(

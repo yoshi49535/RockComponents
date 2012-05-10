@@ -18,28 +18,80 @@
 // @namespace
 namespace Rock\Component\Flow\Definition;
 // @extend
-use Rock\Component\Configuration\Definition\CompositeDefinition;
+use Rock\Component\Configuration\Definition\ContainerAwareDefinition;
+// @use Call
+use Rock\Component\Configuration\Definition\Call;
 
 /**
  *
  */
-class GraphDefinition extends CompositeDefinition
+class GraphDefinition extends ContainerAwareDefinition
 {
+	
 	/**
-	 *
+	 * components 
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
+	protected $components;
+
+	/**
+	 * __construct 
+	 * 
+	 * @param mixed $id 
+	 * @access public
+	 * @return void
 	 */
 	public function __construct($id)
 	{
 		parent::__construct($id);
 		$this->class = '\\Rock\\Component\\Flow\\Graph\\FlowGraph';
 	}
-
-	public function addChild($component)
+	//---
+	// DefinePhase Functions
+	public function addComponent(IFlowComponentDefinition $definition)
 	{
-		parent::addChild($component);
-		if($component instanceof IFlowComponentDefinition)
+		$this->components[]  = $definition;
+		if($definition instanceof IFlowComponentDefinition)
 		{
-			$component->setGraphDefinition($this);
+			$definition->setGraphDefinition($this);
+		}
+
+		// 
+	}
+
+	//---
+	// CompilePhase
+	/**
+	 *
+	 */
+	protected function doConfigurateDefinition()
+	{
+		parent::doConfigurateDefinition();
+		foreach($this->components as $component)
+			$this->registComponentCall($component);
+	}
+
+	/**
+	 *
+	 */
+	protected function registComponentCall(IFlowComponentDefinition $definition)
+	{
+		$this->getContainer()->addDefinition($definition);
+		if($definition instanceof StateDefinition)
+		{
+			$this->addCall(new Call(
+				'addVertex',
+				array($definition->getReference())
+			));
+		}
+		else if($definition instanceof ConditionDefinition)
+		{
+			$this->addCall(new Call(
+				'addEdge',
+				array($definition->getReference())
+			));
 		}
 	}
 }

@@ -44,9 +44,9 @@ class ConditionDefinition extends FlowComponentDefinition
 	/**
 	 *
 	 */
-	public function __construct($id)
+	public function __construct(array $attributes = array())
 	{
-		parent::__construct($id);
+		parent::__construct('edge', $attributes);
 
 		$this->class   = '\\Rock\\Component\\Automaton\\Condition\\Condition'; 
 	}
@@ -84,7 +84,10 @@ class ConditionDefinition extends FlowComponentDefinition
 	}
 
 	/**
-	 *
+	 * getTarget 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function getTarget()
 	{
@@ -92,18 +95,14 @@ class ConditionDefinition extends FlowComponentDefinition
 	}
 
 	/**
+	 * doConfigurateDefinition 
+	 * 
 	 * @override Rock\Configuration\Definition\Definition
+	 * @access protected
+	 * @return void
 	 */
 	protected function doConfigurateDefinition()
 	{
-		// Add addEdge method call on graph construct
-		$this->getGraphDefinition()->addCall(
-			new Call(
-				'addEdge',
-				array($this->getReference())
-			)
-		);
-
 		if($this->hasAttribute('validator'))
 		{
 			$this->addCall(new Call(
@@ -111,5 +110,19 @@ class ConditionDefinition extends FlowComponentDefinition
 				array($this->getAttribute('validator'))
 			));
 		}
+
+	}
+
+	/**
+	 * getId 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getId()
+	{
+		if(!$this->source || !$this->target)
+			throw new \Exception('Bad ID request');
+		return sprintf('edge.%s.to.%s', $this->getSource()->getId(), $this->getTarget()->getId());
 	}
 }

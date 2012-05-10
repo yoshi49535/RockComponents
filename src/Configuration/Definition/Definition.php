@@ -229,7 +229,7 @@ class Definition
 
 	public function getReference()
 	{
-		return new Reference($this->id);
+		return new Reference($this->getId());
 	}
 
 	public function isSingleton()

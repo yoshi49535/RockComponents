@@ -18,11 +18,7 @@
 // @namespace
 namespace Rock\Component\Flow\Definition;
 // @extends
-use Rock\Component\Configuration\Definition\Definition;
-// @interface
-use Rock\Component\Configuration\Definition\IContainerAware;
-// @use Container Interface
-use Rock\Component\Configuration\Definition\IContainer;
+use Rock\Component\Configuration\Definition\ContainerAwareDefinition;
 // @use Call
 use Rock\Component\Configuration\Definition\Call;
 
@@ -31,9 +27,7 @@ use Rock\Component\Configuration\Definition\Reference as Reference;
 /**
  *
  */
-class FlowDefinition extends Definition
-  implements 
-    IContainerAware
+class FlowDefinition extends ContainerAwareDefinition
 {
 	/**
 	 * @var
@@ -45,10 +39,6 @@ class FlowDefinition extends Definition
 	 */
 	protected $last;
 
-	/**
-	 *
-	 */
-	protected $container;
 	/**
 	 *
 	 */
@@ -70,12 +60,33 @@ class FlowDefinition extends Definition
 	/**
 	 *
 	 */
+	public function getGraphDefinition()
+	{
+		if(!$this->graph)
+		{
+			// Create and Regist Graph Definition for GraphFlow
+			$definition = new GraphDefinition($this->getId().'.graph');
+			$definition->addArgument($this->getReference());
+			$this->getContainer()->addDefinition($definition);
+			// 
+			$this->graph  = $definition;
+		}
+
+		return $this->graph;
+	}
+
+	// ----
+	// Component Regist Functions for GraphDefinition 
+	/**
+	 * addComponentDefinition 
+	 * 
+	 * @param IFlowComponentDefinition $component 
+	 * @access public
+	 * @return void
+	 */
 	public function addComponentDefinition(IFlowComponentDefinition $component)
 	{
-		if(($container = $this->getContainer()) && ($component instanceof Definition))
-			$container->addDefinition($component);
-
-		$this->getGraphDefinition()->addChild($component);
+		$this->getGraphDefinition()->addComponent($component);
 		//$component->setGraph($this->getGraphDefinition());
 
 		$this->last  = $component;
@@ -83,7 +94,11 @@ class FlowDefinition extends Definition
 
 	// 
 	/**
-	 *
+	 * addStateDefinition 
+	 * 
+	 * @param StateDefinition $definition 
+	 * @access public
+	 * @return void
 	 */
 	public function addStateDefinition(StateDefinition $definition)
 	{
@@ -95,7 +110,7 @@ class FlowDefinition extends Definition
 			else if($last instanceof StateDefinition)
 			{
 				// Create new
-				$cond = new ConditionDefinition($this->getContainer()->generateUniqueId($this->getId().'.edge.'));
+				$cond = new ConditionDefinition();
 				$cond->setSource($last->getReference());
 				$cond->setTarget($definition->getReference());
 				$this->addComponentDefinition($cond);
@@ -120,72 +135,16 @@ class FlowDefinition extends Definition
 		{
 			throw new \Exception('Condition cannot add after condition.');
 		}
-
 	}
-
-	// Sub Flow Definition
-	// Fixme: Not Implemented Yet
+	//----
+	// Compile Phase Functionalities
 	/**
 	 *
 	 */
-	public function addFlowDefinion(FlowDefinition $definition)
-	{
-	}
-	/**
-	 *
-	 */
-	public function getFlowDefinitions()
-	{
-		throw new NotImplementedException();
-	}
-
-	/**
-	 *
-	 */
-	public function validate()
-	{
-	}
-
 	protected function doConfigurateDefinition()
 	{
+		//
 		$this->addCall(new Call('setPath', array($this->getGraphDefinition()->getReference())));
 	}
-	/**
-	 *
-	 */
-	public function getGraphDefinition()
-	{
-		if(!$this->graph)
-		{
-			$definition = new GraphDefinition($this->getId().'.graph');
-			$definition->addArgument($this->getReference());
-			
-			//$this->addCall(new Call('setPath', array($definition->getReference())));
-
-			// Regist into container
-			$this->getContainer()->addDefinition($definition);
-		
-			$this->graph  = $definition;
-		}
-
-		return $this->graph;
-	}
-	/**
-	 *
-	 */
-	public function getContainer()
-	{
-		if(!$this->container)
-		{
-			throw new \Exception('Container is not initialized.');
-		}
-		return $this->container;
-	}
-	/**
-	 *
-	 */
-	public function setContainer(IContainer $container)
-	{
-		$this->container = $container;
-	}
+	//----
 }

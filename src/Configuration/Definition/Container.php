@@ -92,7 +92,11 @@ class Container
 		return $this->definitions[$id];
 	}
 	/**
-	 *
+	 * addDefinition 
+	 * 
+	 * @param Definition $definition 
+	 * @access public
+	 * @return void
 	 */
 	public function addDefinition(Definition $definition)
 	{
@@ -107,12 +111,26 @@ class Container
 		}
 	}
 
+	/**
+	 * has 
+	 * 
+	 * @param mixed $id 
+	 * @access public
+	 * @return void
+	 */
 	public function has($id)
 	{
 		return array_key_exists($id, $this->definitions);
 	}
-	/** 
-	 *
+
+	/**
+	 * set 
+	 * 
+	 * @param mixed $id 
+	 * @param mixed $value 
+	 * @param mixed $scope 
+	 * @access public
+	 * @return void
 	 */
 	public function set($id, $value, $scope = self::SCOPE_CURRENT)
 	{
@@ -129,6 +147,14 @@ class Container
 		}
 	}
 
+	/**
+	 * getByAlias 
+	 * 
+	 * @param mixed $alias 
+	 * @param array $params 
+	 * @access public
+	 * @return void
+	 */
 	public function getByAlias($alias, $params = array())
 	{
 		if(!array_key_exists($alias, $this->aliases))
@@ -229,7 +255,10 @@ class Container
 	}
 
 	/**
-	 *
+	 * leaveScope 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function leaveScope()
 	{
@@ -239,21 +268,46 @@ class Container
 		unset($this->components[$scope]);
 	}
 
+	/**
+	 * countScopes 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function countScopes()
 	{
 		return count($this->scopes);
 	}
+	/**
+	 * getScopes 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function getScopes()
 	{
 		return $this->scopes;
 	}
 
+	/**
+	 * getScope 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function getScope()
 	{
 		return $this->scopes[count($this->scopes) - 1];
 	}
 
 	
+	/**
+	 * generateUniqueId 
+	 * 
+	 * @param string $prefix 
+	 * @access public
+	 * @return void
+	 */
 	public function generateUniqueId($prefix = '')
 	{
 
