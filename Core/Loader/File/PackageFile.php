@@ -38,7 +38,12 @@ class PackageFile
 	
 	public function getPackages()
 	{
-		return $this->packages;
+		$pkgs  = $this->packages;
+		foreach($pkgs as $key => $path)
+		{
+			$pkgs[$key]  = $this->replaceConstants($path);
+		}
+		return $pkgs;
 	}
 
 	public function getNamespaces()
@@ -52,7 +57,7 @@ class PackageFile
 
 		$lines = explode("\n", $data);
 
-		$this->addConst('%DIR%', dirname($path));
+		$this->setConst('%DIR%', dirname($path));
 
 		foreach($lines as $line)
 		{
@@ -61,18 +66,18 @@ class PackageFile
 				$ns   = trim(substr($line, 0, $pos));
 				$path = trim(substr($line, $pos + 1));
 
-				$this->packages[$ns]  = $this->replaceConstants($path);
+				//$this->packages[$ns]  = $this->replaceConstants($path);
+				$this->packages[$ns]  = $path;
 			}
 		}
 	}
 	
-	public function addConst($key, $value)
+	public function setConst($key, $value)
 	{
 		$this->consts[$key]  = $value;
 	}
 	protected function replaceConstants($value)
 	{
-
 		return strtr($value, $this->consts);
 	}
 }

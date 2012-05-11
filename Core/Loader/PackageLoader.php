@@ -30,6 +30,8 @@ class PackageLoader
 {
 	private $prefix     = '';
     private $namespaces = array();
+	private $pkgFile    = null;
+	private $bRegisted  = false;
 
 	public function setNamespacePrefix($prefix)
 	{
@@ -37,10 +39,20 @@ class PackageLoader
 	}
 	public function loadPackageFile($filepath)
 	{
-		$file = new PackageFile($filepath);
+		$this->pkgFile = new PackageFile($filepath);
+		//$pkg = $file->getPackages();
+	}
 
-		$pkg = $file->getPackages();
-		$this->registerNamespaces($file->getPackages());
+	public function getPackageFile()
+	{
+		return $this->pkgFile;
+	}
+
+	public function setPackageFile(PackageFile $file)
+	{
+		if($this->bRegisted)
+			throw new \Exception('Loader Already Registed, so cannot modify Package File.');
+		$this->pkgFile = $file;
 	}
     /**
      * Gets the configured namespaces.
@@ -91,7 +103,12 @@ class PackageLoader
      */
     public function register($prepend = false)
     {
+		$this->bRegisted = true;
+		$this->registerNamespaces($this->getPackageFile()->getPackages());
+
+		// 
         spl_autoload_register(array($this, 'loadClass'), true, $prepend);
+
     }
 
     /**
@@ -117,6 +134,7 @@ class PackageLoader
     {
 		// replace prefix slash
 		$class = $this->trimNs($class);
+
 
 		// last camel is the classname
         if (false !== $pos = strrpos($class, '\\')) {
