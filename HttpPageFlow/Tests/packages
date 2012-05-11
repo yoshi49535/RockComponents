@@ -1,7 +1,0 @@
-Utility:         %DIR%/../../Utility
-Configuration:   %DIR%/../../Configuration
-Container:       %DIR%/../../Container
-Flow:            %DIR%/../../Flow
-Http\Flow:       %DIR%/../../HttpPageFlow
-Automaton:       %DIR%/../../Automaton
-
