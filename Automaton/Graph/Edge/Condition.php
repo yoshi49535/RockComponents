@@ -14,21 +14,30 @@
  * please read the LICENSE file that is distributed with the source code.
  *
  ****/
-
-namespace Rock\Component\Automaton\Condition;
-
+// @namesapce
+namespace Rock\Component\Automaton\Graph\Edge;
 // <Base>
-use Rock\Component\Automaton\Condition\AnyCondition;
-
+use Rock\Component\Automaton\Graph\Edge\AnyCondition;
 // <Use> : Automaton Condition
-use Rock\Component\Automaton\Condition\Validator\ClosureValidator;
-use Rock\Component\Automaton\Condition\Validator\IValidator;
-
+use Rock\Component\Automaton\Graph\Edge\Validator\ClosureValidator;
+use Rock\Component\Automaton\Graph\Edge\Validator\IValidator;
 // <Use> : Automaton Component
-use Rock\Component\Automaton\State\IState;
+use Rock\Component\Automaton\Graph\Vertex\IState;
 use Rock\Component\Automaton\Input\IInput;
 use Rock\Component\Automaton\Input\ScalarInput;
+// @use Delegate
+use Rock\Component\Utility\Delegate\Delegate;
 
+/**
+ * Condition 
+ * 
+ * @uses AnyCondition
+ * @package 
+ * @version $id$
+ * @copyright 2011-2012 Yoshi Aoki
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license 
+ */
 class Condition extends AnyCondition
 {
 	protected $validator;
@@ -59,6 +68,9 @@ class Condition extends AnyCondition
 				break;
 			case !is_array($validator) && !is_object($validator):
 				$this->validator = new ScalarCompareValidator($validator);
+				break;
+			case ($validator instanceof Delegate):
+				$this->validator = $validator;
 				break;
 			default:
 				throw new \InvalidArgumentException('Validator is invalid type.');

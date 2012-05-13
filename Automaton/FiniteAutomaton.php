@@ -14,14 +14,32 @@
  * please read the LICENSE file that is distributed with the source code.
  *
  ****/
-
-// <Namespace>
+// @namespace
 namespace Rock\Component\Automaton;
+// @extends 
+use Rock\Component\Automaton\Automaton;
 
 /**
  *
  */
 class FiniteAutomaton extends Automaton
 {
-	
+	/**
+	 * getEndPoint 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getEndPoint()
+	{
+		$vertices = $this->getGraph()->getVertices();
+		foreach($vertices as $vertex)
+		{
+			if(0 === $this->getGraph()->getOutDegreeOf($vertex))
+			{
+				$endpoints[]  = $vertex;
+			}
+		}
+		return $endpoints;
+	}
 }

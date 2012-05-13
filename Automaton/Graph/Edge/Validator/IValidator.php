@@ -15,18 +15,13 @@
  *
  ****/
 
-// <Namespace>
-namespace Rock\Component\Automaton\Condition;
+// <Namepsace>
+namespace Rock\Component\Automaton\Graph\Edge\Validator;
 
-// <Base>
-use Rock\Component\Container\Graph\Edge\IEdge;
 // <Use> : Automaton Component
 use Rock\Component\Automaton\Input\IInput;
 
-interface ICondition extends IEdge
+interface IValidator
 {
-	/**
-	 *
-	 */
-	public function isValid(IInput $cond = null);
+	public function __invoke(IInput $input);
 }

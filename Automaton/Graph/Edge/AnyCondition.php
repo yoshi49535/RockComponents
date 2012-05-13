@@ -14,23 +14,36 @@
  * please read the LICENSE file that is distributed with the source code.
  *
  ****/
-
-namespace Rock\Component\Automaton\Condition;
-
+// @namesapce
+namespace Rock\Component\Automaton\Graph\Edge;
 // <Base>
 use Rock\Component\Container\Graph\Edge\Edge;
 // <Interface>
-use Rock\Component\Automaton\Condition\ICondition;
-
+use Rock\Component\Automaton\Graph\Edge\ICondition;
 // <Use> : Automaton Component
 use Rock\Component\Automaton\Input\IInput;
+
 /**
- *
+ * AnyCondition 
+ * 
+ * @uses Edge
+ * @package 
+ * @version $id$
+ * @copyright 2011-2012 Yoshi Aoki
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license 
  */
 class AnyCondition extends Edge
   implements
     ICondition
 {
+	/**
+	 * isValid 
+	 * 
+	 * @param IInput $cond 
+	 * @access public
+	 * @return void
+	 */
 	public function isValid(IInput $cond = null)
 	{
 		return true;

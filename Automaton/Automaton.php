@@ -14,174 +14,204 @@
  * please read the LICENSE file that is distributed with the source code.
  *
  ****/
-
+// @namespace
 namespace Rock\Component\Automaton;
-
-// <BaseClass>
-use Rock\Component\Container\Graph\DirectedGraph;
-// <Interface>
+// @interface
 use Rock\Component\Automaton\IAutomaton;
-
-// <Use> : Graph Component
-use Rock\Component\Container\Graph\Vertex\IVertex;
+// @use Traversal
+use Rock\Component\Automaton\Traversal\ITraversal;
+use Rock\Component\Automaton\Traversal\Traversal;
+// @use Trail
 use Rock\Component\Automaton\Trail\Trail;
+// @use Graph Components
+use Rock\Component\Container\Graph\IDirectedGraph;
 
 // <Use> : Automaton Component
 use Rock\Component\Automaton\State\IState;
 use Rock\Component\Automaton\Condition\Factory\ConditionFactory;
 use Rock\Component\Automaton\Input\IInput;
-// <Use> : Exception
-use Rock\Component\Automaton\Exception\InvalidConditionException;
+// @use Exception
+use Rock\Component\Automaton\Exception as AutomatonException;
 
 /**
  *
  */
-class Automaton extends DirectedGraph
+abstract class Automaton 
   implements
     IAutomaton
 {
-	protected $debug;
+	/**
+	 * path
+	 * 
+	 * @var IDirectedGraph
+	 * @access protected
+	 */
+	protected $path;
 
 	/**
+	 * __construct 
+	 * 
 	 * @override
+	 * @access public
+	 * @return void
 	 */
 	public function __construct()
 	{
-		parent::__construct();
-
-		$this->debug  = true;
+		$this->path  = null;
 	}
+
 	/**
-	 *
+	 * setPath 
+	 * 
+	 * @param IDirectedGraph $path 
+	 * @access public
+	 * @return void
 	 */
-	public function root()
+	public function setPath(IDirectedGraph $path)
 	{
-		$vertices  = $this->getVertices();
-
-		foreach($vertices as $vertex)
-		{
-			if($vertex->isEntryPoint())
-			{
-				return $vertex;
-			}
-		}
-		throw new \Exception('Entry Point is not defined.');
+		$this->path  = $path;
 	}
 
 	/**
-	 *
+	 * getPath 
+	 * 
+	 * @access public
+	 * @return void
 	 */
-	public function hasRoot()
+	public function getPath()
 	{
-		$hasRoot   = false;
-		$vertices  = $this->getVertices();
-
-		foreach($vertices as $vertex)
-		{
-			if($vertex->isEntryPoint())
-			{
-				$hasRoot  = true;
-				break;
-			}
-		}
-		return $hasRoot;
+		return $this->path;
 	}
+
 	/**
-	 *
+	 * getEntryPoint 
+	 * 
+	 * @access public
+	 * @return void
 	 */
-	protected function initEdgeFactory()
+	public function getEntryPoint()
 	{
-		$this->edgeFactory = new ConditionFactory();
+		$states = $this->getEntryPoints();
+		//
+		if(count($states) == 0)
+			throw new AutomatonException\InitializeException('Automaton dose not have any EntryPoint.');
+
+		return $states[0];
 	}
 
 	/**
-	 *
+	 * getEntryPoints 
+	 * 
+	 * @access public
+	 * @return void
 	 */
-	public function createPath()
+	public function getEntryPoints()
 	{
-		return new Trail($this);
+		$root = $this->getPath()->getRoot();
+		// Get edges form root 
+		return $this->getPath()->getOutboundVerticesOf($root);
 	}
 
 	/**
-	 *
+	 * createTrail 
+	 * 
+	 * @access public
+	 * @return void
 	 */
-	public function backward(IPath $path)
+	public function createTrail()
+	{
+		return new Trail($this->getPath());
+	}
+
+	/**
+	 * backward 
+	 *   Redo
+	 * @param ITraversal $traversal 
+	 * @access public
+	 * @return void
+	 */
+	public function backward(ITraversal $traversal)
 	{
 		//
-		return $path;
+		if(count($traversal->getTrail()) === 0)
+		{
+			throw new AutomatonException\RuntimeException('Automaton Trail is still 0, thus cannot backward.');
+		}
+
+		$traversal->getTrail()->popState();
+		
+		// 
+		return $traversal;
 	}
 
 	/**
-	 * forward
+	 * forward 
 	 *   Evaluate the input and if possible forward the state.
 	 * 
+	 * @param IInput $input 
+	 * @param IState $begin 
+	 * @access public
+	 * @return void
 	 */
-	public function forward(IInput $input = null, IState $begin = null)
+	public function forward(ITraversal $traversal)
 	{
-		$path  = $this->createPath();
+		$begin    = null;
+
+		if(count($traversal->getTrail()) > 0)
+			$begin = $traversal->getTrail()->last();
+
+		// Create Output Trail for this execution
+		$trail = $this->createTrail();
 	
 		// Grab edges which sourced from current state pos
 		if(!$begin)
 		{
-			$path->push($this->root());
+			$trail->push($this->getEntryPoint());
 		}
 		else
 		{
-			$path->push($begin);
-			foreach($this->getEdgesFrom($begin) as $edge)
+			$trail->push($begin);
+			foreach($this->getPath()->getEdgesFrom($begin) as $condition)
 			{
-				if($edge->isValid($input))
+				if($edge instanceof ICondition)
 				{
-					// Push the path
-					$path->push($edge);
-					$path->push($edge->getTarget());
+					if($condition->isValid($traversal->getInput()))
+					{
+						// Push the trail 
+						$trail->push($edge);
+						$trail->push($edge->getTarget());
+						break;
+					}
+				}
+				else
+				{
+					$trail->push($edge);
+					$trail->push($edge->getTarget());
 					break;
 				}
 			}
 		}
-		return $path;
-	}
 
-	/**
-	 *
-	 */
-	public function isHandleException()
-	{
-		return $this->debug;
-	}
-	/**
-	 *
-	 */
-	public function useHandleException($debug)
-	{
-		$this->debug = $debug;
-	}
-
-	public function addVertex(IVertex $vertex)
-	{
-		if($this->countVertices() === 0)
+		if(count($trail) == 0)
 		{
-			$vertex->isEntryPoint(true);
-		}
-		parent::addVertex($vertex);
-	}
-
-	/**
-	 *
-	 */
-	public function getVertexByName($name)
-	{
-		$ret  = null;
-		//
-		foreach($this->getVertices() as $vertex)
-		{
-			if($name === $vertex->getName())
-			{
-				$ret = $vertex;
-				break;
-			}
+			throw new AutomatonException\RuntimeException(sprintf('Automaton cannot forwarded for input[%s].', $traversal->getInput()));
 		}
 
-		return $ret;
+		// update Traversal 
+		$traversal->getTrail()->merge($trail);
+
+		return $traversal;
+	}
+
+	/**
+	 * createTraversal 
+	 *   Create new empty traversal
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function createTraversal()
+	{
+		return new Traversal($this);
 	}
 }

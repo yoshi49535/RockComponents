@@ -16,7 +16,7 @@
  ****/
 
 // <Namespace>
-namespace Rock\Component\Automaton\Condition\Validator;
+namespace Rock\Component\Automaton\Graph\Edge\Validator;
 // <Use> : Automaton Component
 use Rock\Component\Automaton\Input\IInput;
 

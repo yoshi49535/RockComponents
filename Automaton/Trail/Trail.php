@@ -28,17 +28,26 @@ use Rock\Component\Automaton\IAutomaton;
  */
 class Trail extends GraphPath
 {
+	/**
+	 * __construct 
+	 * 
+	 * @param IGraph $graph 
+	 * @access public
+	 * @return void
+	 */
 	public function __construct(IGraph $graph)
 	{
 		parent::__construct($graph);
 
-		// Additional Validator
-		if(!$graph instanceof IAutomaton)
-		{
-			throw new \InvalidArgumentException(sprintf('Graph has to be an instance fo IAutomaton, but "%s" given.', get_class($graph)));
-		}
 	}
 	
+	/**
+	 * unpack 
+	 * 
+	 * @param array $data 
+	 * @access public
+	 * @return void
+	 */
 	public function unpack(array $data = array())
 	{
 		try

@@ -14,32 +14,49 @@
  * please read the LICENSE file that is distributed with the source code.
  *
  ****/
-
 // <Namespace>
 namespace Rock\Component\Automaton;
 // <Base>
 use Rock\Component\Container\Graph\IDirectedGraph;
-// <Use> : Flow IO
-use Rock\Component\Automaton\Input\IInput;
-// <Use> : Automaton State Vertex
-use Rock\Component\Automaton\State\IState;
+// @use
+use Rock\Component\Automaton\Traversal\ITraversal;
+
 /**
  *
  */
 interface IAutomaton
 {
 	/**
-	 *
+	 * getPath 
+	 * 
+	 * @access public
+	 * @return void
 	 */
-	public function root();
+	function getPath();
 
 	/**
-	 *
+	 * getEntryPoint 
+	 * 
+	 * @access public
+	 * @return void
 	 */
-	public function forward(IInput $input = null, IState $begin = null);
+	function getEntryPoint();
 
 	/**
-	 *
+	 * backward 
+	 * 
+	 * @param ITraversal $traversal 
+	 * @access public
+	 * @return void
 	 */
-	public function isHandleException();
+	function backward(ITraversal $traversal);
+	
+	/**
+	 * forward 
+	 * 
+	 * @param ITraversal $traversal 
+	 * @access public
+	 * @return void
+	 */
+	function forward(ITraversal $traversal);
 }

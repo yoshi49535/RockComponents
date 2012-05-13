@@ -15,17 +15,18 @@
  *
  ****/
 
-namespace Rock\Component\Automaton\State;
+// <Namespace>
+namespace Rock\Component\Automaton\Graph\Edge;
 
-interface IState
+// <Base>
+use Rock\Component\Container\Graph\Edge\IEdge;
+// <Use> : Automaton Component
+use Rock\Component\Automaton\Input\IInput;
+
+interface ICondition extends IEdge
 {
 	/**
 	 *
 	 */
-	public function isEntryPoint();
-
-	/**
-	 *
-	 */
-	public function isEndPoint();
+	public function isValid(IInput $cond = null);
 }

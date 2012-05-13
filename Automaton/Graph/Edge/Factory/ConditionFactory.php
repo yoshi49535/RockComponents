@@ -15,7 +15,7 @@
  *
  ****/
 
-namespace Rock\Component\Automaton\Condition\Factory;
+namespace Rock\Component\Automaton\Graph\Edge\Factory;
 
 // <Interface>
 use Rock\Component\Container\Graph\Edge\Factory\IEdgeFactory;
@@ -27,7 +27,7 @@ use Rock\Component\Container\Graph\Vertex\IVertex;
 use Rock\Component\Automaton\State\IState;
 
 // <Use> : Automaton Conditions as Graph Edge
-use Rock\Component\Automaton\Condition\Condition;
+use Rock\Component\Automaton\Graph\Edge\Condition;
 
 /**
  *
