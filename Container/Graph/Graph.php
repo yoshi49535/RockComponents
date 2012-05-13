@@ -68,7 +68,7 @@ class Graph
      */
     public function __construct()
 	{
-		$this->root      = new Vertex($this);
+		$this->root      = new Vertex();
 		$this->vertices  = array();
 		$this->edges     = array();
 

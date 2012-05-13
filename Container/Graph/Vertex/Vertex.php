@@ -26,9 +26,15 @@ class Vertex extends GraphComponent
   implements
 	IVertex
 {
+	/**
+	 * __toString 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function __toString()
 	{
-		return sprintf('Graph Vertex[%s]', get_class($this));
+		return get_class($this);
 	}
 
 }

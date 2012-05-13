@@ -15,35 +15,25 @@
  *
  ****/
 // @namesapce
-namespace Rock\Component\Container\Graph\Edge;
-// @extends 
-use Rock\Component\Container\Graph\IGraphComponent;
+namespace Rock\Component\Container\Graph;
 
 /**
- * IEdge 
+ * INamedVertex 
  * 
- * @uses IGraphComponent
+ * @uses IVertex
  * @package 
  * @version $id$
  * @copyright 2011-2012 Yoshi Aoki
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-interface IEdge extends IGraphComponent
+interface INamedComponent
 {
 	/**
-	 * getSource 
+	 * getName 
 	 * 
 	 * @access public
-	 * @return Rock\ContainerBundle\Graph\Vertex\IVertex
+	 * @return void
 	 */
-	public function getSource();
-
-	/**
-	 * getTarget 
-	 * 
-	 * @access public
-	 * @return Rock\ContainerBundle\Graph\Vertex\IVertex
-	 */
-	function getTarget();
+	function getName();
 }

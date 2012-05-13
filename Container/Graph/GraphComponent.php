@@ -28,24 +28,42 @@ class GraphComponent
   implements
     IGraphComponent
 {
+	/**
+	 * graph 
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
 	protected $graph;
 	
 	/**
-	 *
+	 * __construct 
+	 * 
+	 * @access public
+	 * @return void
 	 */
-	public function __construct(IGraph $graph = null)
+	public function __construct()
 	{
-		$this->graph = $graph;
+		$this->graph = null;
 	}
+
 	/**
-	 *
+	 * getGraph 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function getGraph()
 	{
 		return $this->graph;
 	}
+
 	/**
-	 *
+	 * setGraph 
+	 * 
+	 * @param IGraph $graph 
+	 * @access public
+	 * @return void
 	 */
 	public function setGraph(IGraph $graph)
 	{
