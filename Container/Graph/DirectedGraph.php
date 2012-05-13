@@ -25,7 +25,11 @@ class DirectedGraph extends Graph
     IDirectedGraph
 {
 	/**
-	 *
+	 * getInDegreeOf 
+	 * 
+	 * @param IVertex $vertex 
+	 * @access public
+	 * @return void
 	 */
 	public function getInDegreeOf(IVertex $vertex)
 	{
@@ -39,8 +43,13 @@ class DirectedGraph extends Graph
 		}
 		return $count;
 	}
+
 	/**
-	 *
+	 * getInboundVerticesOf 
+	 * 
+	 * @param IVertex $vertex 
+	 * @access public
+	 * @return void
 	 */
 	public function getInboundVerticesOf(IVertex $vertex)
 	{
@@ -51,8 +60,13 @@ class DirectedGraph extends Graph
 		}
 		return $vertices;
 	}
+
 	/**
-	 *
+	 * getEdgesTo 
+	 * 
+	 * @param IVertex $vertex 
+	 * @access public
+	 * @return void
 	 */
 	public function getEdgesTo(IVertex $vertex)
 	{
@@ -66,8 +80,13 @@ class DirectedGraph extends Graph
 		}
 		return $edges;
 	}
+
 	/**
-	 *
+	 * getOutDegreeOf 
+	 * 
+	 * @param IVertex $vertex 
+	 * @access public
+	 * @return void
 	 */
 	public function getOutDegreeOf(IVertex $vertex)
 	{
@@ -81,8 +100,13 @@ class DirectedGraph extends Graph
 		}
 		return $count;
 	}
+
 	/**
-	 *
+	 * getEdgesFrom 
+	 * 
+	 * @param IVertex $vertex 
+	 * @access public
+	 * @return void
 	 */
 	public function getEdgesFrom(IVertex $vertex)
 	{
@@ -98,7 +122,11 @@ class DirectedGraph extends Graph
 	}
 
 	/**
-	 *
+	 * getOutboundVerticesOf 
+	 * 
+	 * @param IVertex $vertex 
+	 * @access public
+	 * @return void
 	 */
 	public function getOutboundVerticesOf(IVertex $vertex)
 	{

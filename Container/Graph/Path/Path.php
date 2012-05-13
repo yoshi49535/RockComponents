@@ -33,13 +33,24 @@ class Path
 	protected $graph;
 	protected $components;
 
+	/**
+	 * __construct 
+	 * 
+	 * @param IGraph $graph 
+	 * @access public
+	 * @return void
+	 */
 	public function __construct(IGraph $graph)
 	{
 		$this->graph       = $graph;
 		$this->components  = array();
 	}
+
 	/**
-	 *
+	 * getGraph 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function getGraph()
 	{
@@ -144,8 +155,12 @@ class Path
 		$itr->rewind();
 		return $itr;
 	}
+
 	/**
-	 *
+	 * last 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function last()
 	{
@@ -158,6 +173,13 @@ class Path
 		return $itr;
 	}
 
+	/**
+	 * merge 
+	 * 
+	 * @param IPath $path 
+	 * @access public
+	 * @return void
+	 */
 	public function merge(IPath $path)
 	{
 		if($path->count() === 0)
@@ -194,8 +216,12 @@ class Path
 			}
 		}
 	}
+
 	/**
-	 *
+	 * pack 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function pack()
 	{
@@ -214,7 +240,11 @@ class Path
 	}
 
 	/**
-	 *
+	 * unpack 
+	 * 
+	 * @param array $data 
+	 * @access public
+	 * @return void
 	 */
 	public function unpack(array $data = array())
 	{
@@ -232,6 +262,12 @@ class Path
 		}
 	}
 
+	/**
+	 * __toString 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function __toString()
 	{
 		return sprintf(

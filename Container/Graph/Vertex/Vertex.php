@@ -30,4 +30,5 @@ class Vertex extends GraphComponent
 	{
 		return sprintf('Graph Vertex[%s]', get_class($this));
 	}
+
 }

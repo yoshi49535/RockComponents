@@ -24,6 +24,7 @@ use Rock\Component\Container\IContainer;
 use Rock\Component\Container\IComponent;
 // <Use> : Graph Component
 use Rock\Component\Container\Graph\Vertex\IVertex;
+use Rock\Component\Container\Graph\Vertex\Vertex;
 use Rock\Component\Container\Graph\Edge\IEdge;
 use Rock\Component\Container\Graph\Edge\Factory\EdgeFactory;
 
@@ -32,6 +33,14 @@ class Graph
 	IGraph,
 	IContainer
 {
+	
+	/**
+	 * root 
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
+	protected $root;
 	/**
 	 *
 	 */
@@ -51,11 +60,15 @@ class Graph
 	 */
 	protected $edges;
 
-	/**
-	 *
-	 */
+    /**
+     * __construct 
+     * 
+     * @access public
+     * @return void
+     */
     public function __construct()
 	{
+		$this->root      = new Vertex($this);
 		$this->vertices  = array();
 		$this->edges     = array();
 
@@ -63,19 +76,38 @@ class Graph
 	}
 
 	/**
-	 *
+	 * getRoot 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getRoot()
+	{
+		return $this->root;
+	}
+
+	/**
+	 * countEdges 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function countEdges()
 	{
 		return count($this->edges);
 	}
+
 	/**
-	 *
+	 * getEdges 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function getEdges()
 	{
 		return $this->edges;
 	}
+
 	/**
 	 *
 	 */
@@ -119,42 +151,64 @@ class Graph
 		return $edge;
 	}
 
+
 	/**
-	 *
+	 * initEdgeFactory 
+	 * 
+	 * @access protected
+	 * @return void
 	 */
 	protected function initEdgeFactory()
 	{
 		$this->edgeFactory = new EdgeFactory();
 	}
 	/**
-	 *
+	 * getEdgeFactory 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function getEdgeFactory()
 	{
 		return $this->edgeFactory;
 	}
 
+	/**
+	 * serializeComponentReference 
+	 * 
+	 * @param IComponent $component 
+	 * @access public
+	 * @return void
+	 */
 	public function serializeComponentReference(IComponent $component)
 	{
 		if(!($component instanceof IGraphComponent) || ($component->getGraph() != $this))
 		{
 			throw new \InvalidArgumentException('$component has to be a component of this Graph.');
 		}
-
 		if($component instanceof IVertex)
 		{
-			return array('v', array_search($component, $this->vertices));
+			return array('v', array_search($component, $this->vertices, true));
 		}
 		else if($component instanceof IEdge)
 		{
-			return array('e', array_search($component->getSource(), $this->vertices), array_search($component->getTarget(), $this->vertices));
+			return 
+				array(
+					'e', 
+					array_search($component->getSource(),$this->vertices, true), 
+					array_search($component->getTarget(), $this->vertices, true)
+				);
 		}
 
 		throw new \Exception('Unknown Component is given.');
 	}
 	
 	/**
-	 *
+	 * unserializeComponentReference 
+	 * 
+	 * @param mixed $data 
+	 * @access public
+	 * @return void
 	 */
 	public function unserializeComponentReference($data)
 	{
@@ -169,7 +223,7 @@ class Graph
 			
 			foreach($this->edges as $edge)
 			{
-				if(($edge->getSource() == $src) && ($edge->getTarget() == $trg))
+				if(($edge->getSource() === $src) && ($edge->getTarget() === $trg))
 				{
 					return $edge;
 				}
