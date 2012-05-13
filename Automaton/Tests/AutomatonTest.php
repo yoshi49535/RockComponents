@@ -50,10 +50,14 @@ class AutomatonTest extends TestCase
 		$this->assertTrue(count($trail) === 1, 'Assert trail size one.');
 
 		$this->assertTrue($trail->last()->current()->getName() === 'first', 'Assert Compare Trail last.');
+		$this->assertTrue($trail->last()->current()->isEntryPoint(), 'Assert Entry point.');
 
 		// 
 		$traversal = $automaton->forward($traversal);
 		$this->assertTrue(count($trail) === 3, 'Assert trail size three.');
 		$this->assertTrue($trail->last()->current()->getName() === 'second', 'Assert Compare Trail last.');
+
+		// 
+		$this->assertTrue($trail->last()->current()->isEndPoint(), 'Assert Endpoint');
 	}
 }

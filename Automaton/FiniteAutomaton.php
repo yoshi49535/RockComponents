@@ -24,22 +24,4 @@ use Rock\Component\Automaton\Automaton;
  */
 class FiniteAutomaton extends Automaton
 {
-	/**
-	 * getEndPoint 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function getEndPoint()
-	{
-		$vertices = $this->getGraph()->getVertices();
-		foreach($vertices as $vertex)
-		{
-			if(0 === $this->getGraph()->getOutDegreeOf($vertex))
-			{
-				$endpoints[]  = $vertex;
-			}
-		}
-		return $endpoints;
-	}
 }

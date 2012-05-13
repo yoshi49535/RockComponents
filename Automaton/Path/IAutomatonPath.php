@@ -97,7 +97,6 @@ interface IAutomatonPath
 	 */
 	function addCondition(ICondition $condition);
 
-
 	/**
 	 * getEntryPoint 
 	 * 
@@ -105,6 +104,14 @@ interface IAutomatonPath
 	 * @return void
 	 */
 	function getEntryPoint();
+
+	/**
+	 * getEndPoints 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function getEndPoints();
 
 	/**
 	 * getCondtionsFrom 

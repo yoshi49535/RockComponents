@@ -208,6 +208,26 @@ class AutomatonGraph extends DirectedGraph
 		// Get edges form root 
 		return $this->getOutboundVerticesOf($root);
 	}
+	/**
+	 * getEndPoints
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getEndPoints()
+	{
+		$endpoints  = array();
+		$vertices = $this->getVertices();
+		foreach($vertices as $vertex)
+		{
+			if((0 === $this->getOutDegreeOf($vertex)) || 
+			   ($vertex->isEndPoint()))
+			{
+				$endpoints[]  = $vertex;
+			}
+		}
+		return $endpoints;
+	}
 
 	/**
 	 * getConditionsFrom 
