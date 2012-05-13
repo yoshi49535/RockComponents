@@ -35,14 +35,6 @@ interface IAutomaton
 	function getPath();
 
 	/**
-	 * getEntryPoint 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	function getEntryPoint();
-
-	/**
 	 * backward 
 	 * 
 	 * @param ITraversal $traversal 

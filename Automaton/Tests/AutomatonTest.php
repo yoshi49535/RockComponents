@@ -22,15 +22,15 @@ use \PHPUnit_Framework_TestCase as TestCase;
 // <Use> : Automaton
 use Rock\Component\Automaton\FiniteAutomaton;
 use Rock\Component\Automaton\Graph\AutomatonGraph;
-// @use State
+// @use GraphPath Component
 use Rock\Component\Automaton\Graph\Vertex\State;
+use Rock\Component\Automaton\Graph\Edge\Condition;
 
 /**
  *
  */
 class AutomatonTest extends TestCase
 {
-	
 	public function testAutomaton()
 	{
 		// Create Automaton
@@ -38,8 +38,10 @@ class AutomatonTest extends TestCase
 			
 		$automaton->setPath(new AutomatonGraph());
 
-		$entry = new State($automaton->getPath());
-		$automaton->getPath()->addEntryVertex($entry);
+		$automaton->getPath()->addState($first = new State('first'));
+		$automaton->getPath()->addState($second = new State('second'));
+
+		$automaton->getPath()->addCondition(new Condition($first, $second));
 
 		$traversal = $automaton->createTraversal();
 		$traversal = $automaton->forward($traversal);
@@ -47,7 +49,11 @@ class AutomatonTest extends TestCase
 		$trail  = $traversal->getTrail();
 		$this->assertTrue(count($trail) === 1, 'Assert trail size one.');
 
-		$this->assertTrue($trail->last()->current() === $entry, 'Assert Compare Trail last.');
+		$this->assertTrue($trail->last()->current()->getName() === 'first', 'Assert Compare Trail last.');
 
+		// 
+		$traversal = $automaton->forward($traversal);
+		$this->assertTrue(count($trail) === 3, 'Assert trail size three.');
+		$this->assertTrue($trail->last()->current()->getName() === 'second', 'Assert Compare Trail last.');
 	}
 }

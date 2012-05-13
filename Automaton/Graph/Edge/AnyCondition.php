@@ -19,7 +19,7 @@ namespace Rock\Component\Automaton\Graph\Edge;
 // <Base>
 use Rock\Component\Container\Graph\Edge\Edge;
 // <Interface>
-use Rock\Component\Automaton\Graph\Edge\ICondition;
+use Rock\Component\Automaton\Path\Condition\ICondition;
 // <Use> : Automaton Component
 use Rock\Component\Automaton\Input\IInput;
 
@@ -47,5 +47,27 @@ class AnyCondition extends Edge
 	public function isValid(IInput $cond = null)
 	{
 		return true;
+	}
+
+	/**
+	 * getSource 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getSource()
+	{
+		return parent::getSource();
+	}
+
+	/**
+	 * getTarget 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getTarget()
+	{
+		return parent::getTarget();
 	}
 }

@@ -22,7 +22,7 @@ use Rock\Component\Automaton\Graph\Edge\AnyCondition;
 use Rock\Component\Automaton\Graph\Edge\Validator\ClosureValidator;
 use Rock\Component\Automaton\Graph\Edge\Validator\IValidator;
 // <Use> : Automaton Component
-use Rock\Component\Automaton\Graph\Vertex\IState;
+use Rock\Component\Automaton\Path\State\IState;
 use Rock\Component\Automaton\Input\IInput;
 use Rock\Component\Automaton\Input\ScalarInput;
 // @use Delegate

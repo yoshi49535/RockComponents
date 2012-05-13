@@ -34,7 +34,7 @@ class Traversal
 	/**
 	 * owner 
 	 * 
-	 * @var mixed
+	 * @var IAutomaton
 	 * @access protected
 	 */
 	protected $owner;

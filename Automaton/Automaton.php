@@ -23,8 +23,8 @@ use Rock\Component\Automaton\Traversal\ITraversal;
 use Rock\Component\Automaton\Traversal\Traversal;
 // @use Trail
 use Rock\Component\Automaton\Trail\Trail;
-// @use Graph Components
-use Rock\Component\Container\Graph\IDirectedGraph;
+// @use Path Components
+use Rock\Component\Automaton\Path\IAutomatonPath;
 
 // <Use> : Automaton Component
 use Rock\Component\Automaton\State\IState;
@@ -43,7 +43,7 @@ abstract class Automaton
 	/**
 	 * path
 	 * 
-	 * @var IDirectedGraph
+	 * @var IAutomatonPath
 	 * @access protected
 	 */
 	protected $path;
@@ -63,13 +63,14 @@ abstract class Automaton
 	/**
 	 * setPath 
 	 * 
-	 * @param IDirectedGraph $path 
+	 * @param IAutomatonPath $path 
 	 * @access public
 	 * @return void
 	 */
-	public function setPath(IDirectedGraph $path)
+	public function setPath(IAutomatonPath $path)
 	{
 		$this->path  = $path;
+		$this->path->setOwner($this);
 	}
 
 	/**
@@ -81,35 +82,6 @@ abstract class Automaton
 	public function getPath()
 	{
 		return $this->path;
-	}
-
-	/**
-	 * getEntryPoint 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function getEntryPoint()
-	{
-		$states = $this->getEntryPoints();
-		//
-		if(count($states) == 0)
-			throw new AutomatonException\InitializeException('Automaton dose not have any EntryPoint.');
-
-		return $states[0];
-	}
-
-	/**
-	 * getEntryPoints 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function getEntryPoints()
-	{
-		$root = $this->getPath()->getRoot();
-		// Get edges form root 
-		return $this->getPath()->getOutboundVerticesOf($root);
 	}
 
 	/**
@@ -158,7 +130,7 @@ abstract class Automaton
 		$begin    = null;
 
 		if(count($traversal->getTrail()) > 0)
-			$begin = $traversal->getTrail()->last();
+			$begin = $traversal->getTrail()->last()->current();
 
 		// Create Output Trail for this execution
 		$trail = $this->createTrail();
@@ -166,27 +138,27 @@ abstract class Automaton
 		// Grab edges which sourced from current state pos
 		if(!$begin)
 		{
-			$trail->push($this->getEntryPoint());
+			$trail->push($this->getPath()->getEntryPoint());
 		}
 		else
 		{
 			$trail->push($begin);
-			foreach($this->getPath()->getEdgesFrom($begin) as $condition)
+			foreach($this->getPath()->getConditionsFrom($begin) as $condition)
 			{
-				if($edge instanceof ICondition)
+				if($condition instanceof ICondition)
 				{
 					if($condition->isValid($traversal->getInput()))
 					{
 						// Push the trail 
-						$trail->push($edge);
-						$trail->push($edge->getTarget());
+						$trail->push($condition);
+						$trail->push($condition->getTarget());
 						break;
 					}
 				}
 				else
 				{
-					$trail->push($edge);
-					$trail->push($edge->getTarget());
+					$trail->push($condition);
+					$trail->push($condition->getTarget());
 					break;
 				}
 			}

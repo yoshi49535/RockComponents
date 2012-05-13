@@ -15,10 +15,13 @@
  *
  ****/
 
-namespace Rock\Component\Automaton\Graph\Vertex;
+// <Namespace>
+namespace Rock\Component\Automaton\Path\Condition;
+// <Use> : Automaton Component
+use Rock\Component\Automaton\Input\IInput;
 
 /**
- * IState 
+ * ICondition 
  * 
  * @package 
  * @version $id$
@@ -26,21 +29,26 @@ namespace Rock\Component\Automaton\Graph\Vertex;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-interface IState
+interface ICondition
 {
 	/**
-	 * isEntryPoint 
-	 * 
-	 * @access public
-	 * @return void
+	 *
 	 */
-	function isEntryPoint();
+	function isValid(IInput $cond = null);
 
 	/**
-	 * isEndPoint 
+	 * getSource 
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	function isEndPoint();
+	function getSource();
+
+	/**
+	 * getTarget 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function getTarget();
 }

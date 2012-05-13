@@ -17,19 +17,24 @@
 // @namespace
 namespace Rock\Component\Automaton\Graph\Vertex;
 // @extends
-use Rock\Component\Container\Graph\Vertex\Vertex;
+use Rock\Component\Container\Graph\Vertex\NamedVertex;
+// @interface 
+use Rock\Component\Automaton\Path\State\IState;
+// @use Graph Edge
+use Rock\Component\Container\Graph\Edge\Edge;
 
 /**
  * State 
+ *  Automaton State as GraphVertex implemented for AutomatonGraphPath
  * 
- * @uses Vertex
+ * @uses NamedVertex
  * @package 
  * @version $id$
  * @copyright 2011-2012 Yoshi Aoki
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-class State extends Vertex
+class State extends NamedVertex
   implements
     IState
 {

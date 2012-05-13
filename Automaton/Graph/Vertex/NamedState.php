@@ -18,7 +18,7 @@
 namespace Rock\Component\Automaton\Graph\Vertex;
 
 // <BaseClass>
-use Rock\Component\Automaton\State\State;
+use Rock\Component\Automaton\Graph\Vertex\State;
 // <Interface>
 use Rock\Component\Container\Graph\Vertex\INamedVertex;
 // <Use>
