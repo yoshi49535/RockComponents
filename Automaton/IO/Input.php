@@ -28,34 +28,31 @@ class Input
     IInput
 {
 	/**
-	 *
-	 */
-	protected $validator;
-
-	/**
-	 *
+	 * __construct 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function __construct()
 	{
-		$this->init();
 	}
 
 	/**
-	 *
-	 */
-	protected function init()
-	{
-	}
-
-	/**
-	 *
+	 * getValue 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function getValue()
 	{
 		return false;
 	}
+
 	/**
-	 *
+	 * getScalar 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function getScalar()
 	{

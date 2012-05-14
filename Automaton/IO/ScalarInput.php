@@ -32,7 +32,12 @@ class ScalarInput extends Input
   implements IScalarInput
 {
 	/**
-	 *
+	 * __construct 
+	 * 
+	 * @param mixed $value 
+	 * @param mixed $direction 
+	 * @access public
+	 * @return void
 	 */
 	public function __construct($value, $direction = Directions::FORWARD)
 	{
@@ -42,7 +47,11 @@ class ScalarInput extends Input
 	}
 
 	/**
-	 *
+	 * setValue 
+	 * 
+	 * @param mixed $value 
+	 * @access public
+	 * @return void
 	 */
 	public function setValue($value)
 	{
@@ -50,7 +59,10 @@ class ScalarInput extends Input
 	}
 
 	/**
-	 *
+	 * getValue 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function getValue()
 	{
