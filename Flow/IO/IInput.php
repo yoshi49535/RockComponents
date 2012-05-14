@@ -16,17 +16,27 @@
  ****/
 
 // <Namespace>
-namespace Rock\Component\Flow\Input;
+namespace Rock\Component\Flow\IO;
 // <Base>
-use Rock\Component\Automaton\Input\IInput as IBaseInput;
+use Rock\Component\Automaton\IO\IInput as IBaseInput;
 
 /**
- * Flow Input
+ * IInput 
+ * 
+ * @uses IBaseInput
+ * @package 
+ * @version $id$
+ * @copyright 2011-2012 Yoshi Aoki
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license 
  */
 interface IInput extends IBaseInput
 {
 	/**
-	 *
+	 * getDirection 
+	 * 
+	 * @access public
+	 * @return void
 	 */
-	function getDirection(); 
+	function getDirection();
 }

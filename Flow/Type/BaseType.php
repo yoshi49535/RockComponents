@@ -76,30 +76,36 @@ abstract class BaseType extends FlowDefinition
 	 * @access public
 	 * @return void
 	 */
-	public function addState($name, $callback = null, array $params = array())
+	public function addState($name, $defaultCallback = null, array $params = array())
 	{
 		// merge parameters
 		$params = array_merge(
 			// Defaults
 			array(
 				'class' => $this->defaultStateClass,
-				'attributes' => array()
+				'attributes' => array(),
+				'delegate_prefix' => 'doState'
 			), 
 			$params);
 		
+		//
+		$delegateMethod = $this->getDelegateName($name, $params['delegate_prefix']);
+		if($defaultCallback)
+			$this->setDefaultDelegate($delegateMethod, $defaultCallback);
+		$delegate       = $this->createDelegateDefinition($delegateMethod);
+
 		// merge attributes
 		$attrs  = array_merge(
 			$params['attributes'],
 			array(
 				'name'    => $name,
-				'handler' => $callback
+				'handler' => $delegate
 			));
-
+		
 		// 
 		$class       = $params['class'];
 		$definition  = new $class($this->generateSubId($name), $attrs);
 
-		
 		$this->addStateDefinition($definition);
 		return $this;
 	}
@@ -107,24 +113,35 @@ abstract class BaseType extends FlowDefinition
 	/**
 	 *
 	 */
-	public function addCondition($callback, array $params = array())
+	public function addCondition($name, $defaultCallback, array $params = array())
 	{
 		// merge parameters
 		$params = array_merge(
 			// Defaults
 			array(
 				'class' => $this->defaultConditionClass,
-				'attributes' => array()
+				'attributes' => array(),
+				'delegate_prefix' => 'doCondition'
 			), 
 			$params);
+		
+		//
+		$delegateMethod = $this->getDelegateName($name, $params['delegate_prefix']);
+		if($defaultCallback)
+			$this->setDefaultDelegate($delegateMethod, $defaultCallback);
+		$delegate       = $this->createDelegateDefinition($delegateMethod);
 		
 		// merge attributes
 		$attrs  = array_merge(
 			$params['attributes'],
 			array(
-				'validator' => $callback
+				'name'      => $name,
+				'validator' => $delegate->getReference()
 			));
-		
+	
+		// regist validator as Default Delegator of FlowDelegate 
+		// And get FlowDelegate
+
 		// Create definition 
 		$class      = $params['class'];
 		$definition = new $class($attrs);
@@ -139,5 +156,10 @@ abstract class BaseType extends FlowDefinition
 	protected function generateSubId($id)
 	{
 		return sprintf('%s.%s',$this->getId(),$id);
+	}
+
+	public function __toString()
+	{
+		return get_class($this);
 	}
 }

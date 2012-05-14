@@ -19,10 +19,14 @@
 namespace Rock\Component\Flow\Definition;
 // @extends
 use Rock\Component\Configuration\Definition\ContainerAwareDefinition;
+// @use Container
+use Rock\Component\Configuration\Definition\Container;
 // @use Call
 use Rock\Component\Configuration\Definition\Call;
-
+// @use 
 use Rock\Component\Configuration\Definition\Reference as Reference;
+// @use
+use Rock\Component\Configuration\Definition\DelegateDefinition;
 
 /**
  *
@@ -147,4 +151,69 @@ class FlowDefinition extends ContainerAwareDefinition
 		$this->addCall(new Call('setPath', array($this->getGraphDefinition()->getReference())));
 	}
 	//----
+
+	public function getDelegateName($name, $prefix = '')
+	{
+        return $prefix.ucfirst(preg_replace('/[_\.](\w)/ie', 'ucfirst(\\1)', strtolower($name)));
+	}
+
+
+	/**
+	 * createDelegateDefinition 
+	 *  Create DelegateDefinition to point Flow Delegator 
+	 * @param mixed $delegateMethod 
+	 * @access public
+	 * @return void
+	 */
+	public function createDelegateDefinition($delegateMethod)
+	{
+		// Delegate to FlowDelegate
+		$definition  = new DelegateDefinition($this->getId().'.delegate.'.$delegateMethod.'.onFlow');
+
+		// 
+		$definition->addArgument(array($this->getReference(), 'callDelegate'));
+		$definition->addArgument($this->getReference());
+
+
+		// Regitst 
+		$this->getContainer()->addDefinition($definition, Container::SCOPE_CURRENT);
+
+		
+		// Add delegates into flow
+		$this->addCall(new Call('setDelegate', array($delegateMethod, $definition->getReference())));
+
+		//
+		return $definition;
+	}
+
+	/**
+	 * setDefaultDelegate 
+	 * 
+	 * @param mixed $methodName 
+	 * @param mixed $callback 
+	 * @access public
+	 * @return void
+	 */
+	public function setDefaultDelegate($methodName, $callback)
+	{
+		// Delegate to FlowDelegate
+		$definition  = new DelegateDefinition($this->getId().'.delegate.'.$methodName.'.default');
+
+		$definition->addArgument($callback);
+		$definition->addArgument($this->getReference());
+
+		// Regitst 
+		$this->getContainer()->addDefinition($definition, Container::SCOPE_CURRENT);
+
+		//
+		$this->addCall(
+			new Call(
+				'setDelegate',
+				array(
+					$methodName,
+					$definition->getReference()
+				)
+			)
+		);
+	}
 }

@@ -17,10 +17,8 @@
 
 // <Namespace>
 namespace Rock\Component\Flow\Graph;
-
-// <Base>
-use Rock\Component\Automaton\FiniteAutomaton;
-
+// @extends
+use Rock\Component\Automaton\Graph\AutomatonGraph;
 // <Use> : Flow Component
 use Rock\Component\Flow\IFlow;
 use Rock\Component\Flow\Path\IPath as IFlowPath;
@@ -37,54 +35,34 @@ use Rock\Component\Automaton\Input\IInput as IAutomatonInput;
 /**
  *
  */
-class FlowGraph extends FiniteAutomaton
-  implements
-    IFlowPath
+class FlowGraph extends AutomatonGraph
 {
-	protected $flow;
 
-	/**
-	 *
-	 */
-	public function __construct(IFlow $flow)
-	{
-		$this->flow  = $flow;
-		parent::__construct();
-	}
+	//public function getEntrySteps()
+	//{
+	//	$root  = $this->getRoot();
+	//	return $this->getOutboundVertices($root);
+	//}
 
-	/**
-	 *
-	 */
-	public function getFlow()
-	{
-		return $this->flow;
-	}
+	//public function getNextSteps(IFlowStep $step)
+	//{
+	//	if(!$step instanceof IVertex)
+	//	{
+	//		throw new InvalidArgumentException('$step has to be an instance of IVertex.');
+	//	}
 
-	public function getEntrySteps()
-	{
-		$root  = $this->getRoot();
-		return $this->getOutboundVertices($root);
-	}
+	//	return $this->getOutbundVertices($step);
+	//}
 
-	public function getNextSteps(IFlowStep $step)
-	{
-		if(!$step instanceof IVertex)
-		{
-			throw new InvalidArgumentException('$step has to be an instance of IVertex.');
-		}
+	//public function getPrevSteps(IFlowStep $step)
+	//{
+	//	if(!$step instanceof IVertex)
+	//	{
+	//		throw new InvalidArgumentException('$step has to be an instance of IVertex.');
+	//	}
 
-		return $this->getOutbundVertices($step);
-	}
-
-	public function getPrevSteps(IFlowStep $step)
-	{
-		if(!$step instanceof IVertex)
-		{
-			throw new InvalidArgumentException('$step has to be an instance of IVertex.');
-		}
-
-		return $this->getInbundVertices($step);
-	}
+	//	return $this->getInbundVertices($step);
+	//}
 	/**
 	 *
 	 * @param 
@@ -141,26 +119,12 @@ class FlowGraph extends FiniteAutomaton
 
 		return $path;
 	}
-	/**
-	 *
-	 */
-	public function getSteps()
-	{
-		return $this->getVertices();
-	}
-	/**
-	 *
-	 */
-	public function countSteps()
-	{
-		return $this->countVertices();
-	}
 
 	/**
 	 *
 	 */
 	public function __toString()
 	{
-		return sprintf('Graph[%s][size=%d]', get_class($this), $this->countSteps());
+		return sprintf('%s[ size=%d]', get_class($this), $this->countStates());
 	}
 }

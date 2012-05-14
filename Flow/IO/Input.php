@@ -14,14 +14,14 @@
  * please read the LICENSE file that is distributed with the source code.
  *
  ****/
-
-namespace Rock\Component\Flow\Input;
-
-// <Base>
-use Rock\Component\Automaton\Input\Input as AutomatonInput;
-// <Interface>
-use Rock\Component\Flow\Input\IInput;
+// @namespace
+namespace Rock\Component\Flow\IO;
+// @extends 
+use Rock\Component\Automaton\IO\Input as AutomatonInput;
+// @interface
+use Rock\Component\Flow\IO\IInput;
 use Rock\Component\Flow\Util\IParameterBag;
+// @use Flow
 // <Use> : Flow Component
 use Rock\Component\Flow\Directions;
 // <Use> : ParameterBag
@@ -33,14 +33,29 @@ class Input extends AutomatonInput
 	IParameterBag
 {
 	/**
-	 *
+	 * params 
+	 * 
+	 * @var mixed
+	 * @access protected
 	 */
 	protected $params;
 
+	/**
+	 * direction 
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
 	protected $direction;
 
 	/**
+	 * __construct 
+	 * 
 	 * @override
+	 * @param mixed $direction 
+	 * @param array $params 
+	 * @access public
+	 * @return void
 	 */
 	public function __construct($direction, array $params = array())
 	{
@@ -53,28 +68,44 @@ class Input extends AutomatonInput
 
 	// IParameterBag Impl
 	/**
-	 *
+	 * get 
+	 * 
+	 * @param mixed $idx 
+	 * @access public
+	 * @return void
 	 */
 	public function get($idx)
 	{
 		return $this->params->get($idx);
 	}
 	/**
-	 *
+	 * set 
+	 * 
+	 * @param mixed $idx 
+	 * @param mixed $value 
+	 * @access public
+	 * @return void
 	 */
 	public function set($idx, $value)
 	{
 		$this->params->set($idx, $value);
 	}
 	/**
-	 *
+	 * has 
+	 * 
+	 * @param mixed $idx 
+	 * @access public
+	 * @return void
 	 */
 	public function has($idx)
 	{
 		return $this->params->has($idx);
 	}
 	/**
-	 *
+	 * all 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function all()
 	{
@@ -82,7 +113,10 @@ class Input extends AutomatonInput
 	}
 
 	/**
-	 *
+	 * getParameterBag 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function getParameterBag()
 	{
@@ -91,23 +125,32 @@ class Input extends AutomatonInput
 
 	//
 	/**
-	 * @param string $direction
+	 * setDirection 
+	 * 
+	 * @param string $direction 
+	 * @access public
+	 * @return void
 	 */
 	public function setDirection($direction)
 	{
 		$this->direction  = $direction;
 	}
 	/**
+	 * getDirection 
 	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function getDirection()
 	{
 		return $this->direction;
 	}
 
-	//----
 	/**
-	 *
+	 * __toString 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function __toString()
 	{

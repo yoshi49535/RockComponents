@@ -16,96 +16,111 @@
  ****/
 
 namespace Rock\Component\Flow;
+// @extends
+use Rock\Component\Automaton\FiniteAutomaton;
 
 // <Interface>
 use Rock\Component\Flow\IFlow;
 
 // <Use> : Flow Component
-use Rock\Component\Flow\Traversal\ITraversalState;
-use Rock\Component\Flow\Traversal\TraversalState;
-use Rock\Component\Flow\Input\IInput;
-use Rock\Component\Flow\Output\Output;
-use Rock\Component\Flow\Path\IPath;
+use Rock\Component\Automaton\Traversal\ITraversal;
+use Rock\Component\Flow\Traversal\Traversal;
+use Rock\Component\Flow\IO\IInput;
+use Rock\Component\Flow\IO\Output;
 
 // <Use> : Exceptions
-use Rock\Component\Flow\Exception\TraversalStateException;
+use Rock\Component\Flow\Exception\TraversalException;
 use Rock\Component\Flow\Exception\FlowHandleException;
 use Rock\Component\Flow\Exception\InitializeException;
 // @use Deleggate Interface
-use Rock\Component\Flow\Delegate\IStateDelegate;
+use Rock\Component\Utility\Delegate\Delegate;
 
 /**
  * Class "Flow" is the abstract base class of Flow Strategy.
  * To use the Flow instance, see Graph Flow which implemented the FlowStrategy w
  * with DirectionalGraph.
  */
-abstract class Flow 
+class Flow extends FiniteAutomaton 
   implements
 	IFlow
 {
-
 	/**
-	 * #var IPath
-	 */
-	protected $path;
-
-	/**
-	 *
-	 */
-	public function __construct()
-	{
-		$this->path      = null;
-	}
-
-	/**
-	 * doInit
+	 * doInit 
 	 * 
+	 * @param ITraversal $traversal 
+	 * @access protected
+	 * @return void
 	 */
-	protected function doInit(ITraversalState $traversal)
+	protected function doInit(ITraversal $traversal)
 	{
 	}
+
 	/**
-	 * doInitPath
+	 * doInitPath 
 	 * 
+	 * @access protected
+	 * @return void
 	 */
 	protected function doInitPath()
 	{
 		throw new NotImplementedException('Flow is abstracted. Make sure your extended Flow has onInitPath Function to handle "doInitPath()".');
 	}
+
 	/**
-	 * doShutdown
+	 * doShutdown 
 	 * 
+	 * @param ITraversal $traversal 
+	 * @access protected
+	 * @return void
 	 */
-	protected function doShutdown(ITraversalState $traversal)
+	protected function doShutdown(ITraversal $traversal)
 	{
 	}
+
 	/**
-	 * doInitTraversal
+	 * doInitTraversal 
 	 * 
+	 * @param ITraversal $traversal 
+	 * @access protected
+	 * @return void
 	 */
-	protected function doInitTraversal(ITraversalState $traversal)
+	protected function doInitTraversal(ITraversal $traversal)
 	{
 	}
+
 	/**
-	 * doRecoverTraversal
+	 * doRecoverTraversal 
 	 * 
+	 * @param ITraversal $traversal 
+	 * @access protected
+	 * @return void
 	 */
-	protected function doRecoverTraversal(ITraversalState $traversal)
+	protected function doRecoverTraversal(ITraversal $traversal)
 	{
 
 	}
 
 	/**
-	 *
+	 * doHandleInput 
+	 * 
+	 * @param ITraversal $traversal 
+	 * @abstract
+	 * @access protected
+	 * @return void
 	 */
-	abstract protected function doHandleInput(ITraversalState $traversal);
+	protected function doHandleInput(ITraversal $traversal)
+	{
+	}
 
 	/**
-	 * Create new Traversal
+	 * createTraversal 
+	 * 
+	 * @access public
+	 * @return void
 	 */
-	public function createTraversalState()
+	public function createTraversal()
 	{
-		return new TraversalState($this);
+		return new Traversal($this);
 	}
 
 	/** 
@@ -113,16 +128,16 @@ abstract class Flow
 	 *   Handle the Flow Request.
 	 *   This is the time to construct, recover, and execute the Flow.
 	 *   On the first step, the flow construct the traversals.
-	 *   On the second step, the flow recover the traversal from the ITraversalState
+	 *   On the second step, the flow recover the traversal from the ITraversal
 	 *   Then, on third, flow modify the traversal for Input.
 	 */
-	public function handle(IInput $input, ITraversalState $traversal = null)
+	public function handle(IInput $input, ITraversal $traversal = null)
 	{
 		try
 		{
 			if(!$traversal)
 			{
-				$traversal  = $this->createTraversalState();
+				$traversal  = $this->createTraversal();
 			}
 			$traversal->setInput($input);
 
@@ -134,16 +149,12 @@ abstract class Flow
 				// try recover the traversal from $traversal
 				$this->doRecoverTraversal($traversal);
 			}
-			catch(TraversalStateException $ex)
+			catch(TraversalException $ex)
 			{
 				// Failed to recover $traversal
 			    // Initialize step
 			    $this->doInitTraversal($traversal);
 			}
-
-			// Create Output
-			$output   = $this->createOutput();
-			$traversal->setOutput($output);
 
 			// handle input 
 			$this->doHandleInput($traversal);
@@ -158,30 +169,18 @@ abstract class Flow
 		catch (\Exception $ex)
 		{
 			// Failed on some
+			throw $ex;
 			throw new FlowHandleException($this, 'Failed to handle flow.', 0, $ex);
 		}
 		
-		return $output;
+		return $traversal->getOutput();
 	}
 
 	/**
-	 *
-	 */
-	protected function createOutput()
-	{
-		return new Output();
-	}
-
-	/**
-	 *
-	 */
-	public function setPath(IPath $path)
-	{
-		$this->path  = $path;
-	}
-
-	/**
-	 *
+	 * getPath 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function getPath()
 	{
@@ -197,16 +196,39 @@ abstract class Flow
 		return $this->path;
 	}
 
-	/**
-	 *
-	 */
-	public function reset(ITraversalState $traversal)
-	{
-		
-	}
+	///**
+	// * callDelegate 
+	// * 
+	// * @param mixed $method 
+	// * @param mixed $args 
+	// * @access public
+	// * @return void
+	// */
+	//public function callDelegate($method, $args)
+	//{
+	//	$delegate = null;
 
-	public function setStateDelegator($name, $delegator)
-	{
-		throw new \Exception('Not Supported');
-	}
+	//	//
+	//	if(!isset($this->delegates[$method]))
+	//		throw new \Exception(sprintf('Delegate "%s" is not exists.', $method));
+
+	//	// 
+	//	$delegate = $this->delegates[$method];
+
+	//	return call_user_func_array($delegate, $args);
+	//}
+
+	///**
+	// * setDelegate 
+	// * 
+	// * @param mixed $name 
+	// * @param mixed $callback 
+	// * @access public
+	// * @return void
+	// */
+	//public function setDelegate($method, Delegate $callback)
+	//{
+	//	$this->delegates[$method]  = $callback;
+	//}
+
 }

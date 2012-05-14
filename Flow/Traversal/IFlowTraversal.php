@@ -14,16 +14,11 @@
  * please read the LICENSE file that is distributed with the source code.
  *
  ****/
-// @namespace
-namespace Rock\Component\Flow;
-// @extends 
-use Rock\Component\Automaton\IAutomaton;
-// @use 
-use Rock\Component\Flow\IO\IInput;
-use Rock\Component\Automaton\Traversal\ITraversal;
+
+namespace Rock\Component\Flow\Traversal;
 
 /**
- * IFlow 
+ * ITraversal 
  * 
  * @package 
  * @version $id$
@@ -31,16 +26,30 @@ use Rock\Component\Automaton\Traversal\ITraversal;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-interface IFlow extends IAutomaton
+interface IFlowTraversal
 {
 	/**
-	 * handle 
-	 *   From Input, detect the direction of execute automaton, and 
-	 *   execute it. Return Output of Automaton
-	 * @param IInput $request 
-	 * @param ITraversal $state 
+	 * isHandled 
+	 * 
 	 * @access public
 	 * @return void
 	 */
-	function handle(IInput $request, ITraversal $state = null);
+	function isHandled();
+
+	/**
+	 * isKeepAlive 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function isKeepAlive();
+
+	/**
+	 * setKeepAlive 
+	 * 
+	 * @param bool $bAlive 
+	 * @access public
+	 * @return void
+	 */
+	function setKeepAlive($bAlive);
 }

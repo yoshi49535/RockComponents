@@ -48,7 +48,7 @@ class ConditionDefinition extends FlowComponentDefinition
 	{
 		parent::__construct('edge', $attributes);
 
-		$this->class   = '\\Rock\\Component\\Automaton\\Condition\\Condition'; 
+		$this->class   = '\\Rock\\Component\\Automaton\\Graph\\Edge\\Condition'; 
 	}
 
 	/**

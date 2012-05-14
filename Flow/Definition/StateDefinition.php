@@ -17,10 +17,10 @@
 
 // @namespace
 namespace Rock\Component\Flow\Definition;
-// @extend
-
 // @use Call
 use Rock\Component\Configuration\Definition\Call;
+// @use Definition
+use Rock\Component\Configuration\Definition\Definition;
 
 /**
  *
@@ -33,7 +33,7 @@ class StateDefinition extends FlowComponentDefinition
 	public function __construct($id, array $attributes = array())
 	{
 		parent::__construct($id, $attributes);
-		$this->class = '\\Rock\\Component\\Flow\\Graph\\State\\State';
+		$this->class = '\\Rock\\Component\\Flow\\Graph\\Vertex\\State';
 	}
 
 	/**
@@ -41,10 +41,10 @@ class StateDefinition extends FlowComponentDefinition
 	 */
 	public function getArguments()
 	{
+
 		return array(
 			$this->getGraphDefinition()->getReference(), 
 			$this->hasAttribute('name') ? $this->getAttribute('name') : $this->getId(), 
-			$this->hasAttribute('handler') ? $this->getAttribute('handler') : null
 		);
 	}
 
@@ -53,12 +53,18 @@ class StateDefinition extends FlowComponentDefinition
 	 */
 	protected function doConfigurateDefinition()
 	{
-		if($this->hasAttribute('handler'))
+		$handler = $this->hasAttribute('handler') ? $this->getAttribute('handler') : null;
+		//
+		if($handler instanceof Definition)
+			$handler = $handler->getReference();
+
+		//
+		if($handler)
 		{
 			$this->addCall(
 			  new Call(
 			  	'setHandler',
-				array($this->getAttribute('handler'))
+				array($handler)
 			  )
 			);
 		}

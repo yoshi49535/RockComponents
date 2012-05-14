@@ -19,57 +19,63 @@
 namespace Rock\Component\Flow\Tests\Flow;
 // @extend
 use Rock\Component\Flow\Tests\BaseTestCase;
-// @use Definition
-use Rock\Component\Flow\Definition\FlowContainer;
-use Rock\Component\Flow\Definition\FlowDefinition;
-use Rock\Component\Flow\Definition\StateDefinition;
 // @use Flow Component
-use Rock\Component\Flow\IFlow;
+use Rock\Component\Flow\Flow;
+use Rock\Component\Flow\Graph\FlowGraph;
+use Rock\Component\Flow\Graph\Vertex\State;
 use Rock\Component\Flow\Type\BaseType;
+use Rock\Component\Automaton\Graph\Edge\Condition;
 
 // @use 
-use Rock\Component\Flow\Output\IOutput;
-use Rock\Component\Flow\Input\Input;
+use Rock\Component\Flow\IO\IOutput;
+use Rock\Component\Flow\IO\Input;
 use Rock\Component\Flow\Directions;
-
-class TestType extends BaseType
-{
-	/**
-	 * Configurate composite Definitions
-	 */
-	protected function configure()
-	{
-		$this
-			->addState('first')
-			->addState('second')
-			->addState('third')
-		;
-	}
-}
 
 /**
  *
  */
 class FlowTest extends BaseTestCase
 {
+	public function testAutomaton()
+	{
+		// Create Automaton
+		$flow = new Flow();
+			
+		$flow->setPath(new FlowGraph());
+
+		$flow->getPath()->setEntry($first = new State('first'));
+		$flow->getPath()->addState($second = new State('second'));
+
+		$flow->getPath()->addCondition(new Condition($first, $second));
+
+		$traversal = $flow->createTraversal();
+		$traversal = $flow->forward($traversal);
+	
+		$trail  = $traversal->getTrail();
+		$this->assertTrue(count($trail) === 1, 'Assert trail size one.');
+
+		$this->assertTrue($trail->last()->current()->getName() === 'first', 'Assert Compare Trail last.');
+		$this->assertTrue($trail->last()->current()->isEntryPoint(), 'Assert Entry point.');
+
+		// 
+		$traversal = $flow->forward($traversal);
+		$this->assertTrue(count($trail) === 3, 'Assert trail size three.');
+		$this->assertTrue($trail->last()->current()->getName() === 'second', 'Assert Compare Trail last.');
+
+		// 
+		$this->assertTrue($trail->last()->current()->isEndPoint(), 'Assert Endpoint');
+	}
+
 	public function testHandle()
 	{
-		$container  = new FlowContainer();
-		$container->addDefinition(new TestType('flow.test'));
+		$flow  = new Flow();
+		$flow->setPath(new FlowGraph());
 
-		$flow       = $container->get('flow.test');
+		$flow->getPath()->setEntry($first = new State('first'));
+		$flow->getPath()->addState($second = new State('second'));
+		$flow->getPath()->addCondition(new Condition($first, $second));
 
-		$output  = $flow->handle(new Input(Directions::NEXT));
-
-		$this->assertTrue($output instanceof IOutput, 'Assert Output Instance');
-
-		$this->assertTrue($output->getTrail()->last()->current()->getName() === 'first', 'Assert State First');
-
-		$output  = $flow->handle(new Input(Directions::NEXT), $output->getTraversal());
-		$this->assertTrue($output instanceof IOutput, 'Assert Output Instance');
-
-		$this->assertTrue($output->getTraversal()->getTrail()->count() === 3, sprintf('Assert Traversal Trail count is 3, but %d', $output->getTraversal()->getTrail()->count()));
-		$this->assertTrue($output->getTrail()->last()->current()->getName() === 'second', 'Assert State Second');
+		$flow->handle(new Input(Directions::NEXT));
 	}
 }
 
