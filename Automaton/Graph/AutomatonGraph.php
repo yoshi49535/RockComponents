@@ -26,6 +26,8 @@ use Rock\Component\Container\Graph\Vertex\IVertex;
 // @use Graph Edge
 use Rock\Component\Automaton\Graph\Edge\Factory\ConditionFactory;
 use Rock\Component\Container\Graph\Edge\Edge;
+// @use Graph Trail
+use Rock\Component\Automaton\Graph\Path\Trail;
 // @use Path Component Interface
 use Rock\Component\Automaton\Path\State\IState;
 use Rock\Component\Automaton\Path\Condition\ICondition;
@@ -98,19 +100,20 @@ class AutomatonGraph extends DirectedGraph
 
 
 	/**
-	 * addEntry 
+	 * setEntry 
 	 * 
 	 * @param IState $state 
 	 * @access public
 	 * @return void
 	 */
-	public function addEntry(IState $state)
+	public function setEntry(IState $state)
 	{
-		$this->addVertex($state);
-		if($state instanceof IState)
+		if(!$this->hasVertex($state))
 		{
-			$state->asEntryPoint();
+			$this->addVertex($state);
 		}
+		
+		$state->asEntryPoint();
 		$this->addEdge(new Edge($this->getRoot(), $state));
 	}
 	
@@ -123,14 +126,10 @@ class AutomatonGraph extends DirectedGraph
 	 */
 	public function addState(IState $state)
 	{
-		if($this->countVertices() === 0)
-		{
-			$this->addEntry($state);
-		}
-		else
-		{
-			$this->addVertex($state);
-		}
+		$this->addVertex($state);
+
+		if($this->countVertices() === 1)
+			$this->setEntry($state);
 	}
 
 	/**
@@ -251,6 +250,17 @@ class AutomatonGraph extends DirectedGraph
 	public function getConditionsTo(IState $state)
 	{
 		return $this->getEdgesTo($state);
+	}
+
+	/**
+	 * createTrail 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function createTrail()
+	{
+		return new Trail($this);
 	}
 
 }

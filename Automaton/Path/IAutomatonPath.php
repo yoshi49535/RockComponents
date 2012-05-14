@@ -24,9 +24,7 @@ use Rock\Component\Automaton\Path\Condition\ICondition;
 
 /**
  * IAutomatonPath 
- *  TypeSpecify Interface which extends IDirectedGraph 
  * 
- * @uses IDirectedGraph
  * @package 
  * @version $id$
  * @copyright 2011-2012 Yoshi Aoki
@@ -72,13 +70,13 @@ interface IAutomatonPath
 	function addState(IState $state);
 
 	/**
-	 * addEntry 
+	 * setEntry 
 	 * 
 	 * @param IState $state 
 	 * @access public
 	 * @return void
 	 */
-	function addEntry(IState $state);
+	function setEntry(IState $state);
 
 	/**
 	 * getState 
@@ -130,4 +128,12 @@ interface IAutomatonPath
 	 * @return void
 	 */
 	function getConditionsTo(IState $state);
+
+	/**
+	 * createTrail 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function createTrail();
 }

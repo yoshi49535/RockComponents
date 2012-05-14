@@ -16,11 +16,11 @@
  ****/
 
 // <Namespace>
-namespace Rock\Component\Automaton\Input;
+namespace Rock\Component\Automaton\IO;
 // <Base>
-use Rock\Component\Automaton\Input\Input;
+use Rock\Component\Automaton\IO\Input;
 // <Interface>
-use Rock\Component\Automaton\Input\IScalarInput;
+use Rock\Component\Automaton\IO\IScalarInput;
 
 // <Use> : Automaton Component
 use Rock\Component\Automaton\Directions;

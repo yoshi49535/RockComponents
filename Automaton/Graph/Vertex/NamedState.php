@@ -16,13 +16,10 @@
  ****/
 // @namespace
 namespace Rock\Component\Automaton\Graph\Vertex;
-
 // <BaseClass>
-use Rock\Component\Automaton\Graph\Vertex\State;
+use Rock\Component\Container\Graph\Vertex\NamedVertex;
 // <Interface>
-use Rock\Component\Container\Graph\Vertex\INamedVertex;
-// <Use>
-use Rock\Component\Container\Graph\IGraph;
+use Rock\Component\Automaton\Path\State\IState;
 
 /**
  * NamedState 
@@ -34,53 +31,79 @@ use Rock\Component\Container\Graph\IGraph;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-class NamedState extends State
+class NamedState extends NamedVertex
   implements
-    INamedVertex
+    IState
 {
 	/**
-	 * name 
+	 * isEntryPoint 
 	 * 
 	 * @var mixed
 	 * @access protected
 	 */
-	protected $name;
+	protected $isEntryPoint;
+	/**
+	 * isEndPoint 
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
+	protected $isEndPoint;
 
 	/**
-	 * __construct 
+	 * getPath 
 	 * 
-	 * @param IGraph $graph 
-	 * @param mixed $name 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(IGraph $graph, $name)
+	public function getPath()
 	{
-		parent::__construct($graph);
-
-		$this->name  = $name;
+		return $this->getGraph();
 	}
 
 	/**
-	 * getName 
+	 * asEndPoint 
 	 * 
+	 * @param mixed $bIs 
 	 * @access public
 	 * @return void
 	 */
-	public function getName()
+	public function asEndPoint($bIs = true)
 	{
-		return $this->name;
+		$this->isEndPoint = $bIs;
 	}
 
 	/**
-	 * setName 
+	 * isEndPoint 
 	 * 
-	 * @param mixed $name 
+	 * @param mixed $isEndPoint 
 	 * @access public
 	 * @return void
 	 */
-	public function setName($name)
+	public function isEndPoint()
 	{
-		$this->name  = $name;
+		return (0 === $this->getGraph()->getOutDegreeOf($this)) || $this->isEndPoint;
+	}
+
+	/**
+	 * asEntryPoint 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function asEntryPoint($bIs = true)
+	{
+		$this->isEntryPoint  = $bIs;
+	}
+
+	/**
+	 * isEntryPoint 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function isEntryPoint()
+	{
+		return $this->isEntryPoint;
 	}
 }

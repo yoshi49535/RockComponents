@@ -16,9 +16,9 @@
  ****/
 
 // <Namespace>
-namespace Rock\Component\Automaton\Input;
+namespace Rock\Component\Automaton\IO;
 // <Interface>
-use Rock\Component\Automaton\Input\IInput;
+use Rock\Component\Automaton\IO\IInput;
 
 /**
  *

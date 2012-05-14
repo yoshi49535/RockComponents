@@ -17,11 +17,9 @@
 // @namespace
 namespace Rock\Component\Automaton\Graph\Vertex;
 // @extends
-use Rock\Component\Container\Graph\Vertex\NamedVertex;
+use Rock\Component\Container\Graph\Vertex\Vertex;
 // @interface 
 use Rock\Component\Automaton\Path\State\IState;
-// @use Graph Edge
-use Rock\Component\Container\Graph\Edge\Edge;
 
 /**
  * State 
@@ -34,7 +32,7 @@ use Rock\Component\Container\Graph\Edge\Edge;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-class State extends NamedVertex
+class State extends Vertex
   implements
     IState
 {
@@ -45,6 +43,37 @@ class State extends NamedVertex
 	 * @access protected
 	 */
 	protected $isEntryPoint;
+	/**
+	 * isEndPoint 
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
+	protected $isEndPoint;
+
+
+	/**
+	 * getPath 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getPath()
+	{
+		return $this->getGraph();
+	}
+
+	/**
+	 * asEndPoint 
+	 * 
+	 * @param mixed $bIs 
+	 * @access public
+	 * @return void
+	 */
+	public function asEndPoint($bIs = true)
+	{
+		$this->isEndPoint = $bIs;
+	}
 
 	/**
 	 * isEndPoint 
@@ -53,9 +82,9 @@ class State extends NamedVertex
 	 * @access public
 	 * @return void
 	 */
-	public function isEndPoint($isEndPoint = null)
+	public function isEndPoint()
 	{
-		return (0 === $this->getGraph()->getOutDegreeOf($this));
+		return (0 === $this->getGraph()->getOutDegreeOf($this)) || $this->isEndPoint;
 	}
 
 	/**
@@ -64,13 +93,9 @@ class State extends NamedVertex
 	 * @access public
 	 * @return void
 	 */
-	public function asEntryPoint()
+	public function asEntryPoint($bIs = true)
 	{
-		$this->isEntryPoint  = true;
-		//
-		$root = $this->getGraph()->getRoot();
-		// 
-		$this->getGraph()->addEdge(new Edge($root, $this));
+		$this->isEntryPoint  = $bIs;
 	}
 
 	/**

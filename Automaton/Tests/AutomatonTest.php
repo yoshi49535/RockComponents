@@ -23,7 +23,7 @@ use \PHPUnit_Framework_TestCase as TestCase;
 use Rock\Component\Automaton\FiniteAutomaton;
 use Rock\Component\Automaton\Graph\AutomatonGraph;
 // @use GraphPath Component
-use Rock\Component\Automaton\Graph\Vertex\State;
+use Rock\Component\Automaton\Graph\Vertex\NamedState;
 use Rock\Component\Automaton\Graph\Edge\Condition;
 
 /**
@@ -38,8 +38,8 @@ class AutomatonTest extends TestCase
 			
 		$automaton->setPath(new AutomatonGraph());
 
-		$automaton->getPath()->addState($first = new State('first'));
-		$automaton->getPath()->addState($second = new State('second'));
+		$automaton->getPath()->setEntry($first = new NamedState('first'));
+		$automaton->getPath()->addState($second = new NamedState('second'));
 
 		$automaton->getPath()->addCondition(new Condition($first, $second));
 

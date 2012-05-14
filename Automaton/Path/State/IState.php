@@ -16,6 +16,8 @@
  ****/
 // @namespace
 namespace Rock\Component\Automaton\Path\State;
+// @extends
+use Rock\Component\Automaton\Path\IComponent;
 
 /**
  * IState 
@@ -26,7 +28,7 @@ namespace Rock\Component\Automaton\Path\State;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-interface IState
+interface IState extends IComponent
 {
 	/**
 	 * isEntryPoint 

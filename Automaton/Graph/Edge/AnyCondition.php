@@ -70,4 +70,15 @@ class AnyCondition extends Edge
 	{
 		return parent::getTarget();
 	}
+
+	/**
+	 * getPath 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getPath()
+	{
+		return $this->getGraph();
+	}
 }

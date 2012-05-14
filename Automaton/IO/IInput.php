@@ -16,7 +16,7 @@
  ****/
 
 // <Namespace>
-namespace Rock\Component\Automaton\Input;
+namespace Rock\Component\Automaton\IO;
 
 interface IInput 
 {

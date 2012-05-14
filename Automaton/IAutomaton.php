@@ -16,8 +16,6 @@
  ****/
 // <Namespace>
 namespace Rock\Component\Automaton;
-// <Base>
-use Rock\Component\Container\Graph\IDirectedGraph;
 // @use
 use Rock\Component\Automaton\Traversal\ITraversal;
 
@@ -51,4 +49,13 @@ interface IAutomaton
 	 * @return void
 	 */
 	function forward(ITraversal $traversal);
+
+
+	/**
+	 * createTraversal 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function createTraversal();
 }

@@ -18,6 +18,11 @@ namespace Rock\Component\Automaton\Traversal;
 // @use Automaton Interface
 use Rock\Component\Automaton\IAutomaton;
 
+// @use IO Interface
+use Rock\Component\Automaton\IO\IInput;
+use Rock\Component\Automaton\IO\IOutput;
+use Rock\Component\Automaton\IO\Output;
+
 /**
  * Traversal 
  * 
@@ -75,7 +80,18 @@ class Traversal
 		$this->owner  = $owner;
 
 		// Initialize
-		$this->trail  = $this->owner->createTrail();
+		$this->trail  = $this->owner->getPath()->createTrail();
+	}
+
+	/**
+	 * getOwner 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getOwner()
+	{
+		return $this->owner;
 	}
 
 	/**
@@ -90,6 +106,28 @@ class Traversal
 	}
 
 	/**
+	 * setInput 
+	 * 
+	 * @param IInput $input 
+	 * @access public
+	 * @return void
+	 */
+	public function setInput(IInput $input)
+	{
+		$this->input = $input;
+	}
+
+	/**
+	 * initOutput 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function initOutput()
+	{
+		$this->output  = new Output($this->getOwner());
+	}
+	/**
 	 * getOutput 
 	 * 
 	 * @access public
@@ -97,7 +135,22 @@ class Traversal
 	 */
 	public function getOutput()
 	{
+		if(!$this->output)
+			$this->initOutput();
+			
 		return $this->output;
+	}
+
+	/**
+	 * setOutput 
+	 * 
+	 * @param IOutput $output 
+	 * @access public
+	 * @return void
+	 */
+	public function setOutput(IOutput $output)
+	{
+		$this->output;
 	}
 
 	/**

@@ -21,15 +21,14 @@ use Rock\Component\Automaton\IAutomaton;
 // @use Traversal
 use Rock\Component\Automaton\Traversal\ITraversal;
 use Rock\Component\Automaton\Traversal\Traversal;
-// @use Trail
-use Rock\Component\Automaton\Trail\Trail;
 // @use Path Components
 use Rock\Component\Automaton\Path\IAutomatonPath;
 
 // <Use> : Automaton Component
 use Rock\Component\Automaton\State\IState;
 use Rock\Component\Automaton\Condition\Factory\ConditionFactory;
-use Rock\Component\Automaton\Input\IInput;
+use Rock\Component\Automaton\IO\IInput;
+use Rock\Component\Automaton\IO\Output;
 // @use Exception
 use Rock\Component\Automaton\Exception as AutomatonException;
 
@@ -85,17 +84,6 @@ abstract class Automaton
 	}
 
 	/**
-	 * createTrail 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function createTrail()
-	{
-		return new Trail($this->getPath());
-	}
-
-	/**
 	 * backward 
 	 *   Redo
 	 * @param ITraversal $traversal 
@@ -110,7 +98,8 @@ abstract class Automaton
 			throw new AutomatonException\RuntimeException('Automaton Trail is still 0, thus cannot backward.');
 		}
 
-		$traversal->getTrail()->popState();
+		$trail = $traversal->getTrail()->popUntilLastState();
+		$traversal->getOutput()->setTrail($trail);
 		
 		// 
 		return $traversal;
@@ -133,7 +122,7 @@ abstract class Automaton
 			$begin = $traversal->getTrail()->last()->current();
 
 		// Create Output Trail for this execution
-		$trail = $this->createTrail();
+		$trail = $this->getPath()->createTrail();
 	
 		// Grab edges which sourced from current state pos
 		if(!$begin)
@@ -169,7 +158,9 @@ abstract class Automaton
 			throw new AutomatonException\RuntimeException(sprintf('Automaton cannot forwarded for input[%s].', $traversal->getInput()));
 		}
 
-		// update Traversal 
+		// Update Output Trail
+		$traversal->getOutput()->setTrail($trail);
+		// Update Traversal Trail
 		$traversal->getTrail()->merge($trail);
 
 		return $traversal;
@@ -177,7 +168,6 @@ abstract class Automaton
 
 	/**
 	 * createTraversal 
-	 *   Create new empty traversal
 	 * 
 	 * @access public
 	 * @return void
