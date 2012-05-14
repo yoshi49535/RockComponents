@@ -36,9 +36,14 @@ use Rock\Component\Flow\Exception\InitializeException;
 use Rock\Component\Utility\Delegate\Delegate;
 
 /**
- * Class "Flow" is the abstract base class of Flow Strategy.
- * To use the Flow instance, see Graph Flow which implemented the FlowStrategy w
- * with DirectionalGraph.
+ * Flow 
+ * 
+ * @uses FiniteAutomaton
+ * @package 
+ * @version $id$
+ * @copyright 2011-2012 Yoshi Aoki
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license 
  */
 class Flow extends FiniteAutomaton 
   implements

@@ -14,9 +14,13 @@
  * please read the LICENSE file that is distributed with the source code.
  *
  ****/
-
 // @namespace
-namespace Rock\Component\Flow\Definition;
+namespace Rock\Component\Flow\Definition\Path\Component;
+// @extends 
+use Rock\Component\Flow\Definition\Path\Component\PathComponentDefinition;
+// @interface
+use Rock\Component\Flow\Definition\Path\Component\IConditionDefinition;
+ 
 // @use Call
 use Rock\Component\Configuration\Definition\Call;
 // @use Component Reference
@@ -25,9 +29,9 @@ use Rock\Component\Configuration\Definition\Reference;
 /**
  *
  */
-class ConditionDefinition extends FlowComponentDefinition
+class ConditionDefinition extends PathComponentDefinition
   implements
-    IFlowComponentDefinition
+    IConditionDefinition
 {
 	/**
 	 *

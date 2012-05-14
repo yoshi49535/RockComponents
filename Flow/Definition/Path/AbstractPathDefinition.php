@@ -3,31 +3,40 @@
  *
  * Description:
  *      
- * 
+ * $Id$
  * $Date$
- * Rev    : see git
- * Author : Yoshi Aoki <yoshi@44services.jp>
+ * $Rev$
+ * $Author$
  * 
- *  This file is part of the Rock package.
+ *  This file is part of the $Project$ package.
  *
- * For the full copyright and license information, 
- * please read the LICENSE file that is distributed with the source code.
+ * $Copyrights$
  *
  ****/
-
-// @namespace
-namespace Rock\Component\Flow\Definition;
-// @extend
+// @namesapce
+namespace Rock\Component\Flow\Definition\Path;
+// @extends
 use Rock\Component\Configuration\Definition\ContainerAwareDefinition;
 // @use Call
 use Rock\Component\Configuration\Definition\Call;
+// @use PathComponent Definition
+use Rock\Component\Flow\Definition\Path\Component\IPathComponentDefinition;
+
 
 /**
- *
+ * AbstractPathDefinition 
+ * 
+ * @uses ContainerAwareDefinition
+ * @package 
+ * @version $id$
+ * @copyright 2011-2012 Yoshi Aoki
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license 
  */
-class GraphDefinition extends ContainerAwareDefinition
+abstract class AbstractPathDefinition extends ContainerAwareDefinition
+  implements
+    IPathDefinition
 {
-	
 	/**
 	 * components 
 	 * 
@@ -36,26 +45,13 @@ class GraphDefinition extends ContainerAwareDefinition
 	 */
 	protected $components;
 
-	/**
-	 * __construct 
-	 * 
-	 * @param mixed $id 
-	 * @access public
-	 * @return void
-	 */
-	public function __construct($id)
-	{
-		parent::__construct($id);
-		$this->class = '\\Rock\\Component\\Flow\\Graph\\FlowGraph';
-	}
 	//---
 	// DefinePhase Functions
-	public function addComponent(IFlowComponentDefinition $definition)
+	public function addComponent(IPathComponentDefinition $definition)
 	{
 		$this->components[]  = $definition;
-		if($definition instanceof IFlowComponentDefinition)
 		{
-			$definition->setGraphDefinition($this);
+			$definition->setPathDefinition($this);
 		}
 
 		// 
@@ -76,10 +72,11 @@ class GraphDefinition extends ContainerAwareDefinition
 	/**
 	 *
 	 */
-	protected function registComponentCall(IFlowComponentDefinition $definition)
+	protected function registComponentCall(IPathComponentDefinition $definition)
 	{
 		$this->getContainer()->addDefinition($definition);
-		if($definition instanceof StateDefinition)
+
+		if($definition instanceof IStateDefinition)
 		{
 			$this->addCall(new Call(
 				'addVertex',

@@ -14,16 +14,21 @@
  * please read the LICENSE file that is distributed with the source code.
  *
  ****/
-
 // @namespace
-namespace Rock\Component\Flow\Definition;
+namespace Rock\Component\Flow\Delegate;
 
 /**
  *
  */
-interface IFlowComponentDefinition
+interface IStateDelegate
 {
-	function getGraphDefinition();
+	/**
+	 *
+	 */
+	function getInvoker();
 
-	function setGraphDefinition(GraphDefinition $definition);
+	/**
+	 *
+	 */
+	function delegate($invoker);
 }

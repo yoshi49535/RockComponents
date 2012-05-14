@@ -27,9 +27,21 @@ use Rock\Component\Configuration\Definition\Call;
 use Rock\Component\Configuration\Definition\Reference as Reference;
 // @use
 use Rock\Component\Configuration\Definition\DelegateDefinition;
-
+// @use Flow Path Component
+use Rock\Component\Flow\Definition\Path\Component\IPathComponentDefinition;
+use Rock\Component\Flow\Definition\Path\Component\IStateDefinition;
+use Rock\Component\Flow\Definition\Path\Component\IConditionDefinition;
+// @fixme
+use Rock\Component\Flow\Definition\Graph\GraphPathDefinition;
 /**
- *
+ * FlowDefinition 
+ * 
+ * @uses ContainerAwareDefinition
+ * @package 
+ * @version $id$
+ * @copyright 2011-2012 Yoshi Aoki
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license 
  */
 class FlowDefinition extends ContainerAwareDefinition
 {
@@ -46,7 +58,8 @@ class FlowDefinition extends ContainerAwareDefinition
 	/**
 	 *
 	 */
-	protected $graph;
+	protected $path;
+
 	/**
 	 *
 	 */
@@ -55,43 +68,58 @@ class FlowDefinition extends ContainerAwareDefinition
 		parent::__construct($id, $attributes);
 
 		// initialize parameters
-		$this->class      = '\\Rock\\Component\\Flow\\GraphFlow';
+		$this->class      = '\\Rock\\Component\\Flow\\Flow';
 		$this->arguments  = array();
 		$this->subs       = array();
-		$this->graph      = null;
+		$this->path      = null;
 	}
 
 	/**
-	 *
-	 */
-	public function getGraphDefinition()
-	{
-		if(!$this->graph)
-		{
-			// Create and Regist Graph Definition for GraphFlow
-			$definition = new GraphDefinition($this->getId().'.graph');
-			$definition->addArgument($this->getReference());
-			$this->getContainer()->addDefinition($definition);
-			// 
-			$this->graph  = $definition;
-		}
-
-		return $this->graph;
-	}
-
-	// ----
-	// Component Regist Functions for GraphDefinition 
-	/**
-	 * addComponentDefinition 
+	 * setPathDefinitoin 
 	 * 
-	 * @param IFlowComponentDefinition $component 
+	 * @param IPathDefinition $definition 
 	 * @access public
 	 * @return void
 	 */
-	public function addComponentDefinition(IFlowComponentDefinition $component)
+	public function setPathDefinitoin(IPathDefinition $definition)
 	{
-		$this->getGraphDefinition()->addComponent($component);
-		//$component->setGraph($this->getGraphDefinition());
+		$this->path  = $definition;
+	}
+	/**
+	 * getPathDefinition 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getPathDefinition()
+	{
+		if(!$this->path)
+		{
+			// fixme
+			// Create and Regist Path Definition for PathFlow
+			$definition = new GraphPathDefinition($this->getId().'.path');
+			$definition->addArgument($this->getReference());
+			$this->getContainer()->addDefinition($definition);
+			// 
+			$this->path  = $definition;
+		}
+
+		return $this->path;
+	}
+
+	// ----
+	// Component Regist Functions for PathDefinition 
+	/**
+	 * addComponentDefinition 
+	 * 
+	 * @param IPathComponentDefinition $component 
+	 * @access public
+	 * @return void
+	 */
+	public function addComponentDefinition(IPathComponentDefinition $component)
+	{
+		$this->getPathDefinition()->addComponent($component);
+		//$component->setPath($this->getPathDefinition());
 
 		$this->last  = $component;
 	}
@@ -104,7 +132,7 @@ class FlowDefinition extends ContainerAwareDefinition
 	 * @access public
 	 * @return void
 	 */
-	public function addStateDefinition(StateDefinition $definition)
+	public function addStateDefinition(IStateDefinition $definition)
 	{
 		{
 			if(($last = $this->last) instanceof ConditionDefinition)
@@ -128,7 +156,7 @@ class FlowDefinition extends ContainerAwareDefinition
 	/**
 	 *
 	 */
-	public function addConditionDefinition(ConditionDefinition $definition)
+	public function addConditionDefinition(IConditionDefinition $definition)
 	{
 		if($this->last instanceof StateDefinition)
 		{
@@ -148,7 +176,7 @@ class FlowDefinition extends ContainerAwareDefinition
 	protected function doConfigurateDefinition()
 	{
 		//
-		$this->addCall(new Call('setPath', array($this->getGraphDefinition()->getReference())));
+		$this->addCall(new Call('setPath', array($this->getPathDefinition()->getReference())));
 	}
 	//----
 

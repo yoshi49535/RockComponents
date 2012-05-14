@@ -20,20 +20,27 @@ namespace Rock\Component\Flow\Tests\Definition;
 // @extend
 use Rock\Component\Flow\Tests\BaseTestCase;
 // @use Definition
-use Rock\Component\Flow\Definition\FlowContainer;
+use Rock\Component\Configuration\Definition\Container;
 use Rock\Component\Flow\Definition\FlowDefinition;
-use Rock\Component\Flow\Definition\StateDefinition;
+use Rock\Component\Flow\Definition\Graph\Component\StateDefinition;
 // @use Flow Component
 use Rock\Component\Flow\IFlow;
 
 /**
- *
+ * ContainerTest 
+ * 
+ * @uses BaseTestCase
+ * @package 
+ * @version $id$
+ * @copyright 2011-2012 Yoshi Aoki
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license 
  */
 class ContainerTest extends BaseTestCase
 {
 	public function testCreate()
 	{
-		$container  = new FlowContainer();
+		$container  = new Container();
 		// Create Automaton
 		$definition = new FlowDefinition('flow');
 		$container->addDefinition($definition);
@@ -49,7 +56,7 @@ class ContainerTest extends BaseTestCase
 
 		$this->assertTrue($flow instanceof IFlow, 'IFlow Assertion');
 
-		$this->assertTrue($flow->count() === 2, sprintf('Count is not 1[%d]', $flow->count()));
+		$this->assertTrue($flow->getPath()->countStates() === 2, sprintf('Count is not 2, but %d', $flow->getPath()->countStates()));
 
 		$graph  = $flow->getPath();
 		$this->assertTrue($graph->countVertices() === 2, sprintf('Count is not 1[%d]', $flow->count()));

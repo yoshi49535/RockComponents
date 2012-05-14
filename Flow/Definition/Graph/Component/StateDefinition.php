@@ -14,9 +14,12 @@
  * please read the LICENSE file that is distributed with the source code.
  *
  ****/
-
 // @namespace
-namespace Rock\Component\Flow\Definition;
+namespace Rock\Component\Flow\Definition\Graph\Component;
+// @extends 
+use Rock\Component\Flow\Definition\Path\Component\PathComponentDefinition;
+// @interface
+use Rock\Component\Flow\Definition\Path\Component\IStateDefinition;
 // @use Call
 use Rock\Component\Configuration\Definition\Call;
 // @use Definition
@@ -25,10 +28,17 @@ use Rock\Component\Configuration\Definition\Definition;
 /**
  *
  */
-class StateDefinition extends FlowComponentDefinition
+class StateDefinition extends PathComponentDefinition
+  implements
+    IStateDefinition
 {
 	/**
-	 *
+	 * __construct 
+	 * 
+	 * @param mixed $id 
+	 * @param array $attributes 
+	 * @access public
+	 * @return void
 	 */
 	public function __construct($id, array $attributes = array())
 	{
@@ -37,19 +47,25 @@ class StateDefinition extends FlowComponentDefinition
 	}
 
 	/**
-	 *
+	 * getArguments 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function getArguments()
 	{
 
 		return array(
-			$this->getGraphDefinition()->getReference(), 
+			$this->getPathDefinition()->getReference(), 
 			$this->hasAttribute('name') ? $this->getAttribute('name') : $this->getId(), 
 		);
 	}
 
 	/**
-	 *
+	 * doConfigurateDefinition 
+	 * 
+	 * @access protected
+	 * @return void
 	 */
 	protected function doConfigurateDefinition()
 	{

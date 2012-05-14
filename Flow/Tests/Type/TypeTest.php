@@ -20,7 +20,7 @@ namespace Rock\Component\Flow\Tests\Type;
 // @extend
 use Rock\Component\Flow\Tests\BaseTestCase;
 // @use Definition
-use Rock\Component\Flow\Definition\FlowContainer;
+use Rock\Component\Configuration\Definition\Container;
 use Rock\Component\Flow\Definition\FlowDefinition;
 use Rock\Component\Flow\Definition\StateDefinition;
 // @use Flow Component
@@ -48,7 +48,7 @@ class TypeTest extends BaseTestCase
 {
 	public function testCreate()
 	{
-		$container  = new FlowContainer();
+		$container  = new Container();
 		$container->addDefinition(new TestType('flow.test'));
 
 		$flow       = $container->get('flow.test');

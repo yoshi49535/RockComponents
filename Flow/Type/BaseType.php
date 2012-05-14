@@ -21,8 +21,6 @@ namespace Rock\Component\Flow\Type;
 use Rock\Component\Configuration\Definition\IContainer;
 // @use Definitions
 use Rock\Component\Flow\Definition\FlowDefinition;
-use Rock\Component\Flow\Definition\StateDefinition;
-use Rock\Component\Flow\Definition\ConditionDefinition;
 // @use Call
 use Rock\Component\Configuration\Definition\Call;
 
@@ -40,8 +38,8 @@ abstract class BaseType extends FlowDefinition
 	{
 		parent::__construct($id);
 
-		$this->defaultStateClass      = '\\Rock\\Component\\Flow\\Definition\\StateDefinition';
-		$this->defaultConditionClass  = '\\Rock\\Component\\Flow\\Definition\\ConditionDefinition';
+		$this->defaultStateClass      = '\\Rock\\Component\\Flow\\Definition\\Graph\\Component\\StateDefinition';
+		$this->defaultConditionClass  = '\\Rock\\Component\\Flow\\Definition\\Graph\\Component\\ConditionDefinition';
 	}
 
 	/**
@@ -49,8 +47,7 @@ abstract class BaseType extends FlowDefinition
 	 */
 	protected function doConfigurateDefinition()
 	{
-
-		// Configurate Graph Path Template
+		// Configuration 
 		$this->configure();
 
 		//
@@ -58,7 +55,7 @@ abstract class BaseType extends FlowDefinition
 	}
 	/**
 	 * configure 
-	 *  Configuration of the Graph Path.
+	 *  Configuration of the Path.
 	 * 
 	 * @abstract
 	 * @access protected
@@ -69,7 +66,7 @@ abstract class BaseType extends FlowDefinition
 	// Shortcut Method-Chain Functions
 	/**
 	 * addState 
-	 * Add StateDefinition into GraphDefinition
+	 * Add StateDefinition into Definition
 	 * 
 	 * @param mixed $name 
 	 * @param mixed $callback 
