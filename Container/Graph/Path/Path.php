@@ -72,13 +72,6 @@ class Path
 	/**
 	 *
 	 */
-	public function getTrail()
-	{
-		return $this->getComponents();
-	}
-	/**
-	 *
-	 */
 	public function getComponents()
 	{
 		return $this->components;

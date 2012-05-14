@@ -132,6 +132,11 @@ class Graph
 		$vertex->setGraph($this);
 		return $vertex;
 	}
+
+	public function hasVertex(IVertex $vertex)
+	{
+		return in_array($vertex, $this->vertices, true);
+	}
 	/**
 	 *
 	 */
