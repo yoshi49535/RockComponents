@@ -25,9 +25,9 @@ use Rock\Component\Flow\Definition\FlowDefinition;
 use Rock\Component\Flow\Definition\StateDefinition;
 // @use Flow Component
 use Rock\Component\Flow\IFlow;
-use Rock\Component\Flow\Type\BaseType;
+use Rock\Component\Flow\Type\GraphFlowType;
 
-class TestType extends BaseType
+class TestType extends GraphFlowType
 {
 	/**
 	 * Configurate composite Definitions

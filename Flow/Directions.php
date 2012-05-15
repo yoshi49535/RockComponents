@@ -22,7 +22,13 @@ namespace Rock\Component\Flow;
 use Rock\Component\Flow\Direction\IDirectionResolver;
 
 /**
- *
+ * Directions 
+ * 
+ * @package 
+ * @version $id$
+ * @copyright 2011-2012 Yoshi Aoki
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license 
  */
 class Directions 
 {

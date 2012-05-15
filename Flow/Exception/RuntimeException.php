@@ -21,12 +21,26 @@ use Rock\Component\Flow\IFlow;
 /**
  *
  */
-class FlowRuntimeException extends Exception
-  implements
-    IFlowException
+class RuntimeException extends Exception
 {
+	/**
+	 * flow 
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
 	protected $flow;
 
+	/**
+	 * __construct 
+	 * 
+	 * @param IFlow $flow 
+	 * @param string $message 
+	 * @param int $code 
+	 * @param \Exception $previous 
+	 * @access public
+	 * @return void
+	 */
 	public function __construct(IFlow $flow, $message = '', $code = 0, \Exception $previous = null)
 	{
 		// Set Flow Instance
@@ -35,6 +49,12 @@ class FlowRuntimeException extends Exception
 		parent::__construct($message, $code, $previous);
 	}
 	
+	/**
+	 * getFlow 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function getFlow()
 	{
 		return $this->flow;

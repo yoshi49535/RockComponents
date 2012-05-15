@@ -21,7 +21,6 @@ namespace Rock\Component\Flow\Graph\Vertex;
 use Rock\Component\Automaton\Graph\Vertex\NamedState;
 // @interface
 use Rock\Component\Automaton\Path\State\IState;
-use Rock\Component\Flow\IFlowComponent;
 
 // <Use> : Graph
 use Rock\Component\Container\Graph\IGraph;
@@ -79,8 +78,8 @@ class State extends NamedState
 	public function getFlow()
 	{
 		if(!($graph  = $this->getGraph()) instanceof IAutomatonPath)
-			throw new \Exception('IFlowComponent holder has to be an IPath');
-		return $graph->getFlow();
+			throw new \Exception('Graph is not FlowPath');
+		return $graph->getOwner();
 	}
 
 	/**

@@ -32,8 +32,6 @@ use Rock\Component\Flow\IO\Output;
 use Rock\Component\Flow\Exception\TraversalException;
 use Rock\Component\Flow\Exception\FlowHandleException;
 use Rock\Component\Flow\Exception\InitializeException;
-// @use Deleggate Interface
-use Rock\Component\Utility\Delegate\Delegate;
 
 /**
  * Flow 
@@ -200,40 +198,4 @@ class Flow extends FiniteAutomaton
 		}
 		return $this->path;
 	}
-
-	///**
-	// * callDelegate 
-	// * 
-	// * @param mixed $method 
-	// * @param mixed $args 
-	// * @access public
-	// * @return void
-	// */
-	//public function callDelegate($method, $args)
-	//{
-	//	$delegate = null;
-
-	//	//
-	//	if(!isset($this->delegates[$method]))
-	//		throw new \Exception(sprintf('Delegate "%s" is not exists.', $method));
-
-	//	// 
-	//	$delegate = $this->delegates[$method];
-
-	//	return call_user_func_array($delegate, $args);
-	//}
-
-	///**
-	// * setDelegate 
-	// * 
-	// * @param mixed $name 
-	// * @param mixed $callback 
-	// * @access public
-	// * @return void
-	// */
-	//public function setDelegate($method, Delegate $callback)
-	//{
-	//	$this->delegates[$method]  = $callback;
-	//}
-
 }

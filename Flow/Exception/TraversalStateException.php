@@ -14,10 +14,21 @@
  * please read the LICENSE file that is distributed with the source code.
  *
  ****/
-
+// @namesapce
 namespace Rock\Component\Flow\Exception;
-use Rock\Component\Flow\Exception\Exception;
+// @extends 
+use Rock\Component\Flow\Exception\InitializeException;
 
-class TraversalStateException extends Exception
+/**
+ * TraversalStateException 
+ * 
+ * @uses Exception
+ * @package 
+ * @version $id$
+ * @copyright 2011-2012 Yoshi Aoki
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license 
+ */
+class TraversalStateException extends InitializeException 
 {
 }

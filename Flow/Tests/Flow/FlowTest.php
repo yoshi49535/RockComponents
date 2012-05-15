@@ -23,7 +23,7 @@ use Rock\Component\Flow\Tests\BaseTestCase;
 use Rock\Component\Flow\Flow;
 use Rock\Component\Flow\Graph\FlowGraph;
 use Rock\Component\Flow\Graph\Vertex\State;
-use Rock\Component\Flow\Type\BaseType;
+use Rock\Component\Flow\Type\GraphFlowType;
 use Rock\Component\Automaton\Graph\Edge\Condition;
 
 // @use 

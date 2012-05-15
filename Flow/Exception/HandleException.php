@@ -13,20 +13,21 @@
  * $Copyrights$
  *
  ****/
-// @namespace 
-namespace Rock\Component\Flow\Definition\Path\Component;
+// @namespace
+namespace Rock\Component\Flow\Exception;
+// @extends Flow Interface
+use Rock\Component\Flow\Exception\RuntimeException;
 
 /**
- * IStateDefinition 
+ * HandleException 
  * 
- * @uses IPathComponentDefinition
+ * @uses RuntimeException
  * @package 
  * @version $id$
  * @copyright 2011-2012 Yoshi Aoki
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-interface IConditionDefinition extends IPathComponentDefinition
+class HandleException extends RuntimeException
 {
 }
-
