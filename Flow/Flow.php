@@ -26,10 +26,9 @@ use Rock\Component\Flow\IFlow;
 use Rock\Component\Automaton\Traversal\ITraversal;
 use Rock\Component\Flow\Traversal\Traversal;
 use Rock\Component\Flow\IO\IInput;
-use Rock\Component\Flow\IO\Output;
 
 // <Use> : Exceptions
-use Rock\Component\Flow\Exception\TraversalException;
+use Rock\Component\Flow\Exception\TraversalStateException;
 use Rock\Component\Flow\Exception\FlowHandleException;
 use Rock\Component\Flow\Exception\InitializeException;
 
@@ -100,7 +99,7 @@ class Flow extends FiniteAutomaton
 	 */
 	protected function doRecoverTraversal(ITraversal $traversal)
 	{
-
+		throw new TraversalStateException('Flow dose not have recovery strategy.');
 	}
 
 	/**
@@ -113,8 +112,39 @@ class Flow extends FiniteAutomaton
 	 */
 	protected function doHandleInput(ITraversal $traversal)
 	{
+		try
+		{
+			switch($traversal->getInput()->getDirection())
+			{
+			case Directions::NEXT:
+				$this->forward($traversal);
+				break;
+			case Directions::PREV:
+				$this->backward($traversal);
+				break;
+			default:
+				break;
+			}
+			// 
+			$traversal->getOutput()->success();
+		}
+		catch(\Exception $ex)
+		{
+			$traversal->getOutput()->fail();
+			throw $ex;
+		}
 	}
 
+	public function forward(ITraversal $traversal)
+	{
+		parent::forward($traversal);
+
+		// Execute Last State
+		$current = $traversal->getOutput()->getTrail()->last()->current();
+		if($traversal->hasInput())
+			$current->handle($traversal->getInput());
+		return $traversal;
+	}
 	/**
 	 * createTraversal 
 	 * 
@@ -139,9 +169,8 @@ class Flow extends FiniteAutomaton
 		try
 		{
 			if(!$traversal)
-			{
 				$traversal  = $this->createTraversal();
-			}
+
 			$traversal->setInput($input);
 
 			// Initailzie Flow
@@ -152,7 +181,7 @@ class Flow extends FiniteAutomaton
 				// try recover the traversal from $traversal
 				$this->doRecoverTraversal($traversal);
 			}
-			catch(TraversalException $ex)
+			catch(TraversalStateException $ex)
 			{
 				// Failed to recover $traversal
 			    // Initialize step

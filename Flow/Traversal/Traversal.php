@@ -21,11 +21,8 @@ use Rock\Component\Automaton\Traversal\Traversal as BaseTraversal;
 // @use Automaton Interface
 use Rock\Component\Automaton\IAutomaton;
 //
-//// <Use>
-//use Rock\Component\Flow\IFlow;
-//// <Use> : Flow IO
-//use Rock\Component\Flow\Input\IInput;
-//use Rock\Component\Flow\Output\IOutput;
+// @use Output
+use Rock\Component\Flow\IO\Output;
 
 /**
  * Traversal class is a FlowAccessor or Proxy, which provide concealed-access-methods for current TraversalStae.
@@ -82,5 +79,11 @@ class Traversal extends BaseTraversal
 	public function isHandled()
 	{
 		return ($this->getOutput()->getTrail()) > 0;
+	}
+
+
+	protected function initOutput()
+	{
+		$this->output = new Output($this->getOwner());
 	}
 }

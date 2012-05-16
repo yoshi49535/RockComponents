@@ -20,26 +20,14 @@ namespace Rock\Component\Flow\IO;
 use Rock\Component\Automaton\IO\Input as AutomatonInput;
 // @interface
 use Rock\Component\Flow\IO\IInput;
-use Rock\Component\Flow\Util\IParameterBag;
 // @use Flow
 // <Use> : Flow Component
 use Rock\Component\Flow\Directions;
-// <Use> : ParameterBag
-use Rock\Component\Flow\Util\ParameterBag;
 
 class Input extends AutomatonInput
   implements
-    IInput,
-	IParameterBag
+    IInput
 {
-	/**
-	 * params 
-	 * 
-	 * @var mixed
-	 * @access protected
-	 */
-	protected $params;
-
 	/**
 	 * direction 
 	 * 
@@ -57,70 +45,12 @@ class Input extends AutomatonInput
 	 * @access public
 	 * @return void
 	 */
-	public function __construct($direction, array $params = array())
+	public function __construct($direction, $params = array())
 	{
 		// 
-		parent::__construct();
+		parent::__construct($params);
 
 		$this->direction = $direction;
-		$this->params    = new ParameterBag($params);
-	}
-
-	// IParameterBag Impl
-	/**
-	 * get 
-	 * 
-	 * @param mixed $idx 
-	 * @access public
-	 * @return void
-	 */
-	public function get($idx)
-	{
-		return $this->params->get($idx);
-	}
-	/**
-	 * set 
-	 * 
-	 * @param mixed $idx 
-	 * @param mixed $value 
-	 * @access public
-	 * @return void
-	 */
-	public function set($idx, $value)
-	{
-		$this->params->set($idx, $value);
-	}
-	/**
-	 * has 
-	 * 
-	 * @param mixed $idx 
-	 * @access public
-	 * @return void
-	 */
-	public function has($idx)
-	{
-		return $this->params->has($idx);
-	}
-	/**
-	 * all 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function all()
-	{
-		return $this->params->all();
-	}
-
-	/**
-	 * getParameterBag 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function getParameterBag()
-	{
-		return $this->params;
 	}
 
 	//

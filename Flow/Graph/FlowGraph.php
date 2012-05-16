@@ -24,102 +24,19 @@ use Rock\Component\Flow\IFlow;
 use Rock\Component\Flow\Path\IPath as IFlowPath;
 use Rock\Component\Flow\Step\IStep as IFlowStep;
 
-use Rock\Component\Flow\Input\IInput as IFlowInput;
-use Rock\Component\Flow\Input\Parameters as FlowInputParameters;
+use Rock\Component\Flow\IO\IInput as IFlowInput;
+use Rock\Component\Flow\IO\Parameters as FlowInputParameters;
 
 // <Use> : Automaton Component
 use Rock\Component\Automaton\State\IState;
 use Rock\Component\Flow\Directions;
-use Rock\Component\Automaton\Input\IInput as IAutomatonInput;
+use Rock\Component\Automaton\IO\IInput as IAutomatonInput;
 
 /**
  *
  */
 class FlowGraph extends AutomatonGraph
 {
-
-	//public function getEntrySteps()
-	//{
-	//	$root  = $this->getRoot();
-	//	return $this->getOutboundVertices($root);
-	//}
-
-	//public function getNextSteps(IFlowStep $step)
-	//{
-	//	if(!$step instanceof IVertex)
-	//	{
-	//		throw new InvalidArgumentException('$step has to be an instance of IVertex.');
-	//	}
-
-	//	return $this->getOutbundVertices($step);
-	//}
-
-	//public function getPrevSteps(IFlowStep $step)
-	//{
-	//	if(!$step instanceof IVertex)
-	//	{
-	//		throw new InvalidArgumentException('$step has to be an instance of IVertex.');
-	//	}
-
-	//	return $this->getInbundVertices($step);
-	//}
-	/**
-	 *
-	 * @param 
-	 * @param  
-	 */
-	public function handle(IFlowInput $input = null, IState $begin = null)
-	{
-		//
-		$repeatTime = $input->has(FlowInputParameters::REPEAT_TIME) 
-			? $input->get(FlowInputParameters::REPEAT_TIME) 
-			: FlowInputParameters::REPEAT_TIME_DEFAULT;
-
-		//  
-		if($repeatTime)
-		{
-			for($i = 0; $i < $repeatTime; $i++)
-			{
-				$path  = $this->doUpdateStatePosition($input, $begin);
-				if(!$path || (count($path) <= 0))
-					break;
-				$begin = $path->last()->current();
-			}
-		}
-		else
-		{
-			while($begin && !$begin->isEndPoint())
-			{
-				$path  = $this->doUpdateStatePosition($input, $begin);
-				if(!$path || (count($path) <= 0))
-					break;
-				$begin = $path->last()->current();
-			}
-		}
-
-		//
-		return $path;
-	}
-
-	/**
-	 *
-	 */
-	protected function doUpdateStatePosition(IAutomatonInput $input, IState $begin = null)
-	{
-		switch($input->getDirection())
-		{
-		case Directions::NEXT:
-			// Forward State
-			$path  = $this->forward($input, $begin);
-			break;
-		default:
-			throw new \InvalidArgumentException('Direction is unknown fow %s', (string)$input);
-			break;
-		}
-
-		return $path;
-	}
-
 	/**
 	 *
 	 */

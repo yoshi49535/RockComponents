@@ -16,7 +16,7 @@
  ****/
 
 // <Namespace>
-namespace Rock\Component\Flow\Input;
+namespace Rock\Component\Flow\IO;
 
 class Parameters
 {

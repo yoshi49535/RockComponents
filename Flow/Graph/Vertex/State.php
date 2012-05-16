@@ -26,7 +26,7 @@ use Rock\Component\Automaton\Path\State\IState;
 use Rock\Component\Container\Graph\IGraph;
 //use Rock\Component\Flow\Graph\Graph as ExecutableGraph;
 // <Use> : Flow IO
-use Rock\Component\Flow\Input\IInput;
+use Rock\Component\Flow\IO\IInput;
 // @use State Delegator Interface
 use Rock\Component\Utility\Delegate\Delegate;
 use Rock\Component\Utility\Delegate\IDelegator;

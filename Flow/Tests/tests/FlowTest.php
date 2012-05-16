@@ -75,7 +75,15 @@ class FlowTest extends BaseTestCase
 		$flow->getPath()->addState($second = new State('second'));
 		$flow->getPath()->addCondition(new Condition($first, $second));
 
-		$flow->handle(new Input(Directions::NEXT));
+		$traversal = $flow->createTraversal();
+
+		$output = $flow->handle(new Input(Directions::NEXT), $traversal);
+		
+		$this->assertTrue($output->getTrail()->count() === 1, sprintf('Assert trail size one, but %d', count($output->getTrail())));
+		$this->assertTrue($output->getTrail()->last()->current()->getName() === 'first', 'Assert Compare Trail last');
+
+		$output = $flow->handle(new Input(Directions::NEXT), $traversal);
+		$this->assertTrue($output->getTrail()->last()->current()->getName() === 'second', 'Assert Compare Trail last');
 	}
 }
 

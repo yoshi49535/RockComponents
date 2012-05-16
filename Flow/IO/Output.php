@@ -20,7 +20,6 @@ namespace Rock\Component\Flow\IO;
 use Rock\Component\Automaton\IO\Output as BaseOutput;
 // @interface
 use Rock\Component\Flow\IO\IInput;
-use Rock\Component\Flow\Util\IParameterBag;
 // @use Flow
 use Rock\Component\Flow\IFlow;
 
@@ -36,16 +35,10 @@ use Rock\Component\Flow\IFlow;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-class Output extends BaseOutput; 
-  implements 
-    IOutput,
-	IParameterBag
+class Output extends BaseOutput
 {
-	/**
-	 *
-	 */
-	protected $params;
 
+	protected $bSuccess;
 	/**
 	 * __construct 
 	 * 
@@ -56,71 +49,8 @@ class Output extends BaseOutput;
 	 */
 	public function __construct(IFlow $owner, $params = array())
 	{
-		parent::__construct($owner);
-		$this->params = new ParameterBag($params);
+		parent::__construct($owner, $params);
 	}
-
-
-	// IParameterBag Impl
-	/**
-	 * get 
-	 * 
-	 * @param mixed $idx 
-	 * @access public
-	 * @return void
-	 */
-	public function get($idx)
-	{
-		return $this->params->get($idx);
-	}
-
-	/**
-	 * set 
-	 * 
-	 * @param mixed $idx 
-	 * @param mixed $value 
-	 * @access public
-	 * @return void
-	 */
-	public function set($idx, $value)
-	{
-		$this->params->set($idx, $value);
-	}
-
-	/**
-	 * has 
-	 * 
-	 * @param mixed $idx 
-	 * @access public
-	 * @return void
-	 */
-	public function has($idx)
-	{
-		$this->params->has($idx);
-	}
-
-	/**
-	 * all 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function all()
-	{
-		return $this->params->all();
-	}
-
-	/**
-	 * getParameterBag 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function getParameterBag()
-	{
-		return $this->params;
-	}
-
 
 	/**
 	 * isSuccess 

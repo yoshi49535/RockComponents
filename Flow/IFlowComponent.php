@@ -18,7 +18,7 @@
 // <Namespace>
 namespace Rock\Component\Flow;
 // <Use>
-use Rock\Component\Flow\Input\IInput;
+use Rock\Component\Flow\IO\IInput;
 
 /**
  *
