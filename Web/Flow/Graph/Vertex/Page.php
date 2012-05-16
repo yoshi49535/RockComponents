@@ -14,14 +14,22 @@
  * please read the LICENSE file that is distributed with the source code.
  *
  ****/
-
-// <Namespace>
-namespace Rock\Component\Web\Flow;
-// <Base>
-use Rock\Component\Flow\Graph\State\State;
+// @namespace
+namespace Rock\Component\Web\Flow\Graph\Vertex;
+// @extends 
+use Rock\Component\Flow\Graph\Vertex\State;
+// @interface
+use Rock\Component\Web\IPage;
 
 /**
- *
+ * Page 
+ * 
+ * @uses State
+ * @package 
+ * @version $id$
+ * @copyright 2011-2012 Yoshi Aoki
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license 
  */
 class Page extends State
   implements

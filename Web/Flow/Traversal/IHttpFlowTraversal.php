@@ -18,14 +18,25 @@
 // <Namespace>
 namespace Rock\Component\Web\Flow\Traversal;
 // <Use>
-use Rock\Component\Flow\Traversal\ITraversalState;
+use Rock\Component\Flow\Traversal\IFlowTraversal;
+
 /**
- *
+ * IHttpFlowTraversal 
+ * 
+ * @uses IFlowTraversal
+ * @package 
+ * @version $id$
+ * @copyright 2011-2012 Yoshi Aoki
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license 
  */
-interface IHttpPageTraversalState extends ITraversalState
+interface IHttpFlowTraversal extends IFlowTraversal
 {
 	/**
-	 *
+	 * getSession 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function getSession();
 }

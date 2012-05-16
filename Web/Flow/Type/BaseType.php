@@ -43,17 +43,15 @@ abstract class BaseType extends BaseTypeBase
 	 * @param array $callback
 	 * @return self
 	 */
-	public function addPage($name, $callback = null)
+	public function addPage($name, $callback = null, array $params = array())
 	{
-		$class       = $this->defaultPageClass;
-		$definition  = new $class($this->generateSubId($name));
-		$definition->setAttribute('name', $name);
-		
-		if($callback)
-			$definition->addCall(new Call('setHandler', array($callback)));
-	
-		$this->addStateDefinition($definition);
-		return $this;
+		$params = array_merge(
+			array(
+				'class' => $this->defaultPageClass
+			),
+			$params);
+
+		return $this->addState($name, $callback, $params);
 	}
 
 }

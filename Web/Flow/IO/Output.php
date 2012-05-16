@@ -16,16 +16,16 @@
  ****/
 
 // <Namspace>
-namespace Rock\Component\Web\Flow\Output;
-// <Base>
-use Rock\Component\Flow\Output\GraphOutput;
+namespace Rock\Component\Web\Flow\IO;
+// @extends 
+use Rock\Component\Flow\IO\Output as BaseOutput;
 // @use Page Interface
 use Rock\Component\Web\Flow\IPage;
 
 /**
  * 
  */
-class Output extends GraphOutput
+class Output extends BaseOutput
 {
 	/**
 	 *
@@ -39,8 +39,13 @@ class Output extends GraphOutput
 	{
 		return !$this->isSuccess();
 	}
+
 	/**
-	 *
+	 * setRedirectTo 
+	 * 
+	 * @param IPage $page 
+	 * @access public
+	 * @return void
 	 */
 	public function setRedirectTo(IPage $page)
 	{
@@ -48,7 +53,10 @@ class Output extends GraphOutput
 	}
 
 	/**
-	 *
+	 * getRedirectTo 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function getRedirectTo()
 	{
@@ -57,12 +65,22 @@ class Output extends GraphOutput
 			null;
 	}
 
+	/**
+	 * hasRedirectTo 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function hasRedirectTo()
 	{
 		return !is_null($this->redirectTo);
 	}
+
 	/**
-	 *
+	 * needRedirect 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function needRedirect()
 	{

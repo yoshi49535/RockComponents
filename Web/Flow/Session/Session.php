@@ -3,67 +3,40 @@
  *
  * Description:
  *      
- * 
+ * $Id$
  * $Date$
- * Rev    : see git
- * Author : Yoshi Aoki <yoshi@44services.jp>
+ * $Rev$
+ * $Author$
  * 
- *  This file is part of the Rock package.
+ *  This file is part of the $Project$ package.
  *
- * For the full copyright and license information, 
- * please read the LICENSE file that is distributed with the source code.
+ * $Copyrights$
  *
  ****/
-
-// <Namespace>
+// @namespace
 namespace Rock\Component\Web\Flow\Session;
 
-// <Base> : Utility Component
-use Rock\Component\Utility\ParameterContainer;
-// <Interface>
-use Rock\Component\Web\Flow\Session\ISession;
-
-// <Use> : Container Component
-use Rock\Component\Container\Graph\Path\IPath as ITrail;
-
-class Session extends ParameterContainer
-  implements
-    ISession
+/**
+ * Session 
+ * 
+ * @uses BaseSession
+ * @package 
+ * @version $id$
+ * @copyright 2011-2012 Yoshi Aoki
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license 
+ */
+class Session extends BaseSession
 {
-	protected $cleanFunctions = array();
 	/**
-	 *
+	 * validate 
+	 * 
+	 * @access protected
+	 * @return void
 	 */
-	public function __construct(array $defaults = array())
+	protected function validate()
 	{
-		$this->setValues($defaults);
-	}
-
-	/**
-	 *
-	 */
-	public function addCleanFunction($callable)
-	{
-		$this->cleanFunctions[]  = $callable;
-	}
-	/**
-	 *
-	 */
-	public function clean()
-	{
-		foreach($this->cleanFunctions as $func)
-		{
-			call_user_func($func);
-		}
-	}
-	/**
-	 *
-	 */
-	public function validate()
-	{
-		// flow_hash is required.
-		if(!isset($this['flow_hash']))
-			throw new \Exception('Flow Session required "flow_hash", but not initialized.');
+		// has to have 'id'
 
 		return true;
 	}

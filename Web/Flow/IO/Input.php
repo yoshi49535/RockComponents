@@ -16,11 +16,11 @@
  ****/
 
 // <Namespace>
-namespace Rock\Component\Web\Flow\Input;
+namespace Rock\Component\Web\Flow\IO;
 // <Base>
-use Rock\Component\Flow\Input\Input as BaseInput;
+use Rock\Component\Flow\IO\Input as BaseInput;
 // <Interface> : For Type Safe
-use Rock\Component\Web\Flow\Input\IHttpInput;
+use Rock\Component\Web\Flow\IO\IHttpInput;
 // @use Flow Direction
 use Rock\Component\Flow\Directions;
 

@@ -16,7 +16,7 @@
  ****/
 
 // @namespace
-namespace Rock\Component\Flow\Tests;
+namespace Rock\Component\Web\Flow\Tests;
 
 class FooComponent
 {

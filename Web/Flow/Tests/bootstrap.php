@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__.'/../../Core/Rock.php';
+require_once __DIR__.'/../../../Core/Rock.php';
 
 use Rock\Component\Core\Loader\PackageLoader;
 
@@ -10,8 +10,8 @@ $loader->register();
 
 spl_autoload_register(function($class)
 {
-    if (0 === strpos($class, 'Rock\\Component\\Flow\\Tests') &&
-        file_exists($file = __DIR__.'/'.implode('/', array_slice(explode('\\', $class), 4)).'.php')) {
+    if (0 === strpos($class, 'Rock\\Component\\Web\\Flow\\Tests') &&
+        file_exists($file = __DIR__.'/'.implode('/', array_slice(explode('\\', $class), 5)).'.php')) {
         require_once $file;
     }
 });

@@ -14,23 +14,25 @@
  * please read the LICENSE file that is distributed with the source code.
  *
  ****/
-
 // @namespace
-namespace Rock\Component\Web\Flow\Definition;
-// @extends
-use Rock\Component\Flow\Definition\StateDefinition;
+namespace Rock\Component\Web\Flow\IO;
 
 /**
- *
+ * IHttpInput 
+ * 
+ * @package 
+ * @version $id$
+ * @copyright 2011-2012 Yoshi Aoki
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license 
  */
-class PageDefinition extends StateDefinition
+interface IHttpInput
 {
 	/**
-	 *
+	 * getRequestState 
+	 * 
+	 * @access public
+	 * @return void
 	 */
-	public function __construct($id)
-	{
-		parent::__construct($id);
-		$this->class = '\\Rock\\Component\\Web\\Flow\\Page';
-	}
+	public function getRequestState();
 }

@@ -16,38 +16,54 @@
  ****/
 
 namespace Rock\Component\Web\Flow\Traversal;
-
 // <BaseClass>
-use Rock\Component\Flow\Traversal\GraphTraversalState as BaseTraversal;
+use Rock\Component\Flow\Traversal\Traversal;
 // <Interface>
-use Rock\Component\Web\Flow\Traversal\IHttpPageTraversalState;
+use Rock\Component\Web\Flow\Traversal\IHttpFlowTraversal;
 // <Use>
-use Rock\Component\Flow\GraphFlow;
-use Rock\Component\Web\Flow\Session\ISession;
+use Rock\Component\Web\Flow\IHttpFlow;
+use Rock\Component\Web\Session\ISession;
 // <Use> : Output
-use Rock\Component\Flow\Output\IOutput;
-use Rock\Component\Container\Graph\Path\IPath as IGraphPath;
+use Rock\Component\Web\Flow\IO\Output;
+use Rock\Component\Automaton\Path\Trail\ITrail;
 
 /**
- *
+ * HttpTraversal 
+ * 
+ * @uses Traversal
+ * @package 
+ * @version $id$
+ * @copyright 2011-2012 Yoshi Aoki
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license 
  */
-class HttpPageTraversalState extends BaseTraversal
+class HttpTraversal extends Traversal
   implements
-    IHttpPageTraversalState
+    IHttpFlowTraversal
 {
 	protected $session;
 
-	/** 
-	 *
+	/**
+	 * __construct 
+	 * 
+	 * @param IHttpFlow $flow 
+	 * @param ISession $session 
+	 * @param ITrail $path 
+	 * @access public
+	 * @return void
 	 */
-	public function __construct(GraphFlow $flow, ISession $session, IPath $path = null)
+	public function __construct(IHttpFlow $flow, ISession $session, ITrail $path = null)
 	{
 		parent::__construct($flow, $path);
 
 		$this->setSession($session);
 	}
-	/** 
-	 *
+	/**
+	 * setSession 
+	 * 
+	 * @param ISession $session 
+	 * @access public
+	 * @return void
 	 */
 	public function setSession(ISession $session)
 	{
@@ -56,20 +72,34 @@ class HttpPageTraversalState extends BaseTraversal
 		$this->session->addCleanFunction(array($this, 'doCleanSession'));
 	}
 
+	/**
+	 * doCleanSession 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function doCleanSession()
 	{
 		// clean session 
 		$this->getSession()->set('trail', $this->trail->pack());
 	}
-	/** 
-	 *
+
+	/**
+	 * getSession 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function getSession()
 	{
 		return $this->session;
 	}
+
 	/**
-	 *
+	 * getTrail 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function getTrail()
 	{
@@ -85,14 +115,17 @@ class HttpPageTraversalState extends BaseTraversal
 
 		return $this->trail;
 	}
-	/**
-	 * @return bool Has next on flow or not
-	 */
-	public function hasPrev()
-	{
-		return !$this->getCurrent()->isEntryPoint() && !$this->getCurrent()->isEndPoint();
-	}
 
+	protected function initOutput()
+	{
+		$this->output  = new Output($this->getOwner());
+	}
+	/**
+	 * reset 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function reset()
 	{
 		parent::reset();
