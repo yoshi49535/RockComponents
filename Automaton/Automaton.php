@@ -159,7 +159,7 @@ abstract class Automaton
 		}
 
 		// Update Output Trail
-		$traversal->getOutput()->setTrail($trail);
+		$traversal->getOutput()->getTrail()->merge($trail);
 		// Update Traversal Trail
 		$traversal->getTrail()->merge($trail);
 

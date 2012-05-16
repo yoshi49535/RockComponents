@@ -78,9 +78,6 @@ class Traversal
 	public function __construct(IAutomaton $owner)
 	{
 		$this->owner  = $owner;
-
-		// Initialize
-		$this->trail  = $this->owner->getPath()->createTrail();
 	}
 
 	/**
@@ -117,13 +114,18 @@ class Traversal
 		$this->input = $input;
 	}
 
+	public function hasInput()
+	{
+		return !is_null($this->input);
+	}
+
 	/**
 	 * initOutput 
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	public function initOutput()
+	protected function initOutput()
 	{
 		$this->output  = new Output($this->getOwner());
 	}
@@ -161,6 +163,8 @@ class Traversal
 	 */
 	public function getTrail()
 	{
+		if(!$this->trail)
+			$this->trail  = $this->owner->getPath()->createTrail();
 		return $this->trail;
 	}
 }

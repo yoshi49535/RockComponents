@@ -23,7 +23,7 @@ use Rock\Component\Automaton\IO\IInput;
 /**
  *
  */
-class Input 
+class Input extends BaseIO
   implements 
     IInput
 {
