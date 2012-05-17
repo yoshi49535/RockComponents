@@ -110,7 +110,8 @@ class HttpTraversal extends Traversal
 
 			// recover
 			$trails  = $this->getSession()->get('trail', array());
-			$this->trail->unpack($trails);
+			if($trails)
+				$this->trail->unpack($trails);
 		}
 
 		return $this->trail;

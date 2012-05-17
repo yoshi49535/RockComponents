@@ -35,7 +35,7 @@ use Rock\Component\Web\Session\ISession;
 use Rock\Component\Web\Flow\Traversal\HttpTraversal;
 
 // @use Web Page Interface
-use Rock\Component\Web\IPage;
+use Rock\Component\Web\Flow\Path\State\IPage;
 
 /**
  * HttpFlow 

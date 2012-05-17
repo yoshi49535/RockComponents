@@ -20,7 +20,7 @@ namespace Rock\Component\Web\Flow\IO;
 // @extends 
 use Rock\Component\Flow\IO\Output as BaseOutput;
 // @use Page Interface
-use Rock\Component\Web\Flow\IPage;
+use Rock\Component\Web\Flow\Path\State\IPage;
 
 /**
  * 

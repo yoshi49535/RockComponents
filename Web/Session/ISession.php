@@ -15,25 +15,17 @@
  *
  ****/
 // @namespace
-namespace Rock\Component\Web\Flow\Graph\Vertex;
-// @extends 
-use Rock\Component\Flow\Graph\Vertex\State;
-// @interface
-use Rock\Component\Web\Flow\Path\State\IPage;
+namespace Rock\Component\Web\Session;
 
 /**
- * Page 
+ * ISession 
  * 
- * @uses State
  * @package 
  * @version $id$
  * @copyright 2011-2012 Yoshi Aoki
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-class Page extends State
-  implements
-    IPage
+interface ISession 
 {
-	
 }
