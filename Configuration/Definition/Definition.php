@@ -17,10 +17,17 @@
 // @namespace
 namespace Rock\Component\Configuration\Definition;
 // @use
-use Rock\Component\Configuration\Definition\Reference;
+use Rock\Component\Configuration\Component\Reference;
+use Rock\Component\Configuration\Component\Call;
 
 /**
- *
+ * Definition 
+ * 
+ * @package 
+ * @version $id$
+ * @copyright 2011-2012 Yoshi Aoki
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license 
  */
 class Definition
 {
@@ -51,7 +58,7 @@ class Definition
 	/**
 	 *
 	 */
-	public function __construct($id, $attributes = array())
+	public function __construct($id, array $attributes = array())
 	{
 		$this->id          = $id;
 		$this->attributes  = $attributes;
@@ -129,12 +136,23 @@ class Definition
 	}
 
 
+	/**
+	 * setCalls 
+	 * 
+	 * @param mixed $calls 
+	 * @access public
+	 * @return void
+	 */
 	public function setCalls($calls)
 	{
 		$this->calls    = $calls;
 	}
 	/**
-	 *
+	 * addCall 
+	 * 
+	 * @param Call $call 
+	 * @access public
+	 * @return void
 	 */
 	public function addCall(Call $call)
 	{
@@ -142,7 +160,11 @@ class Definition
 	}
 
 	/**
-	 *
+	 * getCall 
+	 * 
+	 * @param mixed $method 
+	 * @access public
+	 * @return void
 	 */
 	public function getCall($method)
 	{
@@ -155,13 +177,23 @@ class Definition
 		}
 	}
 
+	/**
+	 * getCalls 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function getCalls()
 	{
 		return $this->calls;
 	}
 
 	/**
-	 *
+	 * removeCall 
+	 * 
+	 * @param mixed $method 
+	 * @access public
+	 * @return void
 	 */
 	public function removeCall($method)
 	{
@@ -173,7 +205,10 @@ class Definition
 	}
 
 	/**
-	 *
+	 * getClass 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function getClass()
 	{
@@ -181,7 +216,11 @@ class Definition
 	}
 
 	/**
-	 *
+	 * setClass 
+	 * 
+	 * @param mixed $class 
+	 * @access public
+	 * @return void
 	 */
 	public function setClass($class)
 	{
@@ -189,7 +228,10 @@ class Definition
 	}
 
 	/**
-	 *
+	 * getAlias 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function getAlias()
 	{
@@ -197,22 +239,32 @@ class Definition
 	}
 
 	/**
-	 *
+	 * setAlias 
+	 * 
+	 * @param mixed $alias 
+	 * @access public
+	 * @return void
 	 */
 	public function setAlias($alias)
 	{
 		$this->setAttribute('alias', $alias);
 	}
-
 	/**
-	 *
+	 * setArguments 
+	 * 
+	 * @param array $arguments 
+	 * @access public
+	 * @return void
 	 */
 	public function setArguments(array $arguments)
 	{
 		$this->arguments  = $arguments;
 	}
 	/**
-	 *
+	 * getArguments 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function getArguments()
 	{
@@ -220,46 +272,36 @@ class Definition
 	}
 
 	/**
-	 *
+	 * addArgument 
+	 * 
+	 * @param mixed $argument 
+	 * @access public
+	 * @return void
 	 */
 	public function addArgument($argument)
 	{
 		$this->arguments[] = $argument;
 	}
 
+	/**
+	 * getReference 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function getReference()
 	{
 		return new Reference($this->getId());
 	}
 
+	/**
+	 * isSingleton 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function isSingleton()
 	{
 		return $this->hasAttribute('singleton') && (bool)$this->getAttribute('singleton');
 	}
-
-	public function instantiate($params = array())
-	{
-		if(!$params)
-		{
-			$params  = $this->getAttributes();
-		}
-		else if(is_array($params))
-		{
-			$params  = array_merge($this->getAttributes(), $params);
-		}
-
-		// Before initialize ComponentDefinition, initializeDefinition
-		$this->configurateDefinition();
-
-		$definition  = new ComponentDefinition($this->getId(), $params, $this);
-
-		// 
-		$definition->setClass($this->getClass());
-		$definition->setArguments($this->getArguments());
-		//
-		$definition->setCalls($this->getCalls());
-
-		return $definition;
-	}
-
 }

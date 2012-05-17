@@ -11,7 +11,7 @@ $loader->register();
 spl_autoload_register(function($class)
 {
     if (0 === strpos($class, 'Rock\\Component\\Configuration\\Tests') &&
-        file_exists($file = __DIR__.'/'.implode('/', array_slice(explode('\\', $class), 3)).'.php')) {
+        file_exists($file = __DIR__.'/'.implode('/', array_slice(explode('\\', $class), 4)).'.php')) {
         require_once $file;
     }
 });
