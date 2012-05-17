@@ -132,7 +132,13 @@ abstract class Automaton
 		else
 		{
 			$trail->push($begin);
-			foreach($this->getPath()->getConditionsFrom($begin) as $condition)
+			$nextConditions = $this->getPath()->getConditionsFrom($begin);
+			if(!$nextConditions || empty($nextConditions))
+			{
+				throw new AutomatonException\RuntimeException('No more states are exists, thus cannot forward.');
+			}
+
+			foreach($nextConditions as $condition)
 			{
 				if($condition instanceof ICondition)
 				{
