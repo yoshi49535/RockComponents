@@ -29,7 +29,8 @@ use Rock\Component\Utility\Bag\IParameterBag;
  */
 class ParameterBag 
   implements 
-    IParameterBag
+    IParameterBag,
+	\ArrayAccess
 {
 	protected $params  = array();
 
@@ -47,6 +48,10 @@ class ParameterBag
 	{
 		return array_key_exists($idx, $this->params) ? $this->params[$idx] : $default;
 	}
+	public function offsetGet($index)
+	{
+		return $this->get($index);
+	}
 
 	/**
 	 *
@@ -54,6 +59,10 @@ class ParameterBag
 	public function set($idx, $value)
 	{
 		$this->params[$idx]  = $value;
+	}
+	public function offsetSet($index, $value)
+	{
+		return $this->set($index, $value);
 	}
 
 	/**
@@ -97,7 +106,20 @@ class ParameterBag
 	{
 		return isset($this->params[$idx]);
 	}
+	public function offsetExists($index)
+	{
+		return $this->has($index);
+	}
 
+	public function remove($idx)
+	{
+		if(array_key_exists($idx, $this->params))
+			unset($this->params[$idx]);
+	}
+	public function offsetUnset($index)
+	{
+		return $this->remove($index);
+	}
 	/**
 	 *
 	 */
