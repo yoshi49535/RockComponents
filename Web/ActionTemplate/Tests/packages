@@ -1,0 +1,7 @@
+Utility:         %DIR%/../../../Utility
+Configuration:   %DIR%/../../../Configuration
+Container:       %DIR%/../../../Container
+Flow:            %DIR%/../../../Flow
+Web:             %DIR%/../../../Web
+Automaton:       %DIR%/../../../Automaton
+

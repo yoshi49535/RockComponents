@@ -54,10 +54,11 @@ abstract class BaseType
 	 */
 	protected function configure()
 	{
-		$definitions     = $this->configurePath($this->getFlowDefinition());
+		$pathBuilder     = $this->createPathTreeBuilder()
+		$definitions     = $this->configurePath($pathBuilder);
 
 		// Add All Definitions
-		$this->getContainer()->addDefinitions($definitions);
+		$this->getContainer()->addDefinitions($pathBuilder->getDefinitions());
 	}
 
 	/**
