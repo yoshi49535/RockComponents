@@ -18,10 +18,10 @@ namespace Rock\Component\Web\ActionTemplate\Definition\Builder\Node\Flow\Path;
 // @extends
 use Rock\Component\Web\ActionTemplate\Definition\Builder\Node\Node;
 // @use
-use Rock\Component\Web\ActionTemplate\Definition\Builder\Node\Flow\Path\PathComponentNode;
+use Rock\Component\Web\ActionTemplate\Definition\Builder\Node\Flow\Path\FlowPathComponentNode;
 
 /**
- * PathNode 
+ * FlowPathNode 
  * 
  * @uses Node
  * @package 
@@ -30,12 +30,8 @@ use Rock\Component\Web\ActionTemplate\Definition\Builder\Node\Flow\Path\PathComp
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-class PathNode extends Node
+class FlowPathNode extends Node
 {
-	protected function init()
-	{
-		$this->setParameter('class', '%flow.path.class%');
-	}
 	/**
 	 * state
 	 * 
@@ -45,8 +41,8 @@ class PathNode extends Node
 	 */
 	public function state($name)
 	{
-		$this->add($node = new PathComponentNode());
-		$node->set('class', '%flow.path.state.class%');
+		$this->add($node = new FlowPathComponentNode($this->getTree(), $name));
+		$node->setComponentType(FlowPathComponentNode::TYPE_STATE);
 		return $node;
 	}
 
@@ -61,8 +57,8 @@ class PathNode extends Node
 	 */
 	public function page($name, $params = array())
 	{
-		$this->add($node = new PathComponentNodeNode());
-		$node->set('class', '%flow.path.page.class%');
+		$this->add($node = new FlowPathComponentNode($this->getTree(), $name));
+		$node->setComponentType(FlowPathComponentNode::TYPE_PAGE);
 
 		return $node;
 	}
@@ -77,8 +73,8 @@ class PathNode extends Node
 	 */
 	public function cond($name)
 	{
-		$this->add($node = new PathComponentConditionNode());
-		$node->set('class', '%flow.path.condition.class%');
+		$this->add($node = new FlowPathComponentNode($this->getTree(), $name));
+		$node->setComponentType(FlowPathComponentNode::TYPE_PAGE);
 
 		return $node;
 	}

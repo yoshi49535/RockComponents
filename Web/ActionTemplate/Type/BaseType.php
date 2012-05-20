@@ -46,6 +46,10 @@ abstract class BaseType
 		$this->configure();
 	}
 
+	protected function createPathBuilder()
+	{
+		return new GraphPathTreeBuilder();
+	}
 	/**
 	 * configure 
 	 * 
@@ -54,11 +58,11 @@ abstract class BaseType
 	 */
 	protected function configure()
 	{
-		$pathBuilder     = $this->createPathTreeBuilder()
+		$pathBuilder     = $this->createPathBuilder()
 		$definitions     = $this->configurePath($pathBuilder);
 
 		// Add All Definitions
-		$this->getContainer()->addDefinitions($pathBuilder->getDefinitions());
+		$this->getContainer()->addDefinitions($pathBuilder->build());
 	}
 
 	/**

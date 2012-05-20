@@ -18,7 +18,7 @@ namespace Rock\Component\Web\ActionTemplate\Definition\Builder\Node\Flow;
 // @use
 use Rock\Component\Web\ActionTemplate\Definition\Builder\Node\Node;
 // @use 
-use Rock\Component\Web\ActionTemplate\Definition\Builder\Node\Flow\Path\PathNode;
+use Rock\Component\Web\ActionTemplate\Definition\Builder\Node\Flow\Path\FlowPathNode;
 
 
 /**
@@ -33,10 +33,6 @@ use Rock\Component\Web\ActionTemplate\Definition\Builder\Node\Flow\Path\PathNode
  */
 class FlowNode extends Node
 {
-	protected function init()
-	{
-		$this->set('class', '%flow.class%');
-	}
 	/**
 	 * load 
 	 * 
@@ -54,9 +50,9 @@ class FlowNode extends Node
 	 * @access public
 	 * @return void
 	 */
-	public function path()
+	public function path($name = 'path')
 	{
-		$this->add($node = new PathNode());
+		$this->add($node = new FlowPathNode($this->getTree(), $name));
 		
 		return $node;
 	}

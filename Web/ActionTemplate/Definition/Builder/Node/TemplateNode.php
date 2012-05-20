@@ -37,7 +37,7 @@ class TemplateNode extends Node
 	 * @access public
 	 * @return void
 	 */
-	public function set()
+	public function dir()
 	{
 	}
 
@@ -47,9 +47,9 @@ class TemplateNode extends Node
 	 * @access public
 	 * @return void
 	 */
-	public function flow()
+	public function flow($name = 'flow')
 	{
-		$this->add($node = new FlowNode());
+		$this->add($node = new FlowNode($this->getTree(), $name));
 		return $node;
 	}
 }

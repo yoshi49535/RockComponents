@@ -32,7 +32,10 @@ class Node extends DefinitionNode
   implements
     IActionTemplateDefNode
 {
-
+	protected function init()
+	{
+		$this->setParameter('class', '_default');
+	}
 	/**
 	 * end 
 	 * 
@@ -43,6 +46,13 @@ class Node extends DefinitionNode
 	{
 		return $this->getParent();
 	}
+	/**
+	 * asPrevSiblign 
+	 * 
+	 * @param Node $node 
+	 * @access public
+	 * @return void
+	 */
 	public function asPrevSiblign(Node $node)
 	{
 		$temp = $this->getPrevSiblign();
@@ -55,6 +65,14 @@ class Node extends DefinitionNode
 		$this->setPrevSiblign($node);
 		$node->setNextSiblign($this);
 	}
+
+	/**
+	 * asNextSiblign 
+	 * 
+	 * @param Node $node 
+	 * @access public
+	 * @return void
+	 */
 	public function asNextSiblign(Node $node)
 	{
 		if($this->hasNextSiblign())
@@ -68,6 +86,13 @@ class Node extends DefinitionNode
 		return $node;
 	}
 
+	/**
+	 * asChildNode 
+	 * 
+	 * @param Node $node 
+	 * @access public
+	 * @return void
+	 */
 	public function asChildNode(Node $node)
 	{
 		$node->setParent($this);
