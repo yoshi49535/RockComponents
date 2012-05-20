@@ -32,7 +32,7 @@ class ParameterResolver
 	/**
 	 *
 	 */
-	protected $container;
+	private $container;
 
 	/**
 	 *
@@ -42,13 +42,17 @@ class ParameterResolver
 		$this->container = $container;
 	}
 
+	public function getContainer()
+	{
+		return $this->container;
+	}
 	/**
 	 *
 	 */
 	public function resolve($value)
 	{
-		if($this->isParameterPattern($value))
-			$value = $this->container->getParameter($value);
+		if($key = $this->getParameterName($value))
+			$value = $this->getContainer()->getParameter($key);
 
 		return $value;
 	}
@@ -56,11 +60,11 @@ class ParameterResolver
 	/**
 	 *
 	 */
-	protected function isParameterPattern($value)
+	protected function getParameterName($value)
 	{
-		if(is_string($value))
-			return preg_match('/^%.*%$/', $value);
-		
+		$match = array();
+		if(is_string($value) && preg_match('/^%(?P<name>.*)%$/', $value, $match))
+			return $match['name'];	
 		return false;
 	}
 }

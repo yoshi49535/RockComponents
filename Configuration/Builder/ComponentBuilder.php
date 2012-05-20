@@ -142,9 +142,14 @@ class ComponentBuilder
 
 		// Resolve Pattern-Parameter and Reference
 		if($this->resolver)
+		{
+			$class     = $this->resolver->resolve($class);
 			$arguments = $this->resolver->resolve($arguments);
+		}
 
 		// Reflection Class construct the instance w/ arugments
+		if(!class_exists($class))
+			throw new \Exception(sprintf('Class "%s" dose not exists.', $class));
 		$reference  = new \ReflectionClass($class);
 
 		if($reference->getConstructor())

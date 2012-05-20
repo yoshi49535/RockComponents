@@ -20,6 +20,10 @@ namespace Rock\Component\Configuration\Tests\TestCase;
 // @use Definition
 use Rock\Component\Configuration\Definition\Definition;
 
+// @use Definition Builder
+use Rock\Component\Configuration\Definition\Builder\Tree\TreeDefinitionBuilder;
+use Rock\Component\Configuration\Definition\Builder\Tree\DefinitionNode;
+
 /**
  *
  */
@@ -33,5 +37,23 @@ class DefinitionTest extends BaseTestCase
 		$definition->setClass('\\Rock\\Component\\Configuration\\Tests\\Definition\\FooComponent');
 		$definition->addArgument('test');
 		// 
+	}
+
+	public function testTreeBuilder()
+	{
+		$builder   = new TreeDefinitionBuilder();
+
+		$node      = new DefinitionNode($builder);
+		// Set Params
+		$node
+			->set('class', 'Foo')
+		;
+		$builder->root()->add($node);
+
+		$definitions = $builder->build();
+
+		$this->assertTrue(count($definitions) === 1, 'Assert Count 1');
+		$def = $definitions[0];
+		$this->assertTrue($def->getClass() === 'Foo', 'Assert Definition Class');
 	}
 }

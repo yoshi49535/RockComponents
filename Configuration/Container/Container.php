@@ -23,6 +23,8 @@ use Rock\Component\Configuration\Container\IContainer;
 use Rock\Component\Configuration\Definition\Definition;
 // @use Default Component Builder
 use Rock\Component\Configuration\Builder\ComponentBuilder;
+// @use
+use Rock\Component\Utility\Bag\ParameterBag;
 
 /**
  *
@@ -69,7 +71,7 @@ class Container
 	public function __construct($params = array())
 	{
 		$this->definitions = array(self::SCOPE_GLOBAL => array());
-		$this->params = is_null($params) ? new ParameterBag() : $params;
+		$this->params = new ParameterBag($params);
 
 		$this->components = array();
 		$this->enterScope(self::SCOPE_GLOBAL);
@@ -95,6 +97,12 @@ class Container
 	{
 		$definitions = $this->getDefinitions();
 		return $definitions[$id];
+	}
+
+	public function addDefinitions($definitions, $scope = self::SCOPE_GLOBAL)
+	{
+		foreach($definitions as $definition)
+			$this->addDefinition($definition, $scope);
 	}
 	/**
 	 * addDefinition 
@@ -310,6 +318,42 @@ class Container
 	}
 
 	
+	/**
+	 * getParameterBag 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getParameterBag()
+	{
+		return $this->params;
+	}
+	/**
+	 * getParameter 
+	 * 
+	 * @param mixed $name 
+	 * @access public
+	 * @return void
+	 */
+	public function getParameter($name)
+	{
+		if(!$this->params->has($name))
+			throw new \Exception(sprintf('Parameter "%s" is not existed.', $name));
+		return $this->params->get($name);;
+	}
+	/**
+	 * setParameter 
+	 * 
+	 * @param mixed $name 
+	 * @param mixed $value 
+	 * @access public
+	 * @return void
+	 */
+	public function setParameter($name, $value)
+	{
+		$this->params->set($name, $value);
+	}
+
 	/**
 	 * generateUniqueId 
 	 * 
