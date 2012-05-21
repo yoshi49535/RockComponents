@@ -17,7 +17,6 @@
 namespace Rock\Component\Automaton\Path\Trail;
 // @use Path Component Interface
 use Rock\Component\Automaton\Path\IComponent as IPathComponent;
-
 /**
  * ITrail 
  * 
@@ -27,24 +26,8 @@ use Rock\Component\Automaton\Path\IComponent as IPathComponent;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-interface ITrail
+interface ITrail 
 {
-	/**
-	 * push 
-	 * 
-	 * @param IPathCompnent $path 
-	 * @access public
-	 * @return void
-	 */
-	function push(IPathComponent $path);
-
-	/**
-	 * pop 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	function pop();
 
 	/**
 	 * first 

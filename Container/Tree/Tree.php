@@ -32,6 +32,7 @@ use Rock\Component\Container\Tree\Iterator\TreeIterator;
  */
 class Tree
   implements
+  	ITree,
     \IteratorAggregate
 {
 	private $root;
@@ -44,16 +45,31 @@ class Tree
 	 */
 	public function __construct()
 	{
-		$this->root  = new Node();
+		$this->initRoot();
 	}
 
 	/**
-	 * root 
+	 * initRoot 
+	 * 
+	 * @param Node $root 
+	 * @access protected
+	 * @return void
+	 */
+	protected function initRoot(Node $root = null)
+	{
+		if($root)
+			$this->root = $root;
+		else
+			$this->root = new Node($this);
+	}
+
+	/**
+	 * getRoot 
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	public function root()
+	public function getRoot()
 	{
 		return $this->root;
 	}
@@ -66,6 +82,6 @@ class Tree
 	 */
 	public function getIterator()
 	{
-		return $this->root->getIterator();
+		return new TreeIterator($this);
 	}
 }

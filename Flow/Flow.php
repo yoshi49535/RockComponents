@@ -47,6 +47,18 @@ class Flow extends FiniteAutomaton
 	IFlow
 {
 	/**
+	 * initWithAttribute 
+	 * 
+	 * @param array $attributes 
+	 * @access public
+	 * @return void
+	 */
+	public function initWithAttributes($attributes = array())
+	{
+
+	}
+
+	/**
 	 * doInit 
 	 * 
 	 * @param ITraversal $traversal 
@@ -55,17 +67,6 @@ class Flow extends FiniteAutomaton
 	 */
 	protected function doInit(ITraversal $traversal)
 	{
-	}
-
-	/**
-	 * doInitPath 
-	 * 
-	 * @access protected
-	 * @return void
-	 */
-	protected function doInitPath()
-	{
-		throw new NotImplementedException('Flow is abstracted. Make sure your extended Flow has onInitPath Function to handle "doInitPath()".');
 	}
 
 	/**
@@ -122,9 +123,12 @@ class Flow extends FiniteAutomaton
 			case Directions::PREV:
 				$this->backward($traversal);
 				break;
+			// CURRENT
 			default:
+				$this->stay($traversal);
 				break;
 			}
+
 			// 
 			$traversal->getOutput()->success();
 		}
@@ -133,6 +137,20 @@ class Flow extends FiniteAutomaton
 			$traversal->getOutput()->fail();
 			throw $ex;
 		}
+	}
+
+	public function stay(ITraversal $traversal)
+	{
+		$current = $traversal->getTrail()->last()->current();
+		if($traversal->hasInput())
+			$current->handle($traversal->getInput());
+
+		// 
+		$trail = $this->getPath()->createTrail();
+		$trail->push($current);
+		$traversal->getOutput()->setTrail($trail);
+
+		return $traversal;
 	}
 
 	public function forward(ITraversal $traversal)
@@ -218,12 +236,7 @@ class Flow extends FiniteAutomaton
 	{
 		if(!$this->path)
 		{
-			//throw new InitializeException('Flow Path has not been constructed, yet.');
-			$this->doInitPath();
-			if(!$this->path)
-			{
-				throw new InitializeException('Failed to initialize Flow Path.');
-			}
+			throw new InitializeException('Failed to initialize Flow Path.');
 		}
 		return $this->path;
 	}

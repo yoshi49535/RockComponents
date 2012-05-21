@@ -32,57 +32,40 @@ use Rock\Component\Web\ActionTemplate\Definition\Builder\Node\Flow\Path\FlowPath
 class GraphTreeBuilder extends TreeBuilder
 {
 	/**
-	 * doBuildPathDefinition 
+	 * getPathClass 
 	 * 
-	 * @param IDefinitionNode $node 
 	 * @access protected
 	 * @return void
 	 */
-	protected function doBuildPathDefinition(IDefinitionNode $node)
+	protected function getPathClass()
 	{
-		$definition = parent::doBuildPathDefinition($node);
-		if($definition)
-		{
-			// If Class is not specified, or _default is given, 
-			// replace it.
-			if(!$definition->getClass() || ($definition->getClass() === '_default'))
-			{
-				$definition->setClass('\\Rock\\Component\\Flow\\Graph\\FlowGraph');
-			}
-		}
-		return $definition;
+		return '\\Rock\\Component\\Flow\\Graph\\FlowGraph';
 	}
 	/**
-	 * doBuildPathComponentDefinition 
+	 * getComponentClass 
 	 * 
-	 * @param IDefinitionNode $node 
+	 * @param Node $node 
 	 * @access protected
 	 * @return void
 	 */
-	protected function doBuildPathComponentDefinition(IDefinitionNode $node)
+	protected function getComponentClass(FlowPathComponentNode $node)
 	{
-		$definition = parent::doBuildPathComponentDefinition($node);
-
-
-		if(!$definition->getClass() || ($definition->getClass() === '_default'))
+		$class = false;
+		switch($node->getComponentType())
 		{
-			switch($node->getComponentType())
-			{
-			case FlowPathComponentNode::TYPE_STATE:
-				$definition->setClass('\\Rock\\Component\\Flow\\Graph\\Vertex\\State');
-				break;
-			case FlowPathComponentNode::TYPE_PAGE:
-				$definition->setClass('\\Rock\\Component\\Web\\Flow\\Graph\\Vertex\\Page');
-				break;
-			case FlowPathComponentNode::TYPE_CONDITION:
-				$definition->setClass('\\Rock\\Component\\Automaton\\Graph\\Edge\\Condition');
-				break;
-			default:
-				throw new \Exception(sprintf('Invalid Component Type is given.'));
-			}
+		case FlowPathComponentNode::TYPE_STATE:
+			$class = '\\Rock\\Component\\Flow\\Graph\\Vertex\\State';
+			break;
+		case FlowPathComponentNode::TYPE_PAGE:
+			$class = '\\Rock\\Component\\Web\\Flow\\Graph\\Vertex\\Page';
+			break;
+		case FlowPathComponentNode::TYPE_CONDITION:
+			$class = '\\Rock\\Component\\Flow\\Graph\\Edge\\Condition';
+			break;
+		default:
+			throw new \Exception(sprintf('Invalid Component Type is given.'));
 		}
 
-		return $definition;
+		return $class;
 	}
-
 }

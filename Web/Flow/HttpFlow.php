@@ -23,8 +23,8 @@ use Rock\Component\Flow\Flow;
 // <use> : Automaton Traversal
 use Rock\Component\Automaton\Traversal\ITraversal;
 // <Use> : Flow IO
-use Rock\Component\Flow\Input\IInput;
-use Rock\Component\Web\Flow\Input\IHttpInput;
+use Rock\Component\Flow\IO\IInput;
+use Rock\Component\Web\Flow\IO\IHttpInput;
 // <Use> : Exception
 use Rock\Component\Flow\Exception\TraversalStateException;
 // <Use> : Flow Direction
@@ -35,7 +35,7 @@ use Rock\Component\Web\Session\ISession;
 use Rock\Component\Web\Flow\Traversal\HttpTraversal;
 
 // @use Web Page Interface
-use Rock\Component\Web\Flow\Path\State\IPage;
+use Rock\Component\Web\Page\IPage;
 
 /**
  * HttpFlow 
@@ -62,15 +62,20 @@ class HttpFlow extends Flow
 	protected $session;
 
 	/**
-	 *
+	 * initWithAttribute 
+	 * 
+	 * @param array $attributes 
+	 * @access public
+	 * @return void
 	 */
-	public function __construct()
+	public function initWithAttributes($attributes = array())
 	{
-		parent::__construct();
+		parent::initWithAttributes($attributes);
 
-		$this->initName();
+		if(isset($attributes['name']))
+			$this->setName($attributes['name']);
+		//
 	}
-
 	/**
 	 *
 	 */
@@ -107,13 +112,13 @@ class HttpFlow extends Flow
 		// 
 		if($traversal->getOutput()->isSuccess())
 		{
-			$this->getSession()->save();
+			$traversal->getSession()->save();
 		}
 		
 		if(!$traversal->isKeepAlive() && !$traversal->getOutput()->needRedirect())
 		{
 			// remove from session
-			$this->getSession()->delete();
+			$traversal->getSession()->delete();
 		}
 	}
 
@@ -132,16 +137,18 @@ class HttpFlow extends Flow
 
 			$newTrail = null;
 
-			if($trail->count() === 0)
+			if($trail->count() === 0 || !(get_class($trail->last()->current()) instanceof IPage))
 			{
 				$traversal->getInput()->setDirection(Directions::NEXT);
 			}
+
 			//
 			do
 			{
 				parent::doHandleInput($traversal);
 			}
-			while($traversal->getOutput()->isSuccess() && !($traversal->getTrail()->last()->current() instanceof IPage));
+			while($traversal->getOutput()->isSuccess() && 
+				  !($traversal->getOutput()->getTrail()->last()->current() instanceof IPage));
 		}
 		catch (\Exception $ex)
 		{
@@ -157,21 +164,9 @@ class HttpFlow extends Flow
 	 * @access public
 	 * @return void
 	 */
-	public function createTraversal()
+	public function createTraversal(ISession $session = null)
 	{
-		return new HttpTraversal($this, $this->getSession());
-	}
-
-	public function setSession(ISession $session)
-	{
-		$this->session = $session;
-	}
-	public function getSession()
-	{
-		if(!$this->session)
-			throw new \Exception('Session is not initialized');
-		
-		return $this->session;
+		return new HttpTraversal($this, $session);
 	}
 
 	/**
@@ -195,16 +190,5 @@ class HttpFlow extends Flow
 	public function setName($name)
 	{
 		$this->name  = $name;
-	}
-
-	/**
-	 * initName 
-	 * 
-	 * @access protected
-	 * @return void
-	 */
-	protected function initName()
-	{
-		$this->name  = strtolower(str_replace(get_class($this), '\\', '.'));
 	}
 }

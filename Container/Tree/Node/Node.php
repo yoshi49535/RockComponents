@@ -15,8 +15,9 @@
  ****/
 // @namespace
 namespace Rock\Component\Container\Tree\Node;
-// @use 
-use Rock\Component\Container\Tree\Iterator\TreeIterator;
+// @use Tree Interface
+use Rock\Component\Container\Tree\ITree;
+use Rock\Component\Container\Tree\Path\Path;
 
 /**
  * Node 
@@ -28,15 +29,36 @@ use Rock\Component\Container\Tree\Iterator\TreeIterator;
  * @license 
  */
 class Node
-  implements
-    \IteratorAggregate
 {
+	private $tree;
 	private $parent;
 	private $first;
 	private $prev;
 	private $next;
 
 
+	/**
+	 * __construct 
+	 * 
+	 * @param ITree $tree 
+	 * @access public
+	 * @return void
+	 */
+	public function __construct(ITree $tree)
+	{
+		$this->tree  = $tree;
+	}
+
+	/**
+	 * getTree 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getTree()
+	{
+		return $this->tree;
+	}
 	//----
 	// Parent
 	/**
@@ -62,6 +84,10 @@ class Node
 		return $this->parent;
 	}
 
+	public function hasChildren()
+	{
+		return (null !== $this->first);
+	}
 	/**
 	 * getFirstChild 
 	 * 
@@ -95,6 +121,12 @@ class Node
 		}
 	}
 	
+	/**
+	 * countChildren 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function countChildren()
 	{
 		$count = 0;
@@ -107,23 +139,62 @@ class Node
 		}
 		return $count;
 	}
+
+	public function getChildren()
+	{
+		$children = array();
+		$temp = $this->first;
+		do
+		{
+			$children[] = $temp;
+		} while($temp = $temp->getNextSibling());
+
+		return $children;
+	}
+	/**
+	 * getIndex 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function getIndex()
 	{
 		return 0;
 	}
 
 	// Sibling 
+	/**
+	 * hasPrevSibling 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function hasPrevSibling()
 	{
 		return null !== $this->prev;
 	}
 
+	/**
+	 * getPrevSibling 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function getPrevSibling()
 	{
 		return $this->prev;
 	}
+	/**
+	 * setPrevSibling 
+	 * 
+	 * @param Node $node 
+	 * @access public
+	 * @return void
+	 */
 	public function setPrevSibling(Node $node)
 	{
+		$node->setParent($this->getParent());
+
 		if(null !== $this->prev)
 		{
 			$this->prev->next  = $node;
@@ -136,15 +207,34 @@ class Node
 		return $this;
 	}
 
+	/**
+	 * hasNextSibling 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function hasNextSibling()
 	{
 		return null !== $this->next;
 	}
 
+	/**
+	 * getNextSibling 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function getNextSibling()
 	{
 		return $this->next;
 	}
+	/**
+	 * setNextSibling 
+	 * 
+	 * @param Node $node 
+	 * @access public
+	 * @return void
+	 */
 	public function setNextSibling(Node $node)
 	{
 		// Switch Parent
@@ -163,8 +253,24 @@ class Node
 	}
 
 
-	public function getIterator()
+	/**
+	 * getPathFromRoot 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getPathFromRoot()
 	{
-		return new TreeIterator($this->first);
+		$path = new Path($this->getTree());
+		
+		$temp = $this;
+		do
+		{
+			$path->enque($temp);
+
+		} while($temp = $temp->getParent());
+	
+		return $path;
 	}
+
 }

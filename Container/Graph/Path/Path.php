@@ -14,8 +14,10 @@
  * please read the LICENSE file that is distributed with the source code.
  *
  ****/
-
+// @namespace
 namespace Rock\Component\Container\Graph\Path;
+// @extends
+use Rock\Component\Container\Misc\Path\AbstractPath;
 
 // <Use>
 use Rock\Component\Container\Graph\IGraph;
@@ -24,15 +26,19 @@ use Rock\Component\Container\Graph\IGraphComponent;
 use Rock\Component\Container\Graph\Edge\IEdge;
 use Rock\Component\Container\Graph\Vertex\IVertex;
 
-class Path
+/**
+ * Path 
+ * 
+ * @package 
+ * @version $id$
+ * @copyright 2011-2012 Yoshi Aoki
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license 
+ */
+class Path extends AbstractPath
   implements
-  	IPath,
-    \IteratorAggregate,
-	\Countable
+  	IPath
 {
-	protected $graph;
-	protected $components;
-
 	/**
 	 * __construct 
 	 * 
@@ -42,8 +48,7 @@ class Path
 	 */
 	public function __construct(IGraph $graph)
 	{
-		$this->graph       = $graph;
-		$this->components  = array();
+		parent::__construct($graph);
 	}
 
 	/**
@@ -54,35 +59,21 @@ class Path
 	 */
 	public function getGraph()
 	{
-		return $this->graph;
+		return $this->getContainer();
 	}
 	/**
 	 *
 	 */
 	public function push(IGraphComponent $component)
 	{
-		$this->components[]  = $component;
+		$this->pushComponent($component);
 	}
 
 	public function pop()
 	{
-		return array_pop($this->components);
+		return $this->popComponent();
 	}
 
-	/**
-	 *
-	 */
-	public function getComponents()
-	{
-		return $this->components;
-	}
-	/**
-	 *
-	 */
-	public function & getComponentsByRef()
-	{
-		return $this->components;
-	}
 	/**
 	 *
 	 */
@@ -114,101 +105,6 @@ class Path
 
 		return $vertices;
 	}
-	/**
-	 *
-	 */
-	public function getIterator()
-	{
-		return new \ArrayIterator($this->components);
-	}
-	/**
-	 *
-	 */
-	public function count()
-	{
-		return count($this->components);
-	}
-	///**
-	// *
-	// */
-	//public function countVertices()
-	//{
-	//	return count();
-	//}
-	/**
-	 *
-	 */
-	public function first()
-	{
-		if(count($this->components) <= 0)
-		{
-			throw new \Exception('Component is empty');
-		}
-		$itr = new \ArrayIterator($this->components);
-		$itr->rewind();
-		return $itr;
-	}
-
-	/**
-	 * last 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function last()
-	{
-		if(count($this->components) <= 0)
-		{
-			throw new \Exception('Component is empty');
-		}
-		$itr = new \ArrayIterator($this->components);
-		$itr->seek(count($this->components) - 1);
-		return $itr;
-	}
-
-	/**
-	 * merge 
-	 * 
-	 * @param IPath $path 
-	 * @access public
-	 * @return void
-	 */
-	public function merge(IPath $path)
-	{
-		if($path->count() === 0)
-		{
-			// do not merge any
-			return ;
-		}
-		else if($this->count() === 0)
-		{
-			// copy all components from path
-			$this->components  = $path->getComponents();
-		}
-		else
-		{
-			$srcItr  = $path->first();
-			$trgItr  = $this->last();
-
-			if(!$srcItr->valid() || !$trgItr->valid())
-			{
-				throw new \Exception('Invalid state iterator');
-			}
-			else if($srcItr->current() === $trgItr->current())
-			{
-				$srcItr->next();
-				while($srcItr->valid())
-				{
-					$this->push($srcItr->current());
-					$srcItr->next();
-				}
-			}
-			else
-			{
-				throw new \InvalidArgumentException('The end component of Source and the first component of Target is difference.' );
-			}
-		}
-	}
 
 	/**
 	 * pack 
@@ -225,7 +121,7 @@ class Path
 		{
 			throw new \Exception('Graph for Path is not initialized.');
 		}
-		foreach($this->components as $key => $component)
+		foreach($this->getComponents() as $key => $component)
 		{
 			$data[$key]  = $graph->serializeComponentReference($component);
 		}
@@ -245,14 +141,14 @@ class Path
 		{
 			throw new \Exception('Graph for Path is not initialized.');
 		}
-		$components = $data;
+		$components = array();
 
-		$this->components  = array();
-
-		foreach($components as $key => $component)
+		foreach($data as $key => $component)
 		{
-			$this->components[$key]   = $graph->unserializeComponentReference($component);
+			$components[$key]   = $graph->unserializeComponentReference($component);
 		}
+
+		$this->setComponents($components);
 	}
 
 	/**
@@ -267,7 +163,7 @@ class Path
 			"Graph Path[%s][count=%d]\n\t%s",
 			get_class($this),
 			$this->count(),
-			implode("\n\t", $this->components)
+			implode("\n\t", $this->getComponents())
 		);
 	}
 }

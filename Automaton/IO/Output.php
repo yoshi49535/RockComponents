@@ -42,6 +42,7 @@ class Output extends BaseIO
 	 * @access protected
 	 */
 	protected $owner;
+
 	/**
 	 * trail 
 	 * 

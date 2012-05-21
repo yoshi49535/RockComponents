@@ -17,8 +17,11 @@
 // @namespace
 namespace Rock\Component\Web\ActionTemplate\Type;
 // @use Container Interface
-use Rock\Component\Configuration\Definition\IContainer;
+use Rock\Component\Configuration\Definition\Provider\IDefinitionProvider;
+use Rock\Component\Configuration\Aware\IContainerAware;
+use Rock\Component\Configuration\Definition\Builder\Tree\ITreeBuilder;
 
+use Rock\Component\Web\ActionTemplate\Definition\Builder\GraphTreeBuilder;
 /**
  * BaseType 
  *   Type is a Set of ActionTemplate Definition.
@@ -30,10 +33,11 @@ use Rock\Component\Configuration\Definition\IContainer;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-abstract class BaseType
+abstract class BaseType 
   implements
-    IContainerAware
+    IDefinitionProvider
 {
+	protected $definitions;
 	/**
 	 * __construct 
 	 * 
@@ -45,10 +49,16 @@ abstract class BaseType
 	{
 		$this->configure();
 	}
-
+	
+	/**
+	 * createPathBuilder 
+	 * 
+	 * @access protected
+	 * @return void
+	 */
 	protected function createPathBuilder()
 	{
-		return new GraphPathTreeBuilder();
+		return new GraphTreeBuilder();
 	}
 	/**
 	 * configure 
@@ -58,11 +68,18 @@ abstract class BaseType
 	 */
 	protected function configure()
 	{
-		$pathBuilder     = $this->createPathBuilder()
-		$definitions     = $this->configurePath($pathBuilder);
+		try
+		{
+			$pathBuilder     = $this->createPathBuilder();
+			$definitions     = $this->configurePath($pathBuilder);
+		
+			$this->definitions = $pathBuilder->build();
 
-		// Add All Definitions
-		$this->getContainer()->addDefinitions($pathBuilder->build());
+		}
+		catch(\Exception $ex)
+		{
+			throw new \Exception(sprintf('Failed to construct path for Type "%s".', get_class($this)), 0, $ex);
+		}
 	}
 
 	/**
@@ -72,7 +89,12 @@ abstract class BaseType
 	 * @access protected
 	 * @return void
 	 */
-	abstract protected function configurePath()
+	abstract protected function configurePath(ITreeBuilder $tree);
+
+	public function getDefinitions()
+	{
+		return $this->definitions;
+	}
 
 	/**
 	 * __toString 

@@ -38,7 +38,7 @@ use Rock\Component\Configuration\Component\Call;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-class TreeBuilder extends BaseBuilder
+abstract class TreeBuilder extends BaseBuilder
 {
 	/**
 	 * __construct 
@@ -62,6 +62,8 @@ class TreeBuilder extends BaseBuilder
 	 */
 	public function buildDefinition(IDefinitionNode $node)
 	{
+		$node->validate();
+
 		switch(true)
 		{
 		case ($node instanceof FlowNode):
@@ -74,7 +76,8 @@ class TreeBuilder extends BaseBuilder
 			$definition = $this->doBuildPathComponentDefinition($node);
 			break;
 		default:
-			throw new \Exception(sprintf('Invalid Component Node Class "%s" is given', get_class($node)));
+			// Do not support other, so throw
+			$definition = false;
 			break;
 		}
 		return $definition;
@@ -91,17 +94,17 @@ class TreeBuilder extends BaseBuilder
 	{
 		$definition = new Definition($node->generateId(), $node->getParameterBag()->all());
 
+		// Initialize Class 
 		if(!$definition->getClass() || ($definition->getClass() === '_default'))
-		{
-			$definition->setClass('\\Rock\\Component\\Flow\\Flow');
-		}
+			$definition->setClass($this->getFlowClass());
+
+		// Add Call to initialize Flow
 		$definition->addCall(new Call(
 			'setPath',
 			array($node->getFirstChild()->getReference())
 		));
 
 		return $definition;
-
 	}
 	/**
 	 * doBuildPathComponentDefinition 
@@ -114,6 +117,9 @@ class TreeBuilder extends BaseBuilder
 	{
 		$definition = new Definition($node->generateId(), $node->getParameterBag()->all());
 		
+		// Initialize Class 
+		if(!$definition->getClass() || ($definition->getClass() === '_default'))
+			$definition->setClass($this->getComponentClass($node));
 		// Add Calls for addState, addPage, addCondition
 		switch($node->getComponentType())
 		{
@@ -150,6 +156,10 @@ class TreeBuilder extends BaseBuilder
 	{
 		$definition = new Definition($node->generateId(), $node->getParameterBag()->all());
 		
+		// Initialize Class 
+		if(!$definition->getClass() || ($definition->getClass() === '_default'))
+			$definition->setClass($this->getPathClass());
+
 		// Add Calls for addState, addPage, addCondition
 		foreach($node->getChildren() as $child)
 		{
@@ -157,13 +167,18 @@ class TreeBuilder extends BaseBuilder
 			switch($child->getComponentType())
 			{
 			case FlowPathComponentNode::TYPE_STATE:
-				$method = 'addState';
-				break;
 			case FlowPathComponentNode::TYPE_PAGE:
-				$method = 'addPage';
+				// add Self Definition
+				$definition->addCall(
+					new Call('addState', array($child->getReference()))
+				);
+
 				break;
 			case FlowPathComponentNode::TYPE_CONDITION:
-				$method = 'addCondition';
+				// Regist Self Definitio 
+				$definition->addCall(
+					new Call('addCondition', array($child->getReference()))
+				);
 				break;
 			default:
 				// Skip for unknown
@@ -171,12 +186,16 @@ class TreeBuilder extends BaseBuilder
 				break;
 			}
 
-			if($method)
-				$definition->addCall(
-					new Call($method, array($child->getReference()))
-				);
 		}
 
 		return $definition;
 	}
+
+	protected function getFlowClass()
+	{
+		return '\\Rock\\Component\\Flow\\Flow';
+	}
+
+	abstract protected function getPathClass();
+	abstract protected function getComponentClass(FlowPathComponentNode $node);
 }

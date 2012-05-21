@@ -58,29 +58,6 @@ class Trail extends GraphPath
 	}
 
 	/**
-	 * push 
-	 * 
-	 * @param IPathComponent $path 
-	 * @access public
-	 * @return void
-	 */
-	public function push(IPathComponent $component)
-	{
-		parent::push($component);
-	}
-
-	/**
-	 * pop 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function pop()
-	{
-		return parent::pop();
-	}
-
-	/**
 	 * first 
 	 * 
 	 * @access public

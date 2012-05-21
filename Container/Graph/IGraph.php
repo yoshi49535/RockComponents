@@ -17,6 +17,8 @@
 
 // @namespace
 namespace Rock\Component\Container\Graph;
+// @extends
+use Rock\Component\Container\IContainer;
 // @use Graph Vertex
 use Rock\Component\Container\Graph\Vertex\IVertex;
 // @use Graph Edge
@@ -25,7 +27,7 @@ use Rock\Component\Container\Graph\Edge\IEdge;
 /**
  *
  */
-interface IGraph
+interface IGraph extends IContainer
 {
 	/**
 	 *

@@ -18,10 +18,22 @@
 // <Namespae>
 namespace Rock\Component\Flow;
 // <Base>
-interface IFlowContainable extends IFlowAware
+interface IFlowContainable
 {
 	/**
-	 * Set IFlow 
+	 * setFlow 
+	 * 
+	 * @param IFlow $flow 
+	 * @access public
+	 * @return void
 	 */
 	function setFlow(IFlow $flow);
+
+	/**
+	 * getFlow 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function getFlow();
 }

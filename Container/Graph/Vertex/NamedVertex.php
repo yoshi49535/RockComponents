@@ -17,7 +17,7 @@
 // @namespace
 namespace Rock\Component\Container\Graph\Vertex;
 // @interface
-use Rock\Component\Container\Graph\INamedComponent;
+use Rock\Component\Container\INamedComponent;
 
 /**
  * NamedVertex 

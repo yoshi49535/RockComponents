@@ -99,5 +99,17 @@ class Node extends DefinitionNode
 		return $node;
 	}
 
+	/**
+	 * validate 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function validate()
+	{
+		$name = $this->getName();
+		if(!$name || empty($name))
+			throw new \Exception('Name is not specified for Node.');
+	}
 
 }

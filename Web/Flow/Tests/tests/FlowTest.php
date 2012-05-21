@@ -25,7 +25,7 @@ use Rock\Component\Flow\Graph\FlowGraph;
 use Rock\Component\Flow\Graph\Vertex\State;
 use Rock\Component\Web\Flow\Graph\Vertex\Page;
 use Rock\Component\Flow\Type\GraphFlowType;
-use Rock\Component\Automaton\Graph\Edge\Condition;
+use Rock\Component\Flow\Graph\Edge\Condition;
 
 // @use 
 use Rock\Component\Flow\IO\IOutput;

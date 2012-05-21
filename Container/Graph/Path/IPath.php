@@ -14,28 +14,35 @@
  * please read the LICENSE file that is distributed with the source code.
  *
  ****/
-
+// @namespace
 namespace Rock\Component\Container\Graph\Path;
+// @extends
+use Rock\Component\Container\Misc\Path\IPath as IBasePath;
 
-interface IPath
+/**
+ * IPath 
+ * 
+ * @uses IBasePath
+ * @package 
+ * @version $id$
+ * @copyright 2011-2012 Yoshi Aoki
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license 
+ */
+interface IPath extends IBasePath
 {
 	/**
 	 *
 	 */
-	public function getGraph();
+	function getGraph();
 
 	/**
 	 *
 	 */
-	public function getComponents();
+	function getVertices();
 
 	/**
 	 *
 	 */
-	public function getVertices();
-
-	/**
-	 *
-	 */
-	public function getEdges();
+	function getEdges();
 }

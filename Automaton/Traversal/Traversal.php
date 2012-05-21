@@ -167,4 +167,16 @@ class Traversal
 			$this->trail  = $this->owner->getPath()->createTrail();
 		return $this->trail;
 	}
+	/**
+	 * reset 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function reset()
+	{
+		$this->trail  = $this->owner->getPath()->createTrail();
+
+		$this->initOutput();
+	}
 }

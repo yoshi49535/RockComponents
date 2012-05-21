@@ -19,7 +19,6 @@ namespace Rock\Component\Container\Graph;
 
 // <Interface>
 use Rock\Component\Container\Graph\IGraph;
-use Rock\Component\Container\IContainer;
 // <Use> : Container Component
 use Rock\Component\Container\IComponent;
 // <Use> : Graph Component
@@ -30,8 +29,7 @@ use Rock\Component\Container\Graph\Edge\Factory\EdgeFactory;
 
 class Graph
   implements
-	IGraph,
-	IContainer
+	IGraph
 {
 	
 	/**

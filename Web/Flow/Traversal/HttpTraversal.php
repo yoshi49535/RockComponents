@@ -130,9 +130,9 @@ class HttpTraversal extends Traversal
 	public function reset()
 	{
 		parent::reset();
-		$this->getSession()->replace(array('flow_hash' => $this->getSession()->get('flow_hash')));
+		$this->getSession()->getParameterBag()->replaceAll(array());
 
 		// Force save
-		$this->getFlow()->getSessionManager()->save();
+		$this->getSession()->save();
 	}
 }

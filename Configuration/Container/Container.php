@@ -19,8 +19,9 @@
 namespace Rock\Component\Configuration\Container;
 // @interface
 use Rock\Component\Configuration\Container\IContainer;
-// @use Definition 
+// @use Definition and Provider
 use Rock\Component\Configuration\Definition\Definition;
+use Rock\Component\Configuration\Definition\Provider\IDefinitionProvider;
 // @use Default Component Builder
 use Rock\Component\Configuration\Builder\ComponentBuilder;
 // @use
@@ -164,6 +165,20 @@ class Container
 		}
 	}
 
+	/**
+	 * getAliasId 
+	 * 
+	 * @param mixed $alias 
+	 * @access public
+	 * @return void
+	 */
+	public function getAliasId($alias)
+	{
+		if(!array_key_exists($alias, $this->aliases))
+			throw new \Exception(sprintf('Alias "%s" is not defined.', $alias));
+		//
+		return $this->aliases[$alias];
+	}
 	/**
 	 * getByAlias 
 	 * 
@@ -373,5 +388,17 @@ class Container
 		}while($this->has(($id = sprintf('%s%s', $prefix, $id))));
 
 		return $id;
+	}
+
+	/**
+	 * addProvider 
+	 * 
+	 * @param IDefinitionProvider $provider 
+	 * @access public
+	 * @return void
+	 */
+	public function addProvider(IDefinitionProvider $provider)
+	{
+		$this->addDefinitions($provider->getDefinitions());
 	}
 }

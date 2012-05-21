@@ -19,7 +19,7 @@ namespace Rock\Component\Web\Flow\Graph\Vertex;
 // @extends 
 use Rock\Component\Flow\Graph\Vertex\State;
 // @interface
-use Rock\Component\Web\Flow\Path\State\IPage;
+use Rock\Component\Web\Page\IPage;
 
 /**
  * Page 
@@ -35,5 +35,13 @@ class Page extends State
   implements
     IPage
 {
-	
+	public function getUrl($params = array())
+	{
+		return '#';
+	}
+
+	public function getName()
+	{
+		return parent::getName();
+	}
 }

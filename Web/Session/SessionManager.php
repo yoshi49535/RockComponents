@@ -40,13 +40,22 @@ abstract class SessionManager
 	protected
 	  $sessions   = array();
 
+	/**
+	 * load 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function load()
 	{
 		// Initialize Sessions
 		$this->sessions = array();
 	}
 	/**
-	 *
+	 * save 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function save()
 	{
@@ -59,7 +68,12 @@ abstract class SessionManager
 	}
 
 	/**
-	 *
+	 * doMount 
+	 * 
+	 * @param array $sessions 
+	 * @abstract
+	 * @access protected
+	 * @return void
 	 */
 	abstract protected function doMount(array $sessions);
 
@@ -72,6 +86,16 @@ abstract class SessionManager
 	 */
 	abstract protected function doUnmount();
 
+
+	public function create($name, $defaults = array())
+	{
+		$class = $this->getSessionClass();
+		$session = new $class($defaults);
+		
+		$this->set($name, $session);
+
+		return $session;
+	}
 	/**
 	 * offsetGet 
 	 * 
@@ -116,14 +140,22 @@ abstract class SessionManager
 	}
 	
 	/**
-	 *
+	 * offsetExists 
+	 * 
+	 * @param mixed $idx 
+	 * @access public
+	 * @return void
 	 */
 	public function offsetExists($idx)
 	{
 		return $this->has($idx);
 	}
 	/**
-	 *
+	 * has 
+	 * 
+	 * @param mixed $key 
+	 * @access public
+	 * @return void
 	 */
 	public function has($key)
 	{
@@ -131,7 +163,10 @@ abstract class SessionManager
 	}
 
 	/**
-	 *
+	 * getMergedValues 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function getMergedValues()
 	{
@@ -155,18 +190,37 @@ abstract class SessionManager
 		return 'Rock\\Component\\Web\\Session\\Session';
 	}
 
+	/**
+	 * remove 
+	 * 
+	 * @param mixed $name 
+	 * @access public
+	 * @return void
+	 */
 	public function remove($name)
 	{
 		unset($this[$name]);
 	}
+	/**
+	 * removeSession 
+	 * 
+	 * @param ISession $sesion 
+	 * @access public
+	 * @return void
+	 */
 	public function removeSession(ISession $sesion)
 	{
 		$index = in_array($session, $this->session);
 
 		unset($this->sessions[$index]);
 	}
+
 	/**
-	 *
+	 * offsetUnset
+	 * 
+	 * @param mixed $idx 
+	 * @access public
+	 * @return void
 	 */
 	public function offsetUnset($idx)
 	{

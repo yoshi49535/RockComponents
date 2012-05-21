@@ -17,24 +17,55 @@
 namespace Rock\Component\Container\Tree\Iterator;
 // @use Iterator
 use Rock\Component\Container\Tree\Node\Node;
+// @use TreeInterface
+use Rock\Component\Container\Tree\ITree;
 
-class TreeIterator 
+class TreeIterator
   implements
     \Iterator
 {
+	const PREORDER  = 'preorder';
+	const POSTORDER = 'postorder';
+	/**
+	 * strategy 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $strategy;
+	/**
+	 * tree 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $tree;
+	/**
+	 * current 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
 	private $current;
 
 	/**
 	 * __construct 
 	 * 
-	 * @param INode $node 
+	 * @param Node $node 
+	 * @param mixed $strategy 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(Node $node)
+	public function __construct(ITree $tree, $strategy = self::PREORDER)
 	{
-		$this->current = $node;
+		$this->strategy = $strategy;
+		$this->tree     = $tree;
+		
+		// Initialize current for specified strategy
+		$this->rewind();
 	}
+
+
 	/**
 	 * rewind 
 	 * 
@@ -43,8 +74,28 @@ class TreeIterator
 	 */
 	public function rewind()
 	{
-		$this->current = $this->current->getParent()->getFirstChild();
+		switch($this->strategy)
+		{
+		// Top most
+		case self::PREORDER:
+			$this->current = $this->tree->getRoot();
+			break;
+		// Left most
+		case self::POSTORDER:
+			$temp  = $this->tree->getRoot();
+			while($temp->hasChildren())
+			{
+				$temp  = $temp->getFirstChild();
+			}
+
+			$this->current = $temp;
+			break;
+		default:
+			throw new \Exception('Invalid strategy to traverse iterator.');
+			break;
+		}
 	}
+
 	/**
 	 * current 
 	 * 
@@ -65,28 +116,7 @@ class TreeIterator
 	{
 		return $this->current->getIndex();
 	}
-
-	/**
-	 * next 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function next()
-	{
-		return ($this->current = $this->current->getNextSibling());
-	}
-	/**
-	 * prev 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function prev()
-	{
-		return ($this->current = $this->current->getPrevSibling());
-	}
-
+	
 	/**
 	 * valid 
 	 * 
@@ -98,15 +128,41 @@ class TreeIterator
 		return null !== $this->current;
 	}
 
-	/**
-	 * getIterator 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function getChildIterator()
+	public function next()
 	{
-		return new TreeIterator($this->current->getFirstChild());
-	}
+		switch($this->strategy)
+		{
+		case self::PREORDER:
+			if($this->current->hasChildren())
+				$this->current = $this->current->getFirstChild();
+			else
+				while($this->current)
+				{
+					if($this->current->hasNextSibling())
+					{
+						$this->current = $this->current->getNextSibling();
+						break;
+					}
 
+					$this->current = $this->current->getParent();
+				}
+			break;
+		case self::POSTORDER:
+			if($this->hasNextSibling())
+			{
+				$this->current = $this->current->getNextSibling();
+				while($this->current->hasChildren())
+					$this->current = $this->current->getFirstChild();
+			}
+			else 
+			{
+				$this->current = $this->getParent();
+			}
+			break;
+		default:
+			throw new \Exception('Invalid strategy to traverse iterator.');
+			break;
+		}
+		return $this->current;
+	}
 }

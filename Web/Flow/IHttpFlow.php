@@ -17,8 +17,6 @@
 
 // <Namespace>
 namespace Rock\Component\Web\Flow;
-// <Use> : Session
-use Rock\Component\Web\Session\ISession;
 
 /**
  * IHttpFlow 
@@ -31,20 +29,4 @@ use Rock\Component\Web\Session\ISession;
  */
 interface IHttpFlow
 {
-	/**
-	 * setSession 
-	 * 
-	 * @param ISession $manager 
-	 * @access public
-	 * @return void
-	 */
-	function setSession(ISession $manager);
-
-	/**
-	 * getSession
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	function getSession();
 }

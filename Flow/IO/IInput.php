@@ -34,7 +34,7 @@ interface IInput extends IBaseInput
 {
 	/**
 	 * getDirection 
-	 * 
+	 *   Alias of getValue. 
 	 * @access public
 	 * @return void
 	 */

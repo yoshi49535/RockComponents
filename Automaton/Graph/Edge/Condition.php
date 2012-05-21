@@ -16,8 +16,10 @@
  ****/
 // @namesapce
 namespace Rock\Component\Automaton\Graph\Edge;
-// <Base>
-use Rock\Component\Automaton\Graph\Edge\AnyCondition;
+// @extends 
+use Rock\Component\Container\Graph\Edge\Edge;
+// @interface
+use Rock\Component\Automaton\Path\Condition\ICondition;
 // <Use> : Automaton Condition
 use Rock\Component\Automaton\Graph\Edge\Validator\ClosureValidator;
 use Rock\Component\Automaton\Graph\Edge\Validator\IValidator;
@@ -31,14 +33,16 @@ use Rock\Component\Utility\Delegate\Delegate;
 /**
  * Condition 
  * 
- * @uses AnyCondition
+ * @uses Edge
  * @package 
  * @version $id$
  * @copyright 2011-2012 Yoshi Aoki
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-class Condition extends AnyCondition
+class Condition extends Edge
+  implements
+    ICondition
 {
 	protected $validator;
 
@@ -50,6 +54,26 @@ class Condition extends AnyCondition
 		parent::__construct($source, $target);
 
 		$this->setValidator($validator);
+	}
+	/**
+	 * getSource 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getSource()
+	{
+		return parent::getSource();
+	}
+	/**
+	 * getTarget 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getTarget()
+	{
+		return parent::getTarget();
 	}
 
 	/**
@@ -122,6 +146,16 @@ class Condition extends AnyCondition
 	}
 
 	/**
+	 * getPath 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getPath()
+	{
+		return $this->getGraph();
+	}
+	/**
 	 *
 	 */
 	public function __toString()
@@ -130,7 +164,7 @@ class Condition extends AnyCondition
 		  "Graph Edge[%s]:\n\t[src=%s] -> [trg=%s]",
 		  get_class($this), 
 		  //$this->validator,
-		  $this->source, 
-		  $this->target);
+		  $this->getSource(), 
+		  $this->getTarget());
 	}
 }

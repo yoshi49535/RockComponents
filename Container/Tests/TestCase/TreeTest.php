@@ -29,12 +29,12 @@ class TreeTest extends TestCase
 	public function testTree()
 	{
 		$tree = new Tree();
-		$tree->root()->add($first = new ScalarNode('a'));
-		$tree->root()->add($second = new ScalarNode('b'));
+		$tree->getRoot()->add($first = new ScalarNode($tree, 'a'));
+		$tree->getRoot()->add($second = new ScalarNode($tree, 'b'));
 		
-		$second->add(new ScalarNode('c'));
+		$second->add(new ScalarNode($tree, 'c'));
 		
-		$this->assertTrue(2 === ($count = $tree->root()->countChildren()), 'Assert Count, but '.$count);
+		$this->assertTrue(2 === ($count = $tree->getRoot()->countChildren()), 'Assert Count, but '.$count);
 		
 		$itr  = $tree->getIterator();
 

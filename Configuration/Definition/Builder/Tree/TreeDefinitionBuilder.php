@@ -22,6 +22,8 @@ use Rock\Component\Configuration\Definition\Builder\IDefinitionBuilder;
 // @use
 use Rock\Component\Configuration\Definition\Definition;
 use Rock\Component\Configuration\Definition\Definition\Builder\Tree\DefinitionNode;
+// @use Iterator
+use Rock\Component\Container\Tree\Iterator;
 
 /**
  * TreeDefinitionBuilder 
@@ -35,8 +37,17 @@ use Rock\Component\Configuration\Definition\Definition\Builder\Tree\DefinitionNo
  */
 class TreeDefinitionBuilder extends Tree 
   implements
-    IDefinitionBuilder
+    IDefinitionBuilder,
+	ITreeBuilder
 {
+	public function root($name = null)
+	{
+		$root = $this->getRoot();
+		if($name)
+			$root->setName($name);
+
+		return $root;
+	}
 	/**
 	 * build 
 	 *   Build All Definitions 
@@ -44,13 +55,9 @@ class TreeDefinitionBuilder extends Tree
 	 * @access protected
 	 * @return void
 	 */
-	public function build($itr = null)
+	public function build()
 	{
-		//
-		if(!$itr)
-			$itr  = $this->getIterator();
-
-		$definitions = $this->doBuild($itr);
+		$definitions = $this->doBuild(new Iterator\ChildrenIterator($this->getRoot()));
 
 		return $definitions;
 	}
@@ -62,21 +69,29 @@ class TreeDefinitionBuilder extends Tree
 	 * @access protected
 	 * @return void
 	 */
-	protected function doBuild($itr)
+	protected function doBuild(\Iterator $itr)
 	{
 		$definitions = array();
-		if($itr)
+
+		// Validate all node Before build each
+		$this->validate();
+
+		if($itr && $itr->valid())
+		{
 			$definitions[] = $itr->current()->getDefinition();
 
-		// Build for children
-		if($itr->current()->hasChildren())
-		{
-			$child = $itr->getChildIterator();
-			do
+			// Build for children
+			if($itr->hasChildren())
 			{
-				// 
-				$definitions = array_merge($definitions, $this->doBuild($child));
-			} while($child->next());
+				$childItr = $itr->getChildren();
+				while($childItr && $childItr->valid())
+				{
+					// 
+					$definitions = array_merge($definitions, $this->doBuild($childItr));
+					//forward Iterator
+					$childItr->next();
+				}
+			}
 		}
 
 		return $definitions;
@@ -91,9 +106,28 @@ class TreeDefinitionBuilder extends Tree
 	 */
 	public function buildDefinition(IDefinitionNode $node)
 	{
+		$node->validate();
+		
 		$definition = new Definition($node->getParameter('id'), $node->getParameterBag()->all());
 
 		return $definition;
+	}
+
+	/**
+	 * validate 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function validate()
+	{
+		// "preorder" access iterator
+		$itr = $this->getIterator();
+
+		//
+		do {
+			$itr->current()->validate();
+		} while($itr->next() && $itr->valid());
 	}
 }
 

@@ -16,13 +16,14 @@
 // @namespace
 namespace Rock\Component\Configuration\Definition\Builder\Tree;
 //
-use Rock\Component\Container\Tree\Node\Node as BaseNode;
+use Rock\Component\Container\Tree\Node\NamedNode as BaseNode;
 // @use 
 use Rock\Component\Utility\Bag\ParameterBag;
 // @use Tree Interface
 use Rock\Component\Container\Tree\Itree;
 // @use DefinitionBuilder Interface
 use Rock\Component\Configuration\Definition\Builder\IDefinitionBuilder;
+use Rock\Component\Configuration\Component\Reference;
 
 
 /**
@@ -56,20 +57,33 @@ class DefinitionNode extends BaseNode
 	protected $definition;
 
 	/**
+	 * reference 
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
+	protected $reference;
+	/**
 	 * __construct 
 	 * 
 	 * @param mixed $parent 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(ITree $tree, $params = array())
+	public function __construct(ITree $tree, $name, $params = array())
 	{
-		parent::__construct($tree);
-		$this->params = new ParameterBag($params);
+		parent::__construct($tree, $name);
+		$this->params = new ParameterBag(array_merge(array('name'=>$name), $params));
 
 		$this->init();
 	}
 
+	/**
+	 * init 
+	 * 
+	 * @access protected
+	 * @return void
+	 */
 	protected function init()
 	{
 	}
@@ -137,6 +151,18 @@ class DefinitionNode extends BaseNode
 	}
 
 	/**
+	 * alias 
+	 * 
+	 * @param mixed $alias 
+	 * @access public
+	 * @return void
+	 */
+	public function alias($alias)
+	{
+		$this->setParameter('alias', $alias);
+		return $this;
+	}
+	/**
 	 * getBuilder 
 	 * 
 	 * @access public
@@ -160,9 +186,60 @@ class DefinitionNode extends BaseNode
 		if(!$this->definition)
 		{
 			$builder = $this->getBuilder();
+
 			$this->definition = $builder->buildDefinition($this);
+			$this->reference  = $this->definition->getReference();
 		}
 
 		return $this->definition;
+	}
+
+	/**
+	 * getReference 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getReference()
+	{
+		if(!$this->reference)
+		{
+			$this->reference = new Reference($this->generateId());
+		}
+		return $this->reference;
+	}
+
+	/**
+	 * generateId 
+	 * 	 combine Names from Root to this with dot.
+	 * @access public
+	 * @return void
+	 */
+	public function generateId()
+	{
+		$path  = $this->getPathFromRoot();
+		$cmp   = array();
+		foreach($path as $node)
+		{
+			$tmp = $node->getName();
+			if($tmp && !empty($tmp))
+				$cmp[] = $tmp;
+		}
+
+		if(0 === count($cmp))
+			throw new \Exception('Cannot generate ID w/ none names.');
+
+		return implode('.', $cmp);
+	}
+
+	/**
+	 * validate 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function validate()
+	{
+		
 	}
 }

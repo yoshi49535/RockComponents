@@ -52,4 +52,12 @@ interface ITraversal
 	 * @return void
 	 */
 	function getOutput();
+
+	/**
+	 * reset 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function reset();
 }

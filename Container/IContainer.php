@@ -18,20 +18,20 @@
 // <Namespace>
 namespace Rock\Component\Container;
 // <Use> : IComponent
-use Rock\Component\Container\IComponent;
+//use Rock\Component\Container\IComponent;
 
 /**
  *
  */
 interface IContainer
 {
-	/**
-	 *
-	 */
-	public function serializeComponentReference(IComponent $component);
-	
-	/**
-	 *
-	 */
-	public function unserializeComponentReference($data);
+	///**
+	// *
+	// */
+	//public function serializeComponentReference(IComponent $component);
+	//
+	///**
+	// *
+	// */
+	//public function unserializeComponentReference($data);
 }

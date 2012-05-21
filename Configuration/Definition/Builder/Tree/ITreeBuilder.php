@@ -36,5 +36,5 @@ interface ITreeBuilder
 	 * @access public
 	 * @return void
 	 */
-	function buildDefintion(IDefinitionNode $node);
+	function buildDefinition(IDefinitionNode $node);
 }

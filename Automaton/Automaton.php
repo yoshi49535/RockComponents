@@ -126,16 +126,14 @@ abstract class Automaton
 	
 		// Grab edges which sourced from current state pos
 		if(!$begin)
-		{
 			$trail->push($this->getPath()->getEntryPoint());
-		}
 		else
 		{
 			$trail->push($begin);
 			$nextConditions = $this->getPath()->getConditionsFrom($begin);
 			if(!$nextConditions || empty($nextConditions))
 			{
-				throw new AutomatonException\RuntimeException('No more states are exists, thus cannot forward.');
+				throw new AutomatonException\RuntimeException(sprintf('No more states are exists after "%s", thus cannot forward.', $begin->getName()));
 			}
 
 			foreach($nextConditions as $condition)
@@ -165,7 +163,7 @@ abstract class Automaton
 		}
 
 		// Update Output Trail
-		$traversal->getOutput()->getTrail()->merge($trail);
+		$traversal->getOutput()->setTrail($trail);
 		// Update Traversal Trail
 		$traversal->getTrail()->merge($trail);
 
