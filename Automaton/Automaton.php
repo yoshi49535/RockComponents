@@ -98,7 +98,13 @@ abstract class Automaton
 			throw new AutomatonException\RuntimeException('Automaton Trail is still 0, thus cannot backward.');
 		}
 
-		$trail = $traversal->getTrail()->popUntilLastState();
+		$trail = $this->getPath()->createTrail();
+		$components = $traversal->getTrail()->popState();
+		//
+		foreach($components as $component)
+			$trail->push($component);
+		$trail->push($traversal->getTrail()->last()->current());
+		// Set as Trail
 		$traversal->getOutput()->setTrail($trail);
 		
 		// 
@@ -123,7 +129,7 @@ abstract class Automaton
 
 		// Create Output Trail for this execution
 		$trail = $this->getPath()->createTrail();
-	
+			
 		// Grab edges which sourced from current state pos
 		if(!$begin)
 			$trail->push($this->getPath()->getEntryPoint());

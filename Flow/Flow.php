@@ -29,7 +29,7 @@ use Rock\Component\Flow\IO\IInput;
 
 // <Use> : Exceptions
 use Rock\Component\Flow\Exception\TraversalStateException;
-use Rock\Component\Flow\Exception\FlowHandleException;
+use Rock\Component\Flow\Exception\HandleException;
 use Rock\Component\Flow\Exception\InitializeException;
 
 /**
@@ -139,11 +139,18 @@ class Flow extends FiniteAutomaton
 		}
 	}
 
+	/**
+	 * stay 
+	 * 
+	 * @param ITraversal $traversal 
+	 * @access public
+	 * @return void
+	 */
 	public function stay(ITraversal $traversal)
 	{
 		$current = $traversal->getTrail()->last()->current();
 		if($traversal->hasInput())
-			$current->handle($traversal->getInput());
+			$current->handle($traversal);
 
 		// 
 		$trail = $this->getPath()->createTrail();
@@ -160,7 +167,7 @@ class Flow extends FiniteAutomaton
 		// Execute Last State
 		$current = $traversal->getOutput()->getTrail()->last()->current();
 		if($traversal->hasInput())
-			$current->handle($traversal->getInput());
+			$current->handle($traversal);
 		return $traversal;
 	}
 	/**
@@ -184,6 +191,7 @@ class Flow extends FiniteAutomaton
 	 */
 	public function handle(IInput $input, ITraversal $traversal = null)
 	{
+		$exception = null;
 		try
 		{
 			if(!$traversal)
@@ -205,23 +213,27 @@ class Flow extends FiniteAutomaton
 			    // Initialize step
 			    $this->doInitTraversal($traversal);
 			}
-
 			// handle input 
 			$this->doHandleInput($traversal);
-
-			// Shutdown Flow
-			$this->doShutdown($traversal);
 		}
 		catch (FlowRuntimeExeption $ex)
 		{
-			throw $ex;
+			$traversal->getOutput()->fail();
+
+			$exception = $ex;
 		}
 		catch (\Exception $ex)
 		{
+			$traversal->getOutput()->fail();
 			// Failed on some
-			throw $ex;
-			throw new FlowHandleException($this, 'Failed to handle flow.', 0, $ex);
+			$exception = new HandleException($this, 'Failed to handle flow.', 0, $ex);
 		}
+
+		// Shutdown Flow
+		$this->doShutdown($traversal);
+
+		if($exception)
+			throw $exception;
 		
 		return $traversal->getOutput();
 	}

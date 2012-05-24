@@ -115,10 +115,15 @@ class HttpFlow extends Flow
 			$traversal->getSession()->save();
 		}
 		
-		if(!$traversal->isKeepAlive() && !$traversal->getOutput()->needRedirect())
+		if($traversal->getTrail()->count() > 0)
 		{
-			// remove from session
-			$traversal->getSession()->delete();
+			$last = $traversal->getTrail()->last()->current();
+
+			if($last->isEndPoint())
+			{
+				// remove from session
+				$traversal->getSession()->delete();
+			}
 		}
 	}
 
@@ -137,10 +142,9 @@ class HttpFlow extends Flow
 
 			$newTrail = null;
 
-			if($trail->count() === 0 || !(get_class($trail->last()->current()) instanceof IPage))
-			{
+			//if($trail->count() === 0 || !(get_class($trail->last()->current()) instanceof IPage))
+			if($trail->count() === 0)
 				$traversal->getInput()->setDirection(Directions::NEXT);
-			}
 
 			//
 			do

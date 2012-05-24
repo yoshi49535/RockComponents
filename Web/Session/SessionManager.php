@@ -208,9 +208,9 @@ abstract class SessionManager
 	 * @access public
 	 * @return void
 	 */
-	public function removeSession(ISession $sesion)
+	public function removeSession(ISession $session)
 	{
-		$index = in_array($session, $this->session);
+		$index = in_array($session, $this->sessions);
 
 		unset($this->sessions[$index]);
 	}

@@ -34,7 +34,8 @@ class Input extends BaseInput
 	/**
 	 *
 	 */
-	protected $useRedirection = false;
+	protected $useRedirection = true;
+	
 	/**
 	 *
 	 */

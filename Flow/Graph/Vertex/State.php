@@ -20,18 +20,18 @@ namespace Rock\Component\Flow\Graph\Vertex;
 // <Base>
 use Rock\Component\Automaton\Graph\Vertex\NamedState;
 // @interface
-use Rock\Component\Automaton\Path\State\IState;
+use Rock\Component\Flow\Path\State\IState;
 
 // <Use> : Graph
 use Rock\Component\Container\Graph\IGraph;
 //use Rock\Component\Flow\Graph\Graph as ExecutableGraph;
 // <Use> : Flow IO
-use Rock\Component\Flow\IO\IInput;
+use Rock\Component\Flow\Traversal\IFlowTraversal;
 // @use State Delegator Interface
 use Rock\Component\Utility\Delegate\Delegate;
 use Rock\Component\Utility\Delegate\IDelegator;
 // @use FlowPath Interface
-use Rock\Component\Automaton\IAutomatonPath;
+use Rock\Component\Automaton\Path\IAutomatonPath;
 
 /**
  *
@@ -78,7 +78,7 @@ class State extends NamedState
 	public function getFlow()
 	{
 		if(!($graph  = $this->getGraph()) instanceof IAutomatonPath)
-			throw new \Exception('Graph is not FlowPath');
+			throw new \Exception(sprintf('Graph "%s" is not implemented IAutomatonPath.', get_class($graph)));
 		return $graph->getOwner();
 	}
 
@@ -98,18 +98,30 @@ class State extends NamedState
 	/**
 	 * handle 
 	 * 
-	 * @param IInput $input 
+	 * @param IFlowTraversal $traversal 
 	 * @access public
 	 * @return void
 	 */
-	public function handle(IInput $input)
+	public function handle(IFlowTraversal $traversal)
+	{
+		$this->doHandle($traversal);
+	}
+
+	/**
+	 * doHandle 
+	 * 
+	 * @param IFlowTraversal $traversal 
+	 * @access protected
+	 * @return void
+	 */
+	protected function doHandle(IFlowTraversal $traversal)
 	{
 		$ret  = null;
 		// Call Flow Delegate 
-		if($delegator = $this->delegate)
-		{
-			$ret = $this->getFlow()->callDelegate('doStateInit', array($input));
-		}
+		//if($delegator = $this->delegate)
+		//{
+		//	$ret = $this->getFlow()->callDelegate('doStateInit', array($input));
+		//}
 
 		return $ret;
 	}

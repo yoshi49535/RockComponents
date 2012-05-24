@@ -25,6 +25,8 @@ use Rock\Component\Automaton\IAutomaton;
 // @use Path Component
 use Rock\Component\Automaton\Path\Trail\ITrail;
 use Rock\Component\Automaton\Path\IComponent as IPathComponent;
+// 
+use Rock\Component\Automaton\Path\State\IState;
 
 /**
  *
@@ -120,5 +122,23 @@ class Trail extends GraphPath
 	 */
 	public function unserialize($data)
 	{
+	}
+
+	/**
+	 * popState 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function popState()
+	{
+		$pops = array();
+		// pop first, should be a state 
+		$pops[] = $this->pop();
+		// while last is not a state, pop
+		while(!($this->last()->current() instanceof IState))
+			$pops[] = $this->pop();
+
+		return $pops;
 	}
 }

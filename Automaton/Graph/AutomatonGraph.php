@@ -262,5 +262,4 @@ class AutomatonGraph extends DirectedGraph
 	{
 		return new Trail($this);
 	}
-
 }

@@ -13,33 +13,32 @@
  * $Copyrights$
  *
  ****/
-namespace Rock\Component\Web\Page;
+//
+namespace Rock\Component\Flow\Path\State;
+//
+use Rock\Component\Automaton\Path\State\IState as IBaseState;
+// 
+use Rock\Component\Flow\Traversal\IFlowTraversal;
 
 /**
- * IPage 
+ * IState 
  * 
+ * @uses IBaseState
  * @package 
  * @version $id$
  * @copyright 2011-2012 Yoshi Aoki
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-interface IPage
+interface IState extends IBaseState
 {
 	/**
-	 * getUrl 
+	 * handle 
 	 * 
-	 * @param array $params 
+	 * @param IFlowTraversal $traversal 
 	 * @access public
 	 * @return void
 	 */
-	function getUrl(array $params = array());
-
-	/**
-	 * getPage 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	function getName();
+	function handle(IFlowTraversal $traversal);
 }
+
