@@ -399,7 +399,16 @@ class Container
 	 */
 	public function addProvider(IDefinitionProvider $provider)
 	{
+		// 
+		//$temp = $this->getDefinitions();
+		//$prev = sprintf("keys[\n\t%s]", implode("\n\t", array_keys($temp)));
+
 		$provider->setContainer($this);
 		$this->addDefinitions($provider->getDefinitions());
+
+		//$temp = $this->getDefinitions();
+		//$post = sprintf("keys[\n\t%s]", implode("\n\t", array_keys($temp)));
+
+		//throw new \Exception($prev." \n\n ".$post);
 	}
 }
