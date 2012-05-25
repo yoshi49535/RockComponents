@@ -48,6 +48,16 @@ abstract class Automaton
 	protected $path;
 
 	/**
+	 * componentAliases
+	 *   Pointers to IAutomatonComponent(IPath or IComponent) instance.
+	 *   This is not affect any, so you do not need to regist. 
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
+	protected $aliasComponents;
+
+	/**
 	 * __construct 
 	 * 
 	 * @override
@@ -57,6 +67,7 @@ abstract class Automaton
 	public function __construct()
 	{
 		$this->path  = null;
+		$this->aliasComponents = array();
 	}
 
 	/**
@@ -185,5 +196,35 @@ abstract class Automaton
 	public function createTraversal()
 	{
 		return new Traversal($this);
+	}
+
+
+	/**
+	 * setAliasComonent 
+	 * 
+	 * @param mixed $alias 
+	 * @param IFlowComponent $component 
+	 * @access public
+	 * @return void
+	 */
+	public function setAliasComponent($alias, IAutomatonComponent $component)
+	{
+		$this->aliasComponents[$alias] = $component;
+	}
+
+	/**
+	 * getAliasComponent
+	 * 
+	 * @param mixed $alias 
+	 * @access public
+	 * @return void
+	 */
+	public function getAliasComponent($alias)
+	{
+		return isset($this->aliasComponents[$alias]) ? $this->aliasComponents[$alias] : null;
+	}
+	public function getAliasComponents()
+	{
+		return $this->aliasComponents;
 	}
 }

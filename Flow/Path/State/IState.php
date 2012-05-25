@@ -13,15 +13,17 @@
  * $Copyrights$
  *
  ****/
-//
+// @namespace
 namespace Rock\Component\Flow\Path\State;
-//
-use Rock\Component\Automaton\Path\State\IState as IBaseState;
+// @extends 
+use Rock\Component\Automaton\Path\State\IState as IAutomatonState;
+use Rock\Component\Flow\Path\IPathComponent as IFlowPathComponent;
 // 
 use Rock\Component\Flow\Traversal\IFlowTraversal;
 
 /**
  * IState 
+ *  Complex interface for Flow State
  * 
  * @uses IBaseState
  * @package 
@@ -30,7 +32,7 @@ use Rock\Component\Flow\Traversal\IFlowTraversal;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-interface IState extends IBaseState
+interface IState extends IAutomatonState, IFlowPathComponent
 {
 	/**
 	 * handle 

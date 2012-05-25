@@ -18,7 +18,7 @@
 // <Namespace>
 namespace Rock\Component\Automaton\Path\Condition;
 // @extends
-use Rock\Component\Automaton\Path\IComponent;
+use Rock\Component\Automaton\Path\IPathComponent;
 // <Use> : Automaton Component
 use Rock\Component\Automaton\Input\IInput;
 
@@ -31,7 +31,7 @@ use Rock\Component\Automaton\Input\IInput;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-interface ICondition extends IComponent
+interface ICondition extends IPathComponent
 {
 	/**
 	 *

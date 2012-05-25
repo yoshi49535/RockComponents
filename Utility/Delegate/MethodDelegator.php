@@ -62,4 +62,15 @@ class MethodDelegator extends Delegator
 	{
 		return $this->owner;
 	}
+
+	/**
+	 * __toString 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function __toString()
+	{
+		return sprintf('MethodDelegator:{object:"%s", method:"%s"}', get_class($this->owner), $this->method);
+	}
 }

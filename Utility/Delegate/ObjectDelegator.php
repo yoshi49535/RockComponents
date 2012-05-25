@@ -58,4 +58,14 @@ class ObjectDelegator extends Delegator
 	{
 		return $this->object;
 	}
+	/**
+	 * __toString 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function __toString()
+	{
+		return sprintf('ObjectDelegator:{object:"%s"}', get_class($this->owner));
+	}
 }

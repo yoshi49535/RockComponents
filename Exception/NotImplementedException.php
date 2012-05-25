@@ -13,25 +13,18 @@
  * $Copyrights$
  *
  ****/
-// @namespace
-namespace Rock\Component\Automaton\Path;
+namespace Rock\Component\Exception;
 
 /**
- * IComponent 
+ * NotImplementedException
  * 
+ * @uses Exception
  * @package 
  * @version $id$
  * @copyright 2011-2012 Yoshi Aoki
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-interface IComponent
+class NotImplementedException extends Exception
 {
-	/**
-	 * getPath 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	function getPath();
 }

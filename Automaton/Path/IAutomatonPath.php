@@ -15,6 +15,8 @@
  ****/
 // @namespace
 namespace Rock\Component\Automaton\Path;
+// @extends 
+use Rock\Component\Automaton\IAutomatonComponent;
 // @use Automaton Interface
 use Rock\Component\Automaton\IAutomaton;
 // @use Path Component Interface 
@@ -31,7 +33,7 @@ use Rock\Component\Automaton\Path\Condition\ICondition;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-interface IAutomatonPath
+interface IAutomatonPath extends IAutomatonComponent
 {
 	// Owner Accessor
 	/**

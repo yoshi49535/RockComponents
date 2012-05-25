@@ -135,8 +135,13 @@ class Graph
 	{
 		return in_array($vertex, $this->vertices, true);
 	}
+
 	/**
-	 *
+	 * addEdge 
+	 * 
+	 * @param IEdge $edge 
+	 * @access public
+	 * @return void
 	 */
 	public function addEdge(IEdge $edge)
 	{
@@ -144,8 +149,14 @@ class Graph
 
 		return $edge;
 	}
+
 	/**
-	 *
+	 * addEdgeBetween 
+	 * 
+	 * @param IVertex $source 
+	 * @param IVertex $target 
+	 * @access public
+	 * @return void
 	 */
 	public function addEdgeBetween(IVertex $source, IVertex $target)
 	{

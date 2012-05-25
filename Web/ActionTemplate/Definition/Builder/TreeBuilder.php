@@ -173,7 +173,12 @@ abstract class TreeBuilder extends BaseBuilder
 				)
 			));
 		}
-
+		
+		// Regist Alias on Flow
+		$this->getFlowDefinition()->addCall(new Call(
+			'setAliasComponent',
+			array($node->getName(), $definition->getReference())
+		));
 		return $definition;
 	}
 	/**
@@ -216,9 +221,12 @@ abstract class TreeBuilder extends BaseBuilder
 				throw new \Exception(sprintf('Class "%s" is given, but invalid for Path.', get_class($node)));
 				break;
 			}
-
 		}
 
+		$this->getFlowDefinition()->addCall(new Call(
+			'setAliasComponent',
+			array($node->getName(), $definition->getReference())
+		));
 		return $definition;
 	}
 

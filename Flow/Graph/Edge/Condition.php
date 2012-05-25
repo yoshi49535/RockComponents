@@ -17,6 +17,8 @@
 namespace Rock\Component\Flow\Graph\Edge;
 //
 use Rock\Component\Automaton\Graph\Edge\NamedCondition;
+// @use 
+use Rock\Component\Utility\Delegate\IDelegatorProvider;
 
 /**
  * Condition 
@@ -30,4 +32,38 @@ use Rock\Component\Automaton\Graph\Edge\NamedCondition;
  */
 class Condition extends NamedCondition
 {
+	/**
+	 * setHandler 
+	 * 
+	 * @param mixed $object 
+	 * @param mixed $method 
+	 * @access public
+	 * @return void
+	 */
+	public function initDelegatorWithProvider(IDelegatorProvider $provider, $params = array())
+	{
+		$this->setValidator($provider->createDelegator($params));
+	}
+
+	/**
+	 * setDelegator 
+	 * 
+	 * @param IDelegator $delegator 
+	 * @access public
+	 * @return void
+	 */
+	public function setDelegator(IDelegator $delegator)
+	{
+		$this->setValidator($delegator);
+	}
+	/**
+	 * getDelegator 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getDelegator()
+	{
+		return ($this->validator instanceof IDelegator) ? $this->validator : null;
+	}
 }

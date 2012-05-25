@@ -28,7 +28,7 @@ use Rock\Component\Automaton\Path\State\IState;
 use Rock\Component\Automaton\Input\IInput;
 use Rock\Component\Automaton\Input\ScalarInput;
 // @use Delegate
-use Rock\Component\Utility\Delegate\Delegate;
+use Rock\Component\Utility\Delegate\IDelegator;
 
 /**
  * Condition 
@@ -93,7 +93,7 @@ class Condition extends Edge
 			case !is_array($validator) && !is_object($validator):
 				$this->validator = new ScalarCompareValidator($validator);
 				break;
-			case ($validator instanceof Delegate):
+			case ($validator instanceof IDelegator):
 				$this->validator = $validator;
 				break;
 			default:

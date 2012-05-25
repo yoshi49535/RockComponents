@@ -98,4 +98,15 @@ class CompositeDelegator
 			
 			
 	}
+
+
+	public function __toString()
+	{
+		$childLogs = array();
+		foreach($this->children as $child)
+		{
+			$childLogs[] = (string)$child;
+		}
+		return sprintf('CompositeDelegator:{size=%d, children=[%s]}', count($this->children), implode(', ', $childLogs));
+	}
 }

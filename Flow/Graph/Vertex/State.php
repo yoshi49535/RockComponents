@@ -28,13 +28,15 @@ use Rock\Component\Container\Graph\IGraph;
 // <Use> : Flow IO
 use Rock\Component\Flow\Traversal\IFlowTraversal;
 // @use State Delegator Interface
-use Rock\Component\Utility\Delegate\Delegate;
 use Rock\Component\Utility\Delegate\IDelegator;
 use Rock\Component\Utility\Delegate\IDelegatorProvider;
 // @use FlowPath Interface
 use Rock\Component\Automaton\Path\IAutomatonPath;
+// @use Exception
+use Rock\Component\Flow;
+use Rock\Component\Exception;
 
-/**
+/*
  *
  */
 class State extends NamedState
@@ -119,8 +121,29 @@ class State extends NamedState
 	 */
 	protected function doHandle(IFlowTraversal $traversal)
 	{
-		if($this->delegator && ($this->delegator instanceof IDelegator))
-			$this->delegator->delegate(array($traversal), $this);
+		$flow = $this->getGraph()->getOwner();
+		$comp = $flow->getAliasComponent($this->getName());
+
+		throw new \Exception(sprintf(
+			'(%s == %s) = %s',
+			$this->getName(),
+			$comp->getName(),
+			$comp === $this ? 'TRUE' : 'FALSE'
+		));
+		try
+		{
+			if($this->delegator && ($this->delegator instanceof IDelegator))
+				$this->delegator->delegate(array($traversal), $this);
+		}
+		catch(Exception\NotImplementedException $ex)
+		{
+			throw new Flow\Exception\InitializeException(sprintf(
+					"Delegate on State \"%s\" is ambiguous.\n".
+					"Set @WATDelegate(\"%s\", provider=\"ProviderAlias\", method={\"onFoo\", \"onBar\"}).", 
+					$this->getName(),
+					$this->getName()
+				), 0, $ex);
+		}
 	}
 
 	/**
