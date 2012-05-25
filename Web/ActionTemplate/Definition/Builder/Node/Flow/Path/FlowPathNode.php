@@ -74,8 +74,13 @@ class FlowPathNode extends Node
 	public function cond($name)
 	{
 		$this->add($node = new FlowPathComponentNode($this->getTree(), $name));
-		$node->setComponentType(FlowPathComponentNode::TYPE_PAGE);
+		$node->setComponentType(FlowPathComponentNode::TYPE_CONDITION);
 
 		return $node;
+	}
+
+	public function getDelegatorProvider()
+	{
+		return $this->getParent()->getDelegatorProvider();
 	}
 }

@@ -19,6 +19,8 @@ namespace Rock\Component\Configuration\Definition\Builder\Tree;
 use Rock\Component\Container\Tree\Tree;
 // @interface
 use Rock\Component\Configuration\Definition\Builder\IDefinitionBuilder;
+// @use Container
+use Rock\Component\Configuration\Container\IContainer;
 // @use
 use Rock\Component\Configuration\Definition\Definition;
 use Rock\Component\Configuration\Definition\Definition\Builder\Tree\DefinitionNode;
@@ -40,6 +42,32 @@ class TreeDefinitionBuilder extends Tree
     IDefinitionBuilder,
 	ITreeBuilder
 {
+	/**
+	 * container 
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
+	protected $container;
+	
+	/**
+	 * __construct 
+	 * 
+	 * @param IContainer $container 
+	 * @access public
+	 * @return void
+	 */
+	public function __construct(IContainer $container)
+	{
+		$this->container = $container;
+	}
+	/**
+	 * root 
+	 * 
+	 * @param mixed $name 
+	 * @access public
+	 * @return void
+	 */
 	public function root($name = null)
 	{
 		$root = $this->getRoot();
@@ -128,6 +156,11 @@ class TreeDefinitionBuilder extends Tree
 		do {
 			$itr->current()->validate();
 		} while($itr->next() && $itr->valid());
+	}
+
+	public function getContainer()
+	{
+		return $this->container;
 	}
 }
 

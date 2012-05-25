@@ -252,4 +252,5 @@ class Flow extends FiniteAutomaton
 		}
 		return $this->path;
 	}
+
 }

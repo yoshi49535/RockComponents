@@ -33,6 +33,8 @@ use Rock\Component\Web\ActionTemplate\Definition\Builder\Node\Flow\Path\FlowPath
  */
 class FlowNode extends Node
 {
+	protected $provider;
+
 	/**
 	 * load 
 	 * 
@@ -57,4 +59,39 @@ class FlowNode extends Node
 		return $node;
 	}
 
+	/**
+	 * setDelegatorProvider 
+	 * 
+	 * @param mixed $provider 
+	 * @access public
+	 * @return void
+	 */
+	public function setDelegatorProvider($provider)
+	{
+		$this->provider = $provider;
+	}
+
+	/**
+	 * getDelegatorProvider 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getDelegatorProvider()
+	{
+		return $this->provider;
+	}
+
+	/**
+	 * provider 
+	 * 
+	 * @param mixed $provider 
+	 * @access public
+	 * @return void
+	 */
+	public function provider($provider)
+	{
+		$this->setDelegatorProvider($provider);
+		return $this;
+	}
 }

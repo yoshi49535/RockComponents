@@ -13,11 +13,10 @@
  * $Copyrights$
  *
  ****/
-// @namespace
 namespace Rock\Component\Utility\Delegate;
 
 /**
- * IDelegator 
+ * IDelegateProvider 
  * 
  * @package 
  * @version $id$
@@ -25,23 +24,15 @@ namespace Rock\Component\Utility\Delegate;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-interface IDelegator
+interface IDelegatorProvider
 {
 	/**
-	 * __invoke 
+	 * createDelegator 
+	 *   Create new Delegator. 
 	 * 
-	 * @access protected
-	 * @return void
-	 */
-	function __invoke();
-
-	/**
-	 * delegate 
-	 * 
-	 * @param array $args 
-	 * @param mixed $invoker 
+	 * @param mixed $method 
 	 * @access public
 	 * @return void
 	 */
-	function delegate(array $args = array(), $invoker = null);
+	function createDelegator(array $params = array());
 }

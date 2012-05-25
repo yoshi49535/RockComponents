@@ -25,6 +25,19 @@ class FlowPathComponentNode extends Node
 	const TYPE_PAGE       = 'page';
 	const TYPE_CONDITION  = 'cond';
 
+	/**
+	 * provider 
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
+	protected $provider;
+	/**
+	 * delegate 
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
 	protected $delegate;
 	/**
 	 * type 
@@ -67,6 +80,16 @@ class FlowPathComponentNode extends Node
 	}
 
 	/**
+	 * getDelegateMethod 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getDelegateMethod()
+	{
+		return $this->delegate;
+	}
+	/**
 	 * setDelegate 
 	 * 
 	 * @param mixed $object 
@@ -74,10 +97,11 @@ class FlowPathComponentNode extends Node
 	 * @access public
 	 * @return void
 	 */
-	public function setDelegate($object, $method)
+	public function setDelegateMethod($method)
 	{
-		$this->delegate = array($object, $method);
+		$this->delegate = $method;
 	}
+
 	/**
 	 * delegate 
 	 * 
@@ -87,22 +111,17 @@ class FlowPathComponentNode extends Node
 	 */
 	public function delegate($method)
 	{
-		$reference = null;
-
-		$node   = $this->getParent();
-		while($node)
-		{
-			if($node instanceof FlowNode)
-				break;
-			$node = $node->getParent();
-		}
-		
-		if($node)
-			$this->setDelegate($node->getReference(), $method);
+		$this->setDelegateMethod($method);
 
 		return $this;
 	}
 
+	public function provider($provider)
+	{
+		$this->setDelegatorProvider($provider);
+
+		return $this;
+	}
 	/**
 	 * validate 
 	 * 
@@ -126,5 +145,19 @@ class FlowPathComponentNode extends Node
 				$this->setPrevSibling($node);
 			}
 		}
+	}
+
+	/**
+	 * getDelegatorProvider 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getDelegatorProvider()
+	{
+		if(!$this->provider)
+			return $this->getParent()->getDelegatorProvider();
+		
+		return $this->provider;
 	}
 }

@@ -18,7 +18,9 @@
 namespace Rock\Component\Web\ActionTemplate\Type;
 // @use Container Interface
 use Rock\Component\Configuration\Definition\Provider\IDefinitionProvider;
-use Rock\Component\Configuration\Aware\IContainerAware;
+
+// @
+use Rock\Component\Configuration\Container\IContainer;
 use Rock\Component\Configuration\Definition\Builder\Tree\ITreeBuilder;
 
 use Rock\Component\Web\ActionTemplate\Definition\Builder\GraphTreeBuilder;
@@ -37,7 +39,22 @@ abstract class BaseType
   implements
     IDefinitionProvider
 {
+	/**
+	 * container 
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
+	protected $container;
+
+	/**
+	 * definitions 
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
 	protected $definitions;
+
 	/**
 	 * __construct 
 	 * 
@@ -47,7 +64,7 @@ abstract class BaseType
 	 */
 	public function __construct()
 	{
-		$this->configure();
+		$definition = null;
 	}
 	
 	/**
@@ -58,8 +75,9 @@ abstract class BaseType
 	 */
 	protected function createPathBuilder()
 	{
-		return new GraphTreeBuilder();
+		return new GraphTreeBuilder($this->getContainer());
 	}
+
 	/**
 	 * configure 
 	 * 
@@ -91,8 +109,17 @@ abstract class BaseType
 	 */
 	abstract protected function configurePath(ITreeBuilder $tree);
 
+	/**
+	 * getDefinitions 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function getDefinitions()
 	{
+		if(null === $this->definitions)
+			$this->configure();
+
 		return $this->definitions;
 	}
 
@@ -105,5 +132,29 @@ abstract class BaseType
 	public function __toString()
 	{
 		return get_class($this);
+	}
+
+	/**
+	 * setContainer 
+	 * 
+	 * @param IContainer $container 
+	 * @access public
+	 * @return void
+	 */
+	public function setContainer(IContainer $container)
+	{
+		$this->container = $container;
+	}
+	/**
+	 * getContainer 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getContainer()
+	{
+		if(!$this->container)
+			throw new \Exception('Container is not initialized.');
+		return $this->container;
 	}
 }

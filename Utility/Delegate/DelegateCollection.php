@@ -13,20 +13,22 @@
  * $Copyrights$
  *
  ****/
-// @namespace
 namespace Rock\Component\Utility\Delegate;
 
-
 /**
- * AbstractDelegator 
+ * DelegateCollection 
  * 
+ * @abstract
  * @package 
  * @version $id$
  * @copyright 2011-2012 Yoshi Aoki
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-abstract class AbstractDelegator
+abstract class DelegateCollection
+  implements
+    IDelegatorProvider,
+	IInvoked
 {
 	
 	/**
@@ -36,19 +38,33 @@ abstract class AbstractDelegator
 	 * @access protected
 	 */
 	protected $invoker;
-
+	
 	/**
-	 * __construct 
+	 * createDelegator 
 	 * 
 	 * @param mixed $method 
+	 * @access public
+	 * @return void
+	 */
+	public function createDelegator(array $params = array())
+	{
+		if(isset($params['method']))
+			return new MethodDelegator($this, $params['method']);
+
+		return new InvokeDelegator($this);
+	}
+
+	/**
+	 * setInvoker 
+	 * 
 	 * @param mixed $invoker 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct()
+	public function setInvoker($invoker)
 	{
+		$this->invoker = $invoker;
 	}
-
 	/**
 	 * getInvoker 
 	 * 
@@ -58,17 +74,5 @@ abstract class AbstractDelegator
 	public function getInvoker()
 	{
 		return $this->invoker;
-	}
-
-	/**
-	 * __invoke 
-	 * 
-	 * @param mixed 
-	 * @access public
-	 * @return void
-	 */
-	public function createDelegate($method, $invoker = null)
-	{
-		return new Delegate(array($this, $method), $invoker);
 	}
 }

@@ -399,6 +399,7 @@ class Container
 	 */
 	public function addProvider(IDefinitionProvider $provider)
 	{
+		$provider->setContainer($this);
 		$this->addDefinitions($provider->getDefinitions());
 	}
 }

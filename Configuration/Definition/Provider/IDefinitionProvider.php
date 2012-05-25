@@ -15,6 +15,8 @@
  ****/
 namespace Rock\Component\Configuration\Definition\Provider;
 
+use Rock\Component\Configuration\Container\IContainer;
+
 /**
  * IDefinitionProvider 
  * 
@@ -33,4 +35,21 @@ interface IDefinitionProvider
 	 * @return void
 	 */
 	function getDefinitions();
+
+	/**
+	 * setContainer 
+	 * 
+	 * @param IContainer $container 
+	 * @access public
+	 * @return void
+	 */
+	function setContainer(IContainer $container);
+
+	/**
+	 * getContainer 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function getContainer();
 }

@@ -152,7 +152,8 @@ class HttpFlow extends Flow
 				parent::doHandleInput($traversal);
 			}
 			while($traversal->getOutput()->isSuccess() && 
-				  !($traversal->getOutput()->getTrail()->last()->current() instanceof IPage));
+				  !($traversal->getTrail()->last()->current() instanceof IPage));
+
 		}
 		catch (\Exception $ex)
 		{

@@ -30,6 +30,7 @@ use Rock\Component\Flow\Traversal\IFlowTraversal;
 // @use State Delegator Interface
 use Rock\Component\Utility\Delegate\Delegate;
 use Rock\Component\Utility\Delegate\IDelegator;
+use Rock\Component\Utility\Delegate\IDelegatorProvider;
 // @use FlowPath Interface
 use Rock\Component\Automaton\Path\IAutomatonPath;
 
@@ -42,32 +43,12 @@ class State extends NamedState
 {
 
 	/**
-	 * delegate 
+	 * delegator 
 	 * 
-	 * @var Delegate
+	 * @var IDelegator
 	 * @access protected
 	 */
-	protected $delegate;
-
-	/**
-	 * __construct 
-	 * 
-	 * @param IGraph $graph 
-	 * @param mixed $name 
-	 * @param mixed $delegate
-	 * @access public
-	 * @return void
-	 */
-	public function __construct($name, Delegate $delegate = null)
-	{
-		parent::__construct($name);
-		
-		// Delegate as DelegatorContainer
-		//$this->doHandle = new Delegate($this);
-		//if($handler)
-		//	$this->doHandle->setDelagator($handler);
-		$this->delegate = $delegate;
-	}
+	protected $delegator;
 
 	/**
 	 * getFlow 
@@ -90,9 +71,31 @@ class State extends NamedState
 	 * @access public
 	 * @return void
 	 */
-	public function setHandler(Delegate $delegate)
+	public function initDelegatorWithProvider(IDelegatorProvider $provider, $params = array())
 	{
-		$this->delegate = $delegate;
+		$this->setDelegator($provider->createDelegator($params));
+	}
+
+	/**
+	 * setDelegator 
+	 * 
+	 * @param IDelegator $delegator 
+	 * @access public
+	 * @return void
+	 */
+	public function setDelegator(IDelegator $delegator)
+	{
+		$this->delegator = $delegator;
+	}
+	/**
+	 * getDelegator 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getDelegator()
+	{
+		return $this->delegator;
 	}
 
 	/**
@@ -116,14 +119,8 @@ class State extends NamedState
 	 */
 	protected function doHandle(IFlowTraversal $traversal)
 	{
-		$ret  = null;
-		// Call Flow Delegate 
-		//if($delegator = $this->delegate)
-		//{
-		//	$ret = $this->getFlow()->callDelegate('doStateInit', array($input));
-		//}
-
-		return $ret;
+		if($this->delegator && ($this->delegator instanceof IDelegator))
+			$this->delegator->delegate(array($traversal), $this);
 	}
 
 	/**

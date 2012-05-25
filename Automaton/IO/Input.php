@@ -27,15 +27,6 @@ class Input extends BaseIO
   implements 
     IInput
 {
-	/**
-	 * __construct 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function __construct()
-	{
-	}
 
 	/**
 	 * getValue 

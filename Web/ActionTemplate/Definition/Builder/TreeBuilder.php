@@ -16,6 +16,8 @@
 // @namesapce
 namespace Rock\Component\Web\ActionTemplate\Definition\Builder;
 // @use
+use Rock\Component\Configuration\Container\IContainer;
+// @use
 use Rock\Component\Configuration\Definition\Builder\Tree\TreeDefinitionBuilder as BaseBuilder;
 // @use Definition Node
 use Rock\Component\Configuration\Definition\Builder\Tree\IDefinitionNode;
@@ -27,6 +29,8 @@ use Rock\Component\Web\ActionTemplate\Definition\Builder\Node\Flow\Path\FlowPath
 // @use Definition
 use Rock\Component\Configuration\Definition\Definition;
 use Rock\Component\Configuration\Component\Call;
+// @use Exception
+use Rock\Component\Configuration\Exception\DefinitionException;
 
 /**
  * TreeBuilder 
@@ -41,14 +45,22 @@ use Rock\Component\Configuration\Component\Call;
 abstract class TreeBuilder extends BaseBuilder
 {
 	/**
+	 * flowDefinition 
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
+	protected $flowDefinition;
+
+	/**
 	 * __construct 
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct()
+	public function __construct(IContainer $container)
 	{
-		parent::__construct();
+		parent::__construct($container);
 
 		$this->initRoot(new RootNode($this, ''));
 	}
@@ -93,6 +105,7 @@ abstract class TreeBuilder extends BaseBuilder
 	protected function doBuildFlowDefinition(IDefinitionNode $node)
 	{
 		$definition = new Definition($node->generateId(), $node->getParameterBag()->all());
+		$this->flowDefinition = $definition;
 
 		// Initialize Class 
 		if(!$definition->getClass() || ($definition->getClass() === '_default'))
@@ -142,6 +155,24 @@ abstract class TreeBuilder extends BaseBuilder
 			break;
 		}
 
+		// add Call
+		// 
+		if($delegate = $node->getDelegateMethod())
+		{
+			$provider = $node->getDelegatorProvider();
+			if(!$provider)
+				throw new DefinitionException('Node cannot delegate without DelegatorProvider. Please specify with FlowPathComponentNode::provider() first');
+
+			$provider = $this->getContainer()->get($provider);
+			//
+			$definition->addCall(new Call(
+				'initDelegatorWithProvider',
+				array(
+					$provider, 
+					array('method' => $delegate)
+				)
+			));
+		}
 
 		return $definition;
 	}
@@ -191,11 +222,46 @@ abstract class TreeBuilder extends BaseBuilder
 		return $definition;
 	}
 
+	/**
+	 * getFlowClass 
+	 * 
+	 * @access protected
+	 * @return void
+	 */
 	protected function getFlowClass()
 	{
 		return '\\Rock\\Component\\Flow\\Flow';
 	}
+	/**
+	 * getFlowDefinition 
+	 * 
+	 * @access protected
+	 * @return void
+	 */
+	protected function getFlowDefinition()
+	{
+		if(!$this->flowDefinition)
+			throw new \Exception('FlowDefinition is not built yet.');
+		//
+		return $this->flowDefinition;
+		
+	}
 
+	/**
+	 * getPathClass 
+	 * 
+	 * @abstract
+	 * @access protected
+	 * @return void
+	 */
 	abstract protected function getPathClass();
+	/**
+	 * getComponentClass 
+	 * 
+	 * @param FlowPathComponentNode $node 
+	 * @abstract
+	 * @access protected
+	 * @return void
+	 */
 	abstract protected function getComponentClass(FlowPathComponentNode $node);
 }
