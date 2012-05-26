@@ -155,7 +155,7 @@ class Flow extends FiniteAutomaton
 		// 
 		$trail = $this->getPath()->createTrail();
 		$trail->push($current);
-		$traversal->getOutput()->setTrail($trail);
+		$traversal->getOutput()->getTrail()->merge($trail);
 
 		return $traversal;
 	}

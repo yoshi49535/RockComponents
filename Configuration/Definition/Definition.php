@@ -19,6 +19,8 @@ namespace Rock\Component\Configuration\Definition;
 // @use
 use Rock\Component\Configuration\Component\Reference;
 use Rock\Component\Configuration\Component\Call;
+// @use Scopes 
+use Rock\Component\Configuration\Container\Container;
 
 /**
  * Definition 
@@ -296,12 +298,44 @@ class Definition
 
 	/**
 	 * isSingleton 
-	 * 
+	 *   Bool iff the uniqueOn is located at GLOBAL
 	 * @access public
 	 * @return void
 	 */
 	public function isSingleton()
 	{
-		return $this->hasAttribute('singleton') && (bool)$this->getAttribute('singleton');
+		return $this->hasAttribute('uniqueOn') && ($this->getAttribute('uniqueOn') === Container::SCOPE_GLOBAL);
+	}
+
+
+	/**
+	 * getScope 
+	 *   Scope is the container-scope where the definition is activated-at
+	 * @access public
+	 * @return void
+	 */
+	public function getScope()
+	{
+		return isset($this->attributes['scope']) ?
+		  $this->attributes['scope'] :
+		  Container::SCOPE_GLOBAL
+		;
+	}
+
+	/**
+	 * getUniqueOn 
+	 *   UniqueOn is the container-scope where the component instance allocated at. 
+	 * @access public
+	 * @return void
+	 */
+	public function getUniqueOn()
+	{
+		return isset($this->attributes['uniqueOn']) ?
+			$this->attributes['uniqueOn'] :
+			(isset($this->attribute['scope']) ? 
+				$this->attributes['scope'] :
+				Container::SCOPE_PROTOTYPE
+			)
+		;
 	}
 }

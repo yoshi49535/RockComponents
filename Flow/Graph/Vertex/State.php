@@ -124,12 +124,6 @@ class State extends NamedState
 		$flow = $this->getGraph()->getOwner();
 		$comp = $flow->getAliasComponent($this->getName());
 
-		throw new \Exception(sprintf(
-			'(%s == %s) = %s',
-			$this->getName(),
-			$comp->getName(),
-			$comp === $this ? 'TRUE' : 'FALSE'
-		));
 		try
 		{
 			if($this->delegator && ($this->delegator instanceof IDelegator))

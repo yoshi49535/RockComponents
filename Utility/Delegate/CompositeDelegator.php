@@ -19,13 +19,22 @@ class CompositeDelegator
   implements
     IDelegator
 {
+	
+	/**
+	 * strategy 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $resultMergeStrategy;
+
 	/**
 	 * children 
 	 * 
 	 * @var mixed
 	 * @access protected
 	 */
-	protected $children;
+	private $children;
 
 	/**
 	 * __construct 
@@ -36,6 +45,7 @@ class CompositeDelegator
 	 */
 	public function __construct($delegators = array())
 	{
+		$this->resultMergeStrategy = null;
 		$this->children = array();
 
 		// 
@@ -53,8 +63,15 @@ class CompositeDelegator
 	 */
 	public function delegate(array $args = array(), $invoker = null)
 	{
+		$result  = null;
+		$results = array();
 		foreach($this->children as $child)
-			$child->delegate($args, $invoker);
+			$results[] = $child->delegate($args, $invoker);
+		
+		if($this->resultMergeStrategy)
+			$result = $this->resultMergeStrategy->resolve($results);
+
+		return $result;
 	}
 
 	/**
@@ -68,7 +85,7 @@ class CompositeDelegator
 	{
 		$args     = func_get_args();
 
-		$this->delegate($args);
+		return $this->delegate($args);
 	}
 
 	/**
@@ -99,6 +116,10 @@ class CompositeDelegator
 			
 	}
 
+	public function setResultMergeStrategy(IMergeResolver $resolver)
+	{
+		$this->resultMergeStrategy = $resolver;
+	}
 
 	public function __toString()
 	{

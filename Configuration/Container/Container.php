@@ -34,10 +34,9 @@ class Container
   implements
     IContainer
 {
-	const SCOPE_COMPONENT_ROOT = '_component';
-
 	const SCOPE_GLOBAL         = '_global';
 	const SCOPE_CURRENT        = '_current';
+	const SCOPE_PROTOTYPE      = '_prototype';
 	/**
 	 * @var
 	 */
@@ -71,10 +70,22 @@ class Container
 	 */
 	public function __construct($params = array())
 	{
-		$this->definitions = array(self::SCOPE_GLOBAL => array());
-		$this->params = new ParameterBag($params);
+		$this->definitions = array();
+		$this->params      = new ParameterBag($params);
 
-		$this->components = array();
+		$this->components  = array();
+
+		$this->init();
+	}
+
+	/**
+	 * init 
+	 *   Init Container 
+	 * @access protected
+	 * @return void
+	 */
+	protected function init()
+	{
 		$this->enterScope(self::SCOPE_GLOBAL);
 	}
 
@@ -83,12 +94,7 @@ class Container
 	 */
 	public function getDefinitions()
 	{
-		$definitions  = array();
-		foreach($this->definitions as $scope => $defs)
-		{
-			$definitions = array_merge($definitions, $defs);
-		}
-		return $definitions;
+		return $this->definitions;
 	}
 
 	/**
@@ -96,14 +102,33 @@ class Container
 	 */
 	public function getDefinition($id)
 	{
-		$definitions = $this->getDefinitions();
-		return $definitions[$id];
+		return $this->definitions[$id];
 	}
 
-	public function addDefinitions($definitions, $scope = self::SCOPE_GLOBAL)
+	/**
+	 * addProvider 
+	 * 
+	 * @param IDefinitionProvider $provider 
+	 * @access public
+	 * @return void
+	 */
+	public function addProvider(IDefinitionProvider $provider)
+	{
+		$provider->setContainer($this);
+		$this->addDefinitions($provider->getDefinitions());
+	}
+
+	/**
+	 * addDefinitions 
+	 * 
+	 * @param mixed $definitions 
+	 * @access public
+	 * @return void
+	 */
+	public function addDefinitions($definitions)
 	{
 		foreach($definitions as $definition)
-			$this->addDefinition($definition, $scope);
+			$this->addDefinition($definition);
 	}
 	/**
 	 * addDefinition 
@@ -112,20 +137,17 @@ class Container
 	 * @access public
 	 * @return void
 	 */
-	public function addDefinition(Definition $definition, $scope = self::SCOPE_GLOBAL)
+	public function addDefinition(Definition $definition)
 	{
 		if($definition instanceof IContainerAware)
 			$definition->setContainer($this);
+
 		//
+		$this->definitions[$definition->getId()]  = $definition;
 
-		if(self::SCOPE_CURRENT === $scope)
-			$scope  = $this->getScope();
-		$this->definitions[$scope][$definition->getId()]  = $definition;
-
+		// Set Alias
 		if($definition->hasAttribute('alias'))
-		{
 			$this->aliases[$definition->getAttribute('alias')]  = $definition->getId();
-		}
 	}
 
 
@@ -138,7 +160,7 @@ class Container
 	 */
 	public function has($id)
 	{
-		return array_key_exists($id, $this->getDefintiions());
+		return array_key_exists($id, $this->definitions);
 	}
 
 	/**
@@ -160,6 +182,12 @@ class Container
 		{
 			if(self::SCOPE_CURRENT === $scope)
 				$scope  = $this->getScope();
+
+			if(!$this->hasScope($scope))
+				throw new \Exception(sprintf('Scope "%s" is not existed.', $scope));
+
+			if(!isset($this->components[$scope]))
+				throw new \Exception(sprintf('Container dose not entered into Scope "%s".', $scope));
 
 			$this->components[$scope][$id]   = $value;
 		}
@@ -187,19 +215,19 @@ class Container
 	 * @access public
 	 * @return void
 	 */
-	public function getByAlias($alias, $params = array())
+	public function getByAlias($alias)
 	{
 		if(!array_key_exists($alias, $this->aliases))
 			throw new \Exception(sprintf('Alias "%s" is not defined.', $alias));
 		//
 		$id  = $this->aliases[$alias];
 
-		return $this->get($id, $params);
+		return $this->get($id);
 	}
 	/**
 	 *
 	 */
-	public function get($id, $params = array())
+	public function get($id)
 	{
 		// Check the scope components
 		foreach($this->getScopes() as $scope)
@@ -209,37 +237,24 @@ class Container
 		}
 
 		// 
-		if(array_key_exists($id, $this->getDefinitions()))
+		if(array_key_exists($id, $this->definitions))
 		{
-			$bScoped  = false;
-
 			$definition = $this->getDefinition($id);
-			if(($this->countScopes() === 1) && !$definition->isSingleton())
-			{
-				$this->enterScope(self::SCOPE_COMPONENT_ROOT);
-				$bScoped = true;
-			}
+			$scope      = $definition->getUniqueOn();
+			// If the scope is not existed, then on top-most
+			$enteredScope  = null;
+			if(!$this->hasScope($scope))
+				$scope = $enteredScope = $this->enterScope($scope);
+
 			// Build service from definition
 			$builder  = $this->getComponentBuilder();
 			$instance = $builder->build($id);
 
-			if($instance instanceof IContainerAware)
-			{
-				$instance->setContainer($this);
-			}
-			
-			// Regist component as a singleton
-			if($definition->isSingleton())
-			{
-				$this->components[self::SCOPE_GLOBAL][$id] = $instance;
-				//unset($this->definitions[$id]);
-			}
+			// Regist component on the scope where the instance can be uniqued
+			$this->set($id, $instance, $scope);
 
-			if($bScoped)
-			{
+			if($enteredScope)
 				$this->leaveScope();
-				// Leave From SCOPE_COMPONENT_ROOT
-			}
 			return $instance;
 		}
 
@@ -270,20 +285,24 @@ class Container
 	}
 
 	/**
-	 *
+	 * enterScope 
+	 * 
+	 * @param mixed $scope 
+	 * @access public
+	 * @return void
 	 */
 	public function enterScope($scope)
 	{
 		if(!is_string($scope))
-		{
 			throw new \InvalidArgumentException('$scope has to be a string.');
-		}
-		else if(in_array($scope, $this->scopes))
-		{
+		else if($this->hasScope($scope))
 			throw new \Exception(sprintf('Scope "%s" is already exists.', $scope));
-		}
+
+		// instert into scopes and allocate the scoped-component place
 		$this->scopes[]  = $scope;
 		$this->components[$scope] = array();
+
+		return $scope;
 	}
 
 	/**
@@ -331,7 +350,18 @@ class Container
 	{
 		return $this->scopes[count($this->scopes) - 1];
 	}
-
+	
+	/**
+	 * hasScope 
+	 * 
+	 * @param mixed $scope 
+	 * @access public
+	 * @return void
+	 */
+	public function hasScope($scope)
+	{
+		return in_array($scope, $this->scopes);
+	}
 	
 	/**
 	 * getParameterBag 
@@ -388,27 +418,5 @@ class Container
 		}while($this->has(($id = sprintf('%s%s', $prefix, $id))));
 
 		return $id;
-	}
-
-	/**
-	 * addProvider 
-	 * 
-	 * @param IDefinitionProvider $provider 
-	 * @access public
-	 * @return void
-	 */
-	public function addProvider(IDefinitionProvider $provider)
-	{
-		// 
-		//$temp = $this->getDefinitions();
-		//$prev = sprintf("keys[\n\t%s]", implode("\n\t", array_keys($temp)));
-
-		$provider->setContainer($this);
-		$this->addDefinitions($provider->getDefinitions());
-
-		//$temp = $this->getDefinitions();
-		//$post = sprintf("keys[\n\t%s]", implode("\n\t", array_keys($temp)));
-
-		//throw new \Exception($prev." \n\n ".$post);
 	}
 }

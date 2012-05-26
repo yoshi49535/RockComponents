@@ -23,6 +23,7 @@ namespace Rock\Component\Configuration\Container;
 use Rock\Component\Configuration\Aware\IFilterInjectionAware;
 // 
 use Rock\Component\Configuration\Filter\IFilter;
+use Rock\Component\Configuration\Filter\InterfaceAwareInjectionFilter;
 
 /**
  *
@@ -33,6 +34,24 @@ class InjectionContainer extends Container
 {
 	protected $filters  = array();
 
+	/**
+	 * init 
+	 *   Init Container 
+	 * @access protected
+	 * @return void
+	 */
+	protected function init()
+	{
+		parent::init();
+
+		// add Default Filter of IContainer Aware
+		$this->addFilter(new InterfaceAwareInjectionFilter(
+			'_interface.aware.container',
+			'\\Rock\\Component\\Configuration\\Aware\\IContainerAwareI',
+			'setContainer',
+			$this
+		)); 
+	}
 	/**
 	 *
 	 */
