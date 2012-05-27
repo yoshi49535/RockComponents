@@ -160,6 +160,24 @@ class Flow extends FiniteAutomaton
 		return $traversal;
 	}
 
+	/**
+	 * backward 
+	 * 
+	 * @param ITraversal $traversal 
+	 * @access public
+	 * @return void
+	 */
+	public function backward(ITraversal $traversal)
+	{
+		parent::backward($traversal);
+
+		// Execute Last State
+		$current = $traversal->getOutput()->getTrail()->last()->current();
+		if($traversal->hasInput())
+			$current->handle($traversal);
+		return $traversal;
+
+	}
 	public function forward(ITraversal $traversal)
 	{
 		parent::forward($traversal);

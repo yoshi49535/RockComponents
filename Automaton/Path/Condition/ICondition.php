@@ -14,13 +14,12 @@
  * please read the LICENSE file that is distributed with the source code.
  *
  ****/
-
 // <Namespace>
 namespace Rock\Component\Automaton\Path\Condition;
 // @extends
 use Rock\Component\Automaton\Path\IPathComponent;
 // <Use> : Automaton Component
-use Rock\Component\Automaton\Input\IInput;
+use Rock\Component\Automaton\IO\IInput;
 
 /**
  * ICondition 
@@ -34,9 +33,13 @@ use Rock\Component\Automaton\Input\IInput;
 interface ICondition extends IPathComponent
 {
 	/**
-	 *
+	 * isValid 
+	 * 
+	 * @param IInput $input 
+	 * @access public
+	 * @return void
 	 */
-	function isValid(IInput $cond = null);
+	function isValid(IInput $input);
 
 	/**
 	 * getSource 

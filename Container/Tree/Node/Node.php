@@ -28,7 +28,9 @@ use Rock\Component\Container\Tree\Path\Path;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-class Node
+class Node 
+  implements
+    INode
 {
 	private $tree;
 	private $parent;
@@ -68,7 +70,7 @@ class Node
 	 * @access public
 	 * @return void
 	 */
-	public function setParent(Node $parent)
+	public function setParent(INode $parent)
 	{
 		$this->parent = $parent;
 	}
@@ -106,7 +108,7 @@ class Node
 	 * @access public
 	 * @return void
 	 */
-	public function add(Node $node)
+	public function addChild(INode $node)
 	{
 		$node->setParent($this);
 
@@ -191,7 +193,7 @@ class Node
 	 * @access public
 	 * @return void
 	 */
-	public function setPrevSibling(Node $node)
+	public function setPrevSibling(INode $node)
 	{
 		$node->setParent($this->getParent());
 
@@ -235,7 +237,7 @@ class Node
 	 * @access public
 	 * @return void
 	 */
-	public function setNextSibling(Node $node)
+	public function setNextSibling(INode $node)
 	{
 		// Switch Parent
 		$node->setParent($this->getParent());

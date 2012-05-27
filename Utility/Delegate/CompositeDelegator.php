@@ -15,6 +15,8 @@
  ****/
 namespace Rock\Component\Utility\Delegate;
 
+use Rock\Component\Utility\ArrayConverter\IArrayConverter;
+
 class CompositeDelegator 
   implements
     IDelegator
@@ -26,7 +28,7 @@ class CompositeDelegator
 	 * @var mixed
 	 * @access private
 	 */
-	private $resultMergeStrategy;
+	private $resultStrategy;
 
 	/**
 	 * children 
@@ -45,7 +47,7 @@ class CompositeDelegator
 	 */
 	public function __construct($delegators = array())
 	{
-		$this->resultMergeStrategy = null;
+		$this->resultStrategy = null;
 		$this->children = array();
 
 		// 
@@ -68,8 +70,8 @@ class CompositeDelegator
 		foreach($this->children as $child)
 			$results[] = $child->delegate($args, $invoker);
 		
-		if($this->resultMergeStrategy)
-			$result = $this->resultMergeStrategy->resolve($results);
+		if($this->resultStrategy)
+			$result = $this->resultStrategy->resolve($results);
 
 		return $result;
 	}
@@ -116,9 +118,9 @@ class CompositeDelegator
 			
 	}
 
-	public function setResultMergeStrategy(IMergeResolver $resolver)
+	public function setResultStrategy(IArrayConverter $converter)
 	{
-		$this->resultMergeStrategy = $resolver;
+		$this->resultStrategy = $converter;
 	}
 
 	public function __toString()

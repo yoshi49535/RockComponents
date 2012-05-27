@@ -41,7 +41,8 @@ class FlowPathNode extends Node
 	 */
 	public function state($name)
 	{
-		$this->add($node = new FlowPathComponentNode($this->getTree(), $name));
+		$this->addChild($node = $this->getTree()->getNodeFactory()->create('component'));
+		$node->setName($name);
 		$node->setComponentType(FlowPathComponentNode::TYPE_STATE);
 		return $node;
 	}
@@ -57,7 +58,8 @@ class FlowPathNode extends Node
 	 */
 	public function page($name, $params = array())
 	{
-		$this->add($node = new FlowPathComponentNode($this->getTree(), $name));
+		$this->addChild($node = $this->getTree()->getNodeFactory()->create('component'));
+		$node->setName($name);
 		$node->setComponentType(FlowPathComponentNode::TYPE_PAGE);
 
 		return $node;
@@ -73,7 +75,8 @@ class FlowPathNode extends Node
 	 */
 	public function cond($name)
 	{
-		$this->add($node = new FlowPathComponentNode($this->getTree(), $name));
+		$this->addChild($node = $this->getTree()->getNodeFactory()->create('component'));
+		$node->setName($name);
 		$node->setComponentType(FlowPathComponentNode::TYPE_CONDITION);
 
 		return $node;

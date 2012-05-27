@@ -42,6 +42,7 @@ class Condition extends NamedCondition
 	 */
 	public function initDelegatorWithProvider(IDelegatorProvider $provider, $params = array())
 	{
+		$params['resultStrategy'] = 'Rock\\Component\\Utility\\ArrayConverter\\ArrayToAndBoolConverter';
 		$this->setValidator($provider->createDelegator($params));
 	}
 

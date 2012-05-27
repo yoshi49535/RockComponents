@@ -24,11 +24,12 @@ use Rock\Component\Automaton\Traversal\Traversal;
 // @use Path Components
 use Rock\Component\Automaton\Path\IAutomatonPath;
 
-// <Use> : Automaton Component
-use Rock\Component\Automaton\State\IState;
-use Rock\Component\Automaton\Condition\Factory\ConditionFactory;
+#use Rock\Component\Automaton\Condition\Factory\ConditionFactory;
 use Rock\Component\Automaton\IO\IInput;
 use Rock\Component\Automaton\IO\Output;
+// @use Automaton Component
+use Rock\Component\Automaton\Path\State\IState;
+use Rock\Component\Automaton\Path\Condition\ICondition;
 // @use Exception
 use Rock\Component\Automaton\Exception as AutomatonException;
 

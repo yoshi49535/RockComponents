@@ -89,7 +89,7 @@ abstract class Delegator
 	{
 		$args     = func_get_args();
 
-		$this->delegate($args);
+		return $this->delegate($args);
 	}
 }
 

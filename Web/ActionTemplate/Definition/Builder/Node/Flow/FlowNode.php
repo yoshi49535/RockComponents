@@ -54,7 +54,8 @@ class FlowNode extends Node
 	 */
 	public function path($name = 'path')
 	{
-		$this->add($node = new FlowPathNode($this->getTree(), $name));
+		$this->addChild($node = $this->getTree()->getNodeFactory()->create('path'));
+		$node->setName($name);
 		
 		return $node;
 	}

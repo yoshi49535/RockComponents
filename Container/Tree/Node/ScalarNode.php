@@ -41,7 +41,7 @@ class ScalarNode extends Node
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(ITree $tree, $scalar)
+	public function __construct(ITree $tree, $scalar = null)
 	{
 		parent::__construct($tree);
 		$this->scalar  = $scalar;

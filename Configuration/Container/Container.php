@@ -102,9 +102,16 @@ class Container
 	 */
 	public function getDefinition($id)
 	{
+		if(!isset($this->definitions[$id]))
+			throw new \Exception(sprintf('Definition for id "%s" is not exists.', $id));
 		return $this->definitions[$id];
 	}
 
+	public function getReferenceOf($id)
+	{
+		$definition = $this->getDefinition($id);
+		return $definition->getReference();
+	}
 	/**
 	 * addProvider 
 	 * 

@@ -62,6 +62,9 @@ abstract class TreeBuilder extends BaseBuilder
 	{
 		parent::__construct($container);
 
+		$this->getNodeFactory()->add('flow', '\\Rock\\Component\\Web\\ActionTemplate\\Definition\\Builder\\Node\\Flow\\FlowNode');
+		$this->getNodeFactory()->add('path', '\\Rock\\Component\\Web\\ActionTemplate\\Definition\\Builder\\Node\\Flow\\Path\\FlowPathNode');
+		$this->getNodeFactory()->add('component', '\\Rock\\Component\\Web\\ActionTemplate\\Definition\\Builder\\Node\\Flow\\Path\\FlowPathComponentNode');
 		$this->initRoot(new RootNode($this, ''));
 	}
 
@@ -163,7 +166,7 @@ abstract class TreeBuilder extends BaseBuilder
 			if(!$provider)
 				throw new DefinitionException('Node cannot delegate without DelegatorProvider. Please specify with FlowPathComponentNode::provider() first');
 
-			$provider = $this->getContainer()->get($provider);
+			$provider = $this->getContainer()->getReferenceOf($provider);
 			//
 			$definition->addCall(new Call(
 				'initDelegatorWithProvider',

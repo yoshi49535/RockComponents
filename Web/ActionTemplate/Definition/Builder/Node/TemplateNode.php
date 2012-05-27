@@ -49,7 +49,8 @@ class TemplateNode extends Node
 	 */
 	public function flow($name = 'flow')
 	{
-		$this->add($node = new FlowNode($this->getTree(), $name));
+		$this->addChild($node = $this->getTree()->getNodeFactory()->create('flow'));
+		$node->setName($name);
 		return $node;
 	}
 }

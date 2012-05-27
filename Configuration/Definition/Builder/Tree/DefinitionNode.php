@@ -70,7 +70,7 @@ class DefinitionNode extends BaseNode
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(ITree $tree, $name, $params = array())
+	public function __construct(ITree $tree, $name = null, $params = array())
 	{
 		parent::__construct($tree, $name);
 		$this->params = new ParameterBag(array_merge(array('name'=>$name), $params));
@@ -241,5 +241,11 @@ class DefinitionNode extends BaseNode
 	public function validate()
 	{
 		
+	}
+
+	public function setName($name)
+	{
+		parent::setName($name);
+		$this->params->set('name', $name);
 	}
 }

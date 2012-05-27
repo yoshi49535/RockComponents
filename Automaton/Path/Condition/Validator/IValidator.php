@@ -15,18 +15,13 @@
  *
  ****/
 
-namespace Rock\Component\Web\Flow\Request;
+// <Namepsace>
+namespace Rock\Component\Automaton\Path\Condition\Validator;
 
-use Rock\Component\Web\Flow\Direction;
+// <Use> : Automaton Component
+use Rock\Component\Automaton\Input\IInput;
 
-final class FlowRequests
+interface IValidator
 {
-	const FLOW_ID_KEY         = 'fkey';
-	const DIRECTION_KEY       = 'direction';
-
-	//
-	const DIRECTION_NEXT      = 'next';
-	const DIRECTION_PREVIOUS  = 'prev';
-	const DIRECTION_CURRENT   = 'current';
-
+	public function __invoke(IInput $input);
 }

@@ -16,7 +16,7 @@
  ****/
 
 // @namespace
-namespace Rock\Component\Automaton\Graph\Edge\Validator;
+namespace Rock\Component\Automaton\Path\Condition\Validator;
 // @use Input Interface
 use Rock\Component\Automaton\Input\IInput;
 use Rock\Component\Automaton\Input\IScalarInput;

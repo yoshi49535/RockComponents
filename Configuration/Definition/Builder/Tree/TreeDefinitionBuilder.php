@@ -26,6 +26,8 @@ use Rock\Component\Configuration\Definition\Definition;
 use Rock\Component\Configuration\Definition\Definition\Builder\Tree\DefinitionNode;
 // @use Iterator
 use Rock\Component\Container\Tree\Iterator;
+// 
+use Rock\Component\Container\Tree\Node\Factory\NodeFactory;
 
 /**
  * TreeDefinitionBuilder 
@@ -46,9 +48,11 @@ class TreeDefinitionBuilder extends Tree
 	 * container 
 	 * 
 	 * @var mixed
-	 * @access protected
+	 * @access private
 	 */
-	protected $container;
+	private $container;
+
+	private $nodeFactory;
 	
 	/**
 	 * __construct 
@@ -60,6 +64,8 @@ class TreeDefinitionBuilder extends Tree
 	public function __construct(IContainer $container)
 	{
 		$this->container = $container;
+
+		$this->nodeFactory = new NodeFactory($this);
 	}
 	/**
 	 * root 
@@ -161,6 +167,11 @@ class TreeDefinitionBuilder extends Tree
 	public function getContainer()
 	{
 		return $this->container;
+	}
+
+	public function getNodeFactory()
+	{
+		return $this->nodeFactory;
 	}
 }
 

@@ -44,7 +44,7 @@ class NamedNode extends Node
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(ITree $tree, $name)
+	public function __construct(ITree $tree, $name = '')
 	{
 		parent::__construct($tree);
 

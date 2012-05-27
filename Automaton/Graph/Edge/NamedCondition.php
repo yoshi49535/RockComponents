@@ -20,12 +20,11 @@ use Rock\Component\Container\Graph\Edge\NamedEdge;
 // @interface
 use Rock\Component\Automaton\Path\Condition\ICondition;
 // <Use> : Automaton Condition
-use Rock\Component\Automaton\Graph\Edge\Validator\ClosureValidator;
-use Rock\Component\Automaton\Graph\Edge\Validator\IValidator;
+use Rock\Component\Automaton\Path\Condition\ConditionalValidator;
 // <Use> : Automaton Component
 use Rock\Component\Automaton\Path\State\IState;
-use Rock\Component\Automaton\Input\IInput;
-use Rock\Component\Automaton\Input\ScalarInput;
+use Rock\Component\Automaton\IO\IInput;
+use Rock\Component\Automaton\IO\ScalarInput;
 // @use Delegate
 use Rock\Component\Utility\Delegate\IDelegator;
 
@@ -42,6 +41,7 @@ use Rock\Component\Utility\Delegate\IDelegator;
 class NamedCondition extends NamedEdge
   implements
     ICondition
+// trail Conditionable
 {
 	protected $validator;
 
@@ -52,7 +52,7 @@ class NamedCondition extends NamedEdge
 	{
 		parent::__construct($name, $source, $target);
 
-		$this->setValidator($validator);
+		$this->validator = new ConditionalValidator($validator);
 	}
 	/**
 	 * getSource 
@@ -76,65 +76,29 @@ class NamedCondition extends NamedEdge
 	}
 
 	/**
-	 *
+	 * setValidator 
+	 * 
+	 * @param mixed $validator 
+	 * @access public
+	 * @return void
 	 */
 	public function setValidator($validator)
 	{
 		// For Array Type Callback, and Closure
-		if($validator)
-		{
-			switch($validator)
-			{
-			case is_object($validator) && ($validator instanceof ClosureValidator):
-			case is_array($validator) && is_callable($validator):
-				$this->validator = new ClosureValidator($validator);
-				break;
-			case !is_array($validator) && !is_object($validator):
-				$this->validator = new ScalarCompareValidator($validator);
-				break;
-			case ($validator instanceof IDelegator):
-				$this->validator = $validator;
-				break;
-			default:
-				throw new \InvalidArgumentException('Validator is invalid type.');
-			}
-		}
-		else
-		{
-			$this->validator = null;
-		}
+		$this->validator->setValidateMethod($validator);
 	}
 
 	/**
-	 *
+	 * isValid 
+	 * 
+	 * @param IInput $input 
+	 * @access public
+	 * @return void
 	 */
-	public function isValid(IInput $input = null)
+	public function isValid(IInput $input)
 	{
-		$bRet  = null;
-
-		if(is_null($this->validator))
-		{
-			$bRet  = parent::isValid($input);
-		}
-		else
-		{
-		    if(is_callable($this->validator))
-			{
-		    	$bRet  = call_user_func($this->validator, $input);
-			}
-			else if($this->validator instanceof IValidator)
-			{
-				$bRet  = $this->validator($input);
-			}
-		    else if($input instanceof ScalarInput)
-			{
-		    	$bRet  = ($this->validator == $input->getValue());
-			}
-			else
-			{
-				throw new \Exception('Invalid Input Type is given.');
-			}
-		}
+		//
+		$bRet  = $this->validator->validate($input);
 
 		if(!is_bool($bRet))
 		{
