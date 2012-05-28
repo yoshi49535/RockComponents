@@ -210,9 +210,9 @@ abstract class SessionManager
 	 */
 	public function removeSession(ISession $session)
 	{
-		$index = in_array($session, $this->sessions);
-
-		unset($this->sessions[$index]);
+		$index = array_search($session, $this->sessions);
+		if(false !== $index)
+			$this->remove($index);
 	}
 
 	/**

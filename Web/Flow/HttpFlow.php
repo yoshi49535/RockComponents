@@ -119,11 +119,9 @@ class HttpFlow extends Flow
 		{
 			$last = $traversal->getTrail()->last()->current();
 
-			if($last->isEndPoint())
-			{
-				// remove from session
+			// remove from session on EndPoint
+			if($last->isEndPoint() && !$traversal->getOutput()->needRedirect())
 				$traversal->getSession()->delete();
-			}
 		}
 	}
 

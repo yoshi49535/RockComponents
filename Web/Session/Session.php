@@ -110,5 +110,7 @@ class Session extends ParameterBagContainer
 	public function delete()
 	{
 		$this->getManager()->removeSession($this);
+
+		$this->getManager()->save();
 	}
 }

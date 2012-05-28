@@ -114,6 +114,10 @@ abstract class TreeBuilder extends BaseBuilder
 		if(!$definition->getClass() || ($definition->getClass() === '_default'))
 			$definition->setClass($this->getFlowClass());
 
+		$definition->addCall(new Call(
+			'setName', 
+			array($node->getName())
+		));
 		// Add Call to initialize Flow
 		$definition->addCall(new Call(
 			'setPath',
