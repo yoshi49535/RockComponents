@@ -15,7 +15,7 @@
  *
  ****/
 // @namespace
-namespace Rock\Component\Flow\Exception;
+namespace Rock\Component\Web\Exception;
 
 /**
  * RedirectException 
