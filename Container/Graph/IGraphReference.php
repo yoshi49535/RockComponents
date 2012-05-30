@@ -13,10 +13,9 @@
  * $Copyrights$
  *
  ****/
-namespace Rock\Component\Web\Page;
-
+namespace Rock\Component\Container\Graph;
 /**
- * IPage 
+ * IGraphReference 
  * 
  * @package 
  * @version $id$
@@ -24,30 +23,22 @@ namespace Rock\Component\Web\Page;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-interface IPage
+interface IGraphReference
 {
 	/**
-	 * getUrl 
-	 * 
-	 * @param array $params 
-	 * @access public
-	 * @return void
-	 */
-	function getUrl(array $params = array());
-
-	/**
-	 * getPage 
+	 * getReferencedGraph 
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	function getName();
-
+	function getReferencedGraph();
 	/**
-	 * createProxy 
-	 *   Create Proxy Page
+	 * setReferencedGraph 
+	 * 
+	 * @param IGraph $graph 
 	 * @access public
-	 * @return IPageProxy
+	 * @return void
 	 */
-	function createProxy(array $params = array());
+	function setReferencedGraph(IGraph $graph);
+
 }

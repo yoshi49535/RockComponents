@@ -44,9 +44,9 @@ abstract class Automaton
 	 * path
 	 * 
 	 * @var IAutomatonPath
-	 * @access protected
+	 * @access private
 	 */
-	protected $path;
+	private $path;
 
 	/**
 	 * componentAliases
@@ -54,9 +54,9 @@ abstract class Automaton
 	 *   This is not affect any, so you do not need to regist. 
 	 * 
 	 * @var mixed
-	 * @access protected
+	 * @access private 
 	 */
-	protected $aliasComponents;
+	private $aliasComponents;
 
 	/**
 	 * __construct 

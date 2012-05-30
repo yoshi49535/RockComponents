@@ -35,9 +35,9 @@ class Traversal extends BaseTraversal
 	 * keepAlive 
 	 * 
 	 * @var mixed
-	 * @access protected
+	 * @access private
 	 */
-	protected $keepAlive;
+	private $keepAlive;
 
 	/**
 	 * __construct 
@@ -82,6 +82,12 @@ class Traversal extends BaseTraversal
 	}
 
 
+	/**
+	 * initOutput 
+	 * 
+	 * @access protected
+	 * @return void
+	 */
 	protected function initOutput()
 	{
 		$this->output = new Output($this->getOwner());

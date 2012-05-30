@@ -186,6 +186,7 @@ abstract class TreeBuilder extends BaseBuilder
 			'setAliasComponent',
 			array($node->getName(), $definition->getReference())
 		));
+
 		return $definition;
 	}
 	/**

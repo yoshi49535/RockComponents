@@ -69,9 +69,9 @@ class Page extends State
 	 */
 	public function handle(IFlowTraversal $traversal)
 	{
-		$input = $traversal->getInput();
+		$in = $traversal->getInput();
 		// Use Redirect or not
-		if($input->useRedirection() && ($input->getRequestedDirection() !== null))
+		if($in->useRedirection() && ($in->getRequestedDirection() !== null))
 		{
 			$output  = $traversal->getOutput();
 			$output->setRedirectTo($this);
@@ -80,5 +80,17 @@ class Page extends State
 		{
 			parent::handle($traversal);
 		}
+	}
+
+	/**
+	 * createProxy 
+	 * 
+	 * @param array $params 
+	 * @access public
+	 * @return void
+	 */
+	public function createProxy(array $params = array())
+	{
+		return new ProxyPage($this);
 	}
 }

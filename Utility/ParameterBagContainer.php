@@ -52,9 +52,9 @@ class ParameterBagContainer
 	 * @access public
 	 * @return void
 	 */
-	public function get($name)
+	public function get($name, $default = null)
 	{
-		return $this->params[$name];
+		return $this->params->get($name, $default);
 	}
 
 	/**

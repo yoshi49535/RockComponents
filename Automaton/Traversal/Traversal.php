@@ -40,15 +40,15 @@ class Traversal
 	 * owner 
 	 * 
 	 * @var IAutomaton
-	 * @access protected
+	 * @access private
 	 */
-	protected $owner;
+	private $owner;
 
 	/**
 	 * input 
 	 * 
 	 * @var mixed
-	 * @access protected
+	 * @access private
 	 */
 	protected $input;
 
@@ -56,7 +56,7 @@ class Traversal
 	 * output 
 	 * 
 	 * @var mixed
-	 * @access protected
+	 * @access private
 	 */
 	protected $output;
 
@@ -64,7 +64,7 @@ class Traversal
 	 * trail 
 	 * 
 	 * @var mixed
-	 * @access protected
+	 * @access private
 	 */
 	protected $trail;
 
@@ -164,9 +164,10 @@ class Traversal
 	public function getTrail()
 	{
 		if(!$this->trail)
-			$this->trail  = $this->owner->getPath()->createTrail();
+			$this->trail  = $this->getOwner()->getPath()->createTrail();
 		return $this->trail;
 	}
+
 	/**
 	 * reset 
 	 * 
@@ -179,4 +180,5 @@ class Traversal
 
 		$this->initOutput();
 	}
+
 }

@@ -81,7 +81,7 @@ class HttpTraversal extends Traversal
 	public function doCleanSession()
 	{
 		// clean session 
-		$this->getSession()->set('trail', $this->trail->pack());
+		$this->getSession()->set('trail', $this->getTrail()->pack());
 	}
 
 	/**

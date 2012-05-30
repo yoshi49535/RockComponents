@@ -34,11 +34,25 @@ class Path extends AbstractPath
   implements
     IPath
 {
+	/**
+	 * __construct 
+	 * 
+	 * @param ITree $tree 
+	 * @access public
+	 * @return void
+	 */
 	public function __construct(ITree $tree)
 	{
 		parent::__construct($tree);
 	}
 
+	/**
+	 * enque 
+	 * 
+	 * @param mixed $component 
+	 * @access public
+	 * @return void
+	 */
 	public function enque($component)
 	{
 		$this->enqueComponent($component);

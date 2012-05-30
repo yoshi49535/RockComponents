@@ -82,6 +82,27 @@ class FlowPathNode extends Node
 		return $node;
 	}
 
+	/**
+	 * path 
+	 *   Add Inner Graph as GraphReferenceNode
+	 * @param mixed $name 
+	 * @access public
+	 * @return void
+	 */
+	public function path($name)
+	{
+		// Create DefinitionNode for InnerPathReferenceState
+		$this->addChild($node = $this->getTree()->getNodeFactory()->create('component'));
+
+		$node->setName($name);
+		$node->setComponentType(FlowPathComponentNode::TYPE_INNER_PATH);
+
+		// Create Path Node as Child of PathReferenceState
+		$node->addChild($path = $this->getTree()->getNodeFactory()->create('path'));
+
+		return $node;
+	}
+
 	public function getDelegatorProvider()
 	{
 		return $this->getParent()->getDelegatorProvider();

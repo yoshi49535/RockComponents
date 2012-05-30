@@ -46,6 +46,8 @@ class Flow extends FiniteAutomaton
   implements
 	IFlow
 {
+	private $defaultInputs  = array();
+
 	/**
 	 * initWithAttribute 
 	 * 
@@ -209,6 +211,9 @@ class Flow extends FiniteAutomaton
 	 */
 	public function handle(IInput $input, ITraversal $traversal = null)
 	{
+		// Merge with Defaults
+		$input->getParameterBag()->replaceAll(array_merge($this->defaultInputs, $input->all()));
+
 		$exception = null;
 		try
 		{
@@ -242,6 +247,7 @@ class Flow extends FiniteAutomaton
 		}
 		catch (\Exception $ex)
 		{
+			throw $ex;
 			$traversal->getOutput()->fail();
 			// Failed on some
 			$exception = new HandleException($this, 'Failed to handle flow.', 0, $ex);
@@ -264,11 +270,34 @@ class Flow extends FiniteAutomaton
 	 */
 	public function getPath()
 	{
-		if(!$this->path)
+		$path = parent::getPath();
+		if(!$path)
 		{
 			throw new InitializeException('Failed to initialize Flow Path.');
 		}
-		return $this->path;
+		return $path;
+	}
+
+	/**
+	 * addDefaults 
+	 * 
+	 * @param array $defaults 
+	 * @access public
+	 * @return void
+	 */
+	public function addDefaults(array $defaults = array())
+	{
+		$this->defaultInputs  = array_merge($this->defaultInputs, $defaults);
+	}
+
+	public function setDefaults(array $defaults = array())
+	{
+		$this->defaultInputs = $defaults;
+	}
+
+	public function getDefaults()
+	{
+		return $this->defaultInputs;
 	}
 
 }
