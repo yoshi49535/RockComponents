@@ -29,17 +29,22 @@ use Rock\Component\Web\Page\IPage;
  */
 class PageStack
 {
-	protected $pages;
 	/**
-	 * __construct 
+	 * pages 
 	 * 
-	 * @access public
-	 * @return void
+	 * @var mixed
+	 * @access protected
 	 */
-	public function __construct()
-	{
-		$this->pages = array();
-	}
+	private $pages = array();
+
+	/**
+	 * observers 
+	 * 
+	 * @var array
+	 * @access private
+	 */
+	private $observers = array();
+
 	
 	/**
 	 * top 
@@ -62,6 +67,8 @@ class PageStack
 	public function push(IPage $page)
 	{
 		array_push($this->pages, $page);
+		
+		$this->notifyAll();
 	}
 
 	/**
@@ -72,7 +79,10 @@ class PageStack
 	 */
 	public function pop()
 	{
-		return array_pop($this->pages);
+		$poped = array_pop($this->pages);
+
+		$this->notifyAll();
+		return $poped;
 	}
 
 	/**
@@ -84,5 +94,23 @@ class PageStack
 	public function count()
 	{
 		return count($this->pages);
+	}
+
+
+	public function addObserver(IPageStackObserver $observer)
+	{
+		$this->observers[]  = $observer;
+	}
+
+	public function removeObserver(IPageStackObserver $observer)
+	{
+		if(false !== ($index = array_search($observer, $this->observers)))
+			unset($this->observers[$index]);
+	}
+
+	public function notifyAll()
+	{
+		foreach($this->observers as $observer)
+			$observer->notify();
 	}
 }
