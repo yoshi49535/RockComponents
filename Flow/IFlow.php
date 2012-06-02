@@ -33,6 +33,19 @@ use Rock\Component\Automaton\Traversal\ITraversal;
  */
 interface IFlow extends IAutomaton
 {
+	const UNIQUE_BY_NAME   = 'name';
+	const UNIQUE_BY_SEQ_ID = 'id';
+
+
+	/**
+	 * initWithAttributes 
+	 * 
+	 * @param array $attributes 
+	 * @access public
+	 * @return void
+	 */
+	function initWithAttributes(array $attributes = array());
+
 	/**
 	 * handle 
 	 *   From Input, detect the direction of execute automaton, and 

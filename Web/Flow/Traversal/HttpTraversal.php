@@ -70,6 +70,16 @@ class HttpTraversal extends Traversal
 		$this->session  = $session;
 
 		$this->session->addCleanFunction(array($this, 'doCleanSession'));
+
+		if(0 === ($expire = $this->session->get('expires')))
+		{
+			// skip
+		}
+		else if(time() > $expire)
+		{
+			// Make the value empty
+			$this->session->getParameterBag()->replaceAll(array());
+		}
 	}
 
 	/**
@@ -82,6 +92,12 @@ class HttpTraversal extends Traversal
 	{
 		// clean session 
 		$this->getSession()->set('trail', $this->getTrail()->pack());
+
+		$ttl  = $this->getInput()->get('ttl', 0);
+		if($ttl > 0)
+			$this->getSession()->set('expires', time() + $ttl);
+		else
+			$this->getSession()->set('expires', 0); 
 	}
 
 	/**

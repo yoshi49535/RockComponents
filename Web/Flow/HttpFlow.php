@@ -51,10 +51,6 @@ class HttpFlow extends Flow
   implements 
     IHttpFlow
 {
-	/**
-	 *
-	 */
-	protected $name;
 
 	/**
 	 *
@@ -68,13 +64,10 @@ class HttpFlow extends Flow
 	 * @access public
 	 * @return void
 	 */
-	public function initWithAttributes($attributes = array())
+	public function initWithAttributes(array $attributes = array())
 	{
 		parent::initWithAttributes($attributes);
 
-		if(isset($attributes['name']))
-			$this->setName($attributes['name']);
-		//
 	}
 	/**
 	 *
@@ -175,26 +168,4 @@ class HttpFlow extends Flow
 		return new HttpTraversal($this, $session);
 	}
 
-	/**
-	 * getName 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
-
-	/**
-	 * setName 
-	 * 
-	 * @param mixed $name 
-	 * @access public
-	 * @return void
-	 */
-	public function setName($name)
-	{
-		$this->name  = $name;
-	}
 }

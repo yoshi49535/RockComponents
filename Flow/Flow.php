@@ -46,7 +46,37 @@ class Flow extends FiniteAutomaton
   implements
 	IFlow
 {
+	/**
+	 * defaultInputs 
+	 * 
+	 * @var array
+	 * @access private
+	 */
 	private $defaultInputs  = array();
+
+	/**
+	 * uniqueBy 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $uniqueBy  = IFlow::UNIQUE_BY_NAME;
+
+	/**
+	 * name 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $name;
+
+	/**
+	 * id 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $id;
 
 	/**
 	 * initWithAttribute 
@@ -55,9 +85,24 @@ class Flow extends FiniteAutomaton
 	 * @access public
 	 * @return void
 	 */
-	public function initWithAttributes($attributes = array())
+	public function initWithAttributes(array $attributes = array())
 	{
-
+		// 
+		if(array_key_exists('name', $attributes))
+			$this->setName($attributes['name']);
+		// Flow Uniqueness Strategy 
+		if(array_key_exists('uniqueBy',$attributes))
+			switch($attributes['uniqueBy'])
+			{
+			case IFlow::UNIQUE_BY_SEQ_ID:
+			case IFlow::UNIQUE_BY_NAME:
+				$this->uniqueBy = $attributes['uniqueBy'];
+				break;
+			default:
+				break;
+			}
+		if(array_key_exists('seq_id', $attributes))
+			$this->setSequentialId($attributes['seq_id']);
 	}
 
 	/**
@@ -298,6 +343,94 @@ class Flow extends FiniteAutomaton
 	public function getDefaults()
 	{
 		return $this->defaultInputs;
+	}
+
+	/**
+	 * getName 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
+
+	/**
+	 * setName 
+	 * 
+	 * @param mixed $name 
+	 * @access public
+	 * @return void
+	 */
+	public function setName($name)
+	{
+		$this->name  = $name;
+	}
+
+	/**
+	 * generateId 
+	 * 
+	 * @access protected
+	 * @return void
+	 */
+	protected function generateId()
+	{
+		return md5($this->getName().time());
+	}
+	/**
+	 * setSequentialId 
+	 * 
+	 * @param mixed $id 
+	 * @access public
+	 * @return void
+	 */
+	public function setSequentialId($id)
+	{
+		$this->id  = $id;
+	}
+	/**
+	 * getSequentialId 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getSequentialId()
+	{
+		if(!$this->id)
+			$this->id   = $this->generateId();
+		return $this->id;
+	}
+
+	/**
+	 * getUniqueBy 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getUniqueBy()
+	{
+		return $this->uniqueBy;
+	}
+
+	/**
+	 * getIdentifier 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getIdentifier()
+	{
+		switch($this->getUniqueBy())
+		{
+		case IFlow::UNIQUE_BY_SEQ_ID:
+			return $this->getSequentialId();
+			break;
+		case IFlow::UNIQUE_BY_NAME:
+		default:
+			return $this->getName();
+			break;
+		}
 	}
 
 }

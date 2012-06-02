@@ -148,6 +148,6 @@ class State extends NamedState
 	 */
 	public function __toString()
 	{
-		return sprintf('Graph Vertex[%s][name=%s] on %s', get_class($this), $this->getName(), $this->getGraph());
+		return $this->getName();
 	}
 }

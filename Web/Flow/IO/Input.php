@@ -49,6 +49,11 @@ class Input extends BaseInput
 		if(!$direction)
 			$direction = Directions::CURRENT;
 		parent::__construct($direction, $params);
+
+
+		if(array_key_exists('useCleanUrl', $params) && (false === $params['useCleanUrl']))
+			$this->setRedirectionSetting(false);
+
 	}
 	/**
 	 *
