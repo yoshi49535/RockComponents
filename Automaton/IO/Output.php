@@ -137,7 +137,10 @@ class Output
 	 */
 	public function assign($name)
 	{
-		$this->assigns[] = $name;
+		$args = func_get_args();
+		
+		foreach($args as $arg)
+			$this->assigns[] = $arg;
 	}
 
 	/**

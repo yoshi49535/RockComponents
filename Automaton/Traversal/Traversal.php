@@ -212,6 +212,25 @@ class Traversal extends ParameterBagContainer
 		return $this->getInput()->get($name, $default);
 	}
 
+	/**
+	 * all 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function all()
+	{
+		return array_merge($this->input->all(), parent::all());
+	}
+
+	/**
+	 * setAndAssign 
+	 * 
+	 * @param mixed $name 
+	 * @param mixed $value 
+	 * @access public
+	 * @return void
+	 */
 	public function setAndAssign($name, $value)
 	{
 		$this->set($name, $value);
