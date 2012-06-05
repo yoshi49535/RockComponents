@@ -306,7 +306,7 @@ class Flow extends FiniteAutomaton
 		
 		//return $traversal->getOutput();
 		$output = $traversal->getOutput();
-		if(!$output instanceof ICompiledOutput)
+		if(!$output->isCompiled())
 			return $output->compile($traversal->all());
 		return $output;
 	}

@@ -76,6 +76,12 @@ class Traversal extends BaseTraversal
 	}
 
 
+	/**
+	 * isHandled 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function isHandled()
 	{
 		return ($this->getOutput()->getTrail()) > 0;

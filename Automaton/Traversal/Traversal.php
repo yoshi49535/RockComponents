@@ -211,4 +211,10 @@ class Traversal extends ParameterBagContainer
 
 		return $this->getInput()->get($name, $default);
 	}
+
+	public function setAndAssign($name, $value)
+	{
+		$this->set($name, $value);
+		$this->getOutput()->assign($name);
+	}
 }
