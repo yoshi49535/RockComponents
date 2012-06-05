@@ -32,7 +32,7 @@ use Rock\Component\Automaton\IO\Output;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-class Traversal 
+class Traversal extends ParameterBagContainer
   implements 
     ITraversal
 {
@@ -75,8 +75,9 @@ class Traversal
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(IAutomaton $owner)
+	public function __construct(IAutomaton $owner, $params = array())
 	{
+		parent::__construct($params);
 		$this->owner  = $owner;
 	}
 
@@ -181,4 +182,30 @@ class Traversal
 		$this->initOutput();
 	}
 
+	/**
+	 * has 
+	 * 
+	 * @param mixed $name 
+	 * @access public
+	 * @return void
+	 */
+	public function has($name)
+	{
+		return parent::has($name) || $this->getInput()->has($name);
+	}
+	/**
+	 * get 
+	 * 
+	 * @param mixed $name 
+	 * @param mixed $default 
+	 * @access public
+	 * @return void
+	 */
+	public function get($name, $default = null)
+	{
+		if(parent::has($name))
+			return parent::get($name);
+
+		return $this->getInput()->get($name, $default);
+	}
 }

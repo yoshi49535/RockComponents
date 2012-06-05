@@ -19,15 +19,20 @@
 namespace Rock\Component\Automaton\IO;
 // <Interface>
 use Rock\Component\Automaton\IO\IInput;
+// extends 
+use Rock\Component\Utility\ParameterBagContainer;
 
 /**
  *
  */
-class Input extends BaseIO
+class Input extends ParameterBagContainer
   implements 
     IInput
 {
-
+	public function __construct($params = array())
+	{
+		parent::__construct($params);
+	}
 	/**
 	 * getValue 
 	 * 

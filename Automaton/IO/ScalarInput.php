@@ -39,9 +39,9 @@ class ScalarInput extends Input
 	 * @access public
 	 * @return void
 	 */
-	public function __construct($value, $direction = Directions::FORWARD)
+	public function __construct($value, $direction = Directions::FORWARD, $params = array())
 	{
-		parent::__construct($direction);
+		parent::__construct($direction, $params);
 
 		$this->value  = $value;
 	}

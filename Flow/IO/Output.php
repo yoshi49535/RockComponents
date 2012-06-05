@@ -43,13 +43,12 @@ class Output extends BaseOutput
 	 * __construct 
 	 * 
 	 * @param IFlow $owner 
-	 * @param array $params 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(IFlow $owner, $params = array())
+	public function __construct(IFlow $owner)
 	{
-		parent::__construct($owner, $params);
+		parent::__construct($owner);
 	}
 
 	/**

@@ -31,7 +31,7 @@ use Rock\Component\Automaton\Path\Trail\ITrail;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license 
  */
-class Output extends BaseIO 
+class Output
   implements
     IOutput
 {
@@ -58,9 +58,8 @@ class Output extends BaseIO
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(IAutomaton $owner, $params = array())
+	public function __construct(IAutomaton $owner)
 	{
-		parent::__construct($params);
 		$this->owner  = $owner;
 	}
 
