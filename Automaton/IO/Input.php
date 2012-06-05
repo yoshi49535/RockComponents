@@ -25,7 +25,7 @@ use Rock\Component\Utility\ParameterBagContainer;
 /**
  *
  */
-class Input extends ParameterBagContainer
+class Input extends BaseIO
   implements 
     IInput
 {

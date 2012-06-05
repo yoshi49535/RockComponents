@@ -22,6 +22,9 @@ use Rock\Component\Automaton\IAutomaton;
 use Rock\Component\Automaton\IO\IInput;
 use Rock\Component\Automaton\IO\IOutput;
 use Rock\Component\Automaton\IO\Output;
+use Rock\Component\Automaton\IO\CompiledOutput;
+
+use Rock\Component\Utility\ParameterBagContainer;
 
 /**
  * Traversal 

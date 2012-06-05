@@ -22,6 +22,7 @@ use Rock\Component\Automaton\IAutomaton;
 // @use Path Component
 use Rock\Component\Automaton\Path\Trail\ITrail;
 
+use Rock\Component\Utility\Bag\ParameterBag;
 /**
  * Output 
  * 
@@ -39,18 +40,42 @@ class Output
 	 * owner 
 	 * 
 	 * @var mixed
-	 * @access protected
+	 * @access private
 	 */
-	protected $owner;
+	private $owner;
 
 	/**
 	 * trail 
 	 * 
 	 * @var mixed
-	 * @access protected
+	 * @access private
 	 */
-	protected $trail;
+	private $trail;
 
+	/**
+	 * assigns 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $assigns;
+
+	/**
+	 * params 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $params;
+
+
+	/**
+	 * compiled 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $compiled;
 	/**
 	 * __construct 
 	 * 
@@ -61,6 +86,10 @@ class Output
 	public function __construct(IAutomaton $owner)
 	{
 		$this->owner  = $owner;
+		$this->trail  = null;
+		$this->assigns= array();
+		$this->compiled = false;
+		$this->params = new ParameterBag();
 	}
 
 	/**
@@ -97,5 +126,102 @@ class Output
 	public function getOwner()
 	{
 		return $this->owner;
+	}
+
+	/**
+	 * assign 
+	 * 
+	 * @param mixed $name 
+	 * @access public
+	 * @return void
+	 */
+	public function assign($name)
+	{
+		$this->assigns[] = $name;
+	}
+
+	/**
+	 * getAssigns 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getAssigns()
+	{
+		return $this->assigns;
+	}
+
+	/**
+	 * compile 
+	 * 
+	 * @param array $params 
+	 * @access public
+	 * @return void
+	 */
+	public function compile(array $params = array())
+	{
+		$params = array_intersect_key($params, array_flip($this->getAssigns()));
+
+		$this->replaceParameters($params);
+		$this->compiled  = true;
+
+		return $this;
+	}
+
+	/**
+	 * replaceParameters 
+	 * 
+	 * @param array $params 
+	 * @access protected
+	 * @return void
+	 */
+	protected function replaceParameters($params = array())
+	{
+		$this->params->replaceAll($params);
+	}
+	/**
+	 * has 
+	 * 
+	 * @param mixed $name 
+	 * @access public
+	 * @return void
+	 */
+	public function has($name)
+	{
+		if(!$this->compiled)
+			throw new \Exception('Output is not compiled yet.');
+		return $this->params->has($name);
+	}
+
+	/**
+	 * get 
+	 * 
+	 * @param mixed $name 
+	 * @access public
+	 * @return void
+	 */
+	public function get($name)
+	{
+		if(!$this->compiled)
+			throw new \Exception('Output is not compiled yet.');
+		return $this->params->get($name);
+	}
+
+	/**
+	 * all 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function all()
+	{
+		if(!$this->compiled)
+			throw new \Exception('Output is not compiled yet.');
+		return $this->params->all();
+	}
+
+	public function isCompiled()
+	{
+		return $this->compiled;
 	}
 }

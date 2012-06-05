@@ -92,4 +92,5 @@ class Traversal extends BaseTraversal
 	{
 		$this->output = new Output($this->getOwner());
 	}
+
 }

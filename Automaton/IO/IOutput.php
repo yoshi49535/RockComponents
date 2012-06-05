@@ -45,4 +45,45 @@ interface IOutput
 	 * @return void
 	 */
 	function getTrail();
+
+	/**
+	 * assign 
+	 * 
+	 * @param mixed $name 
+	 * @access public
+	 * @return void
+	 */
+	function assign($name);
+
+	/**
+	 * isCompiled
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function isCompiled();
+
+
+	/**
+	 * has
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function has($name);
+	/**
+	 * get
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function get($name);
+
+	/**
+	 * all
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function all();
 }
