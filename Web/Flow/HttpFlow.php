@@ -115,7 +115,7 @@ class HttpFlow extends Flow
 			// remove from session on EndPoint
 			if($last->isEndPoint() && !$traversal->getOutput()->needRedirect())
 			{
-				if($traversal->getInput()->get('cleanOnComplete', true))
+				if($traversal->get('cleanOnComplete', true))
 					$traversal->getSession()->delete();
 			}
 		}

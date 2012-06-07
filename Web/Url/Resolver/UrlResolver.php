@@ -31,6 +31,18 @@ class UrlResolver
 		if(is_array($tokens))
 			$this->tokens = $tokens;
 	}
+
+	/**
+	 * hasToken 
+	 * 
+	 * @param mixed $key 
+	 * @access public
+	 * @return void
+	 */
+	public function hasToken($key)
+	{
+		return array_key_exists($key, $this->tokens);
+	}
 	/**
 	 * getToken 
 	 * 
@@ -56,6 +68,12 @@ class UrlResolver
 		$this->token[$key] = $token;
 	}
 
+	/**
+	 * getTokens 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function getTokens()
 	{
 		return $this->tokens;
