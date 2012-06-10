@@ -91,5 +91,19 @@ abstract class Delegator
 
 		return $this->delegate($args);
 	}
+
+	/**
+	 * merge 
+	 * 
+	 * @param Delegator $other 
+	 * @access public
+	 * @return void
+	 */
+	public function merge(IDelegator $other)
+	{
+		return new CompositeDelegator(array($this, $other));
+	}
 }
+
+
 

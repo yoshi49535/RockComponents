@@ -172,13 +172,21 @@ abstract class TreeBuilder extends BaseBuilder
 
 			$provider = $this->getContainer()->getReferenceOf($provider);
 			//
-			$definition->addCall(new Call(
-				'initDelegatorWithProvider',
-				array(
+			if(is_array($delegate))
+			{
+			  //$definition->addCall(new Call(
+			  //  ''
+			}
+			else
+			{
+			  $definition->addCall(new Call(
+			    'addDelegatorWithProvider',
+			    array(
 					$provider, 
 					array('method' => $delegate)
 				)
-			));
+			  ));
+			}
 		}
 		
 		// Regist Alias on Flow

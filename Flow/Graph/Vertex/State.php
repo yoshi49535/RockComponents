@@ -73,21 +73,28 @@ class State extends NamedState
 	 * @access public
 	 * @return void
 	 */
-	public function initDelegatorWithProvider(IDelegatorProvider $provider, $params = array())
+	public function addDelegatorWithProvider(IDelegatorProvider $provider, $params = array())
 	{
-		$this->setDelegator($provider->createDelegator($params));
+		$this->addDelegator($provider->createDelegator($params));
 	}
 
+	public function setDelegator(IDelegator $delegator)
+	{
+		$this->delegator = $delegator;
+	}
 	/**
-	 * setDelegator 
+	 * addDelegator 
 	 * 
 	 * @param IDelegator $delegator 
 	 * @access public
 	 * @return void
 	 */
-	public function setDelegator(IDelegator $delegator)
+	public function addDelegator(IDelegator $delegator)
 	{
-		$this->delegator = $delegator;
+		if($this->delegator)
+			$this->delegator = $this->delegator->merge($delegator);
+		else
+			$this->delegator = $delegator;
 	}
 	/**
 	 * getDelegator 

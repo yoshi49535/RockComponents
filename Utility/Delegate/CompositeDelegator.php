@@ -132,4 +132,16 @@ class CompositeDelegator
 		}
 		return sprintf('CompositeDelegator:{size=%d, children=[%s]}', count($this->children), implode(', ', $childLogs));
 	}
+
+	/**
+	 * merge 
+	 * 
+	 * @param IDelegator $delegator 
+	 * @access public
+	 * @return void
+	 */
+	public function merge(IDelegator $delegator)
+	{
+		return $this->add($delegator);
+	}
 }

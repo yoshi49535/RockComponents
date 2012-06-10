@@ -40,12 +40,22 @@ class Condition extends NamedCondition
 	 * @access public
 	 * @return void
 	 */
-	public function initDelegatorWithProvider(IDelegatorProvider $provider, $params = array())
+	public function addDelegatorWithProvider(IDelegatorProvider $provider, $params = array())
 	{
 		$params['resultStrategy'] = 'Rock\\Component\\Utility\\ArrayConverter\\ArrayToAndBoolConverter';
-		$this->setValidator($provider->createDelegator($params));
+		$this->addDelegator($provider->createDelegator($params));
 	}
 
+	public function addDelegator(IDelegator $delegator)
+	{
+		$temp = $this->getDelegator();
+		if($temp)
+			$temp = $temp->merge($delegator);
+		else
+			$temp = $delegator;
+
+		$this->setDelegator($temp);
+	}
 	/**
 	 * setDelegator 
 	 * 

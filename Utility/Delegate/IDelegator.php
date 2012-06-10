@@ -44,4 +44,15 @@ interface IDelegator
 	 * @return void
 	 */
 	function delegate(array $args = array(), $invoker = null);
+
+	/**
+	 * merge
+	 *  Return new CompositeDelegator which merge this and other. 
+	 *  This Delegator always before another.
+	 *
+	 * @param IDelegator $other 
+	 * @access public
+	 * @return void
+	 */
+	function merge(IDelegator $other);
 }

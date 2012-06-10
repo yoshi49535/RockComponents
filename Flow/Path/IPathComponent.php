@@ -35,15 +35,23 @@ interface IPathComponent extends IAutomatonPathComponent
 {
 	
 	/**
-	 * initDelegatorWithProvider 
+	 * addDelegatorWithProvider 
 	 * 
 	 * @param IDelegatorProvider $provider 
 	 * @param array $params 
 	 * @access public
 	 * @return void
 	 */
-	function initDelegatorWithProvider(IDelegatorProvider $provider, $params = array());
+	function addDelegatorWithProvider(IDelegatorProvider $provider, $params = array());
 
+	/**
+	 * addDelegator 
+	 * 
+	 * @param IDelegator $delegator 
+	 * @access public
+	 * @return void
+	 */
+	function addDelegator(IDelegator $delegator);
 	/**
 	 * setDelegator 
 	 * 
