@@ -162,30 +162,40 @@ abstract class TreeBuilder extends BaseBuilder
 			break;
 		}
 
-		// add Call
-		// 
-		if($delegate = $node->getDelegateMethod())
+		// add Call for Delegates
+		if($delegates= $node->getDelegates())
 		{
+			// Default Provider
 			$provider = $node->getDelegatorProvider();
-			if(!$provider)
-				throw new DefinitionException('Node cannot delegate without DelegatorProvider. Please specify with FlowPathComponentNode::provider() first');
+			if($provider)
+				$provider = $this->getContainer()->getReferenceOf($provider);
 
-			$provider = $this->getContainer()->getReferenceOf($provider);
-			//
-			if(is_array($delegate))
+
+			foreach($delegates as $delegate)
 			{
-			  //$definition->addCall(new Call(
-			  //  ''
-			}
-			else
-			{
-			  $definition->addCall(new Call(
-			    'addDelegatorWithProvider',
-			    array(
-					$provider, 
-					array('method' => $delegate)
-				)
-			  ));
+				//
+				if(is_array($delegate))
+				{
+					$definition->addCall(new Call(
+						'addDelegatorWithProvider',
+						array(
+							$this->getContainer()->getReferenceOf($delegate[0]),
+							array('method' => $delegate[1])
+						)
+					));
+				}
+				else
+				{
+					if(!$provider)
+						throw new DefinitionException('Node cannot delegate without DelegatorProvider. Please specify with FlowPathComponentNode::provider() first');
+					$definition->addCall(new Call(
+						'addDelegatorWithProvider',
+						array(
+							$provider, 
+							array('method' => $delegate)
+						)
+					));
+				}
 			}
 		}
 		

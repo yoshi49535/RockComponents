@@ -19,6 +19,7 @@ namespace Rock\Component\Flow\Graph\Edge;
 use Rock\Component\Automaton\Graph\Edge\NamedCondition;
 // @use 
 use Rock\Component\Utility\Delegate\IDelegatorProvider;
+use Rock\Component\Utility\Delegate\IDelegator;
 
 /**
  * Condition 

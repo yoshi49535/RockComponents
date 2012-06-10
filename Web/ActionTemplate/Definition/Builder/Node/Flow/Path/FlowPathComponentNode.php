@@ -33,12 +33,12 @@ class FlowPathComponentNode extends Node
 	 */
 	protected $provider;
 	/**
-	 * delegate 
+	 * delegates
 	 * 
-	 * @var mixed
+	 * @var array
 	 * @access protected
 	 */
-	protected $delegate;
+	protected $delegates;
 	/**
 	 * type 
 	 * 
@@ -80,38 +80,30 @@ class FlowPathComponentNode extends Node
 	}
 
 	/**
-	 * getDelegateMethod 
+	 * addDelegate 
 	 * 
+	 * @param mixed $delegate
 	 * @access public
 	 * @return void
 	 */
-	public function getDelegateMethod()
+	public function addDelegate($delegate)
 	{
-		return $this->delegate;
-	}
-	/**
-	 * setDelegate 
-	 * 
-	 * @param mixed $object 
-	 * @param mixed $method 
-	 * @access public
-	 * @return void
-	 */
-	public function setDelegateMethod($method)
-	{
-		$this->delegate = $method;
+		$this->delegates[] = $delegate;
 	}
 
 	/**
 	 * delegate 
 	 * 
-	 * @param mixed $method 
+	 * @param mixed.. $arg1
 	 * @access public
 	 * @return void
 	 */
-	public function delegate($method)
+	public function delegate($arg1)
 	{
-		$this->setDelegateMethod($method);
+		if(1 === count($args = func_get_args()))
+			$this->addDelegate($args[0]);
+		else 
+			$this->addDelegate(array($args[0], $args[1]));
 
 		return $this;
 	}
@@ -147,6 +139,10 @@ class FlowPathComponentNode extends Node
 		}
 	}
 
+	public function getDelegates()
+	{
+		return $this->delegates;
+	}
 	/**
 	 * getDelegatorProvider 
 	 * 
