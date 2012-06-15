@@ -18,7 +18,7 @@
 // @namespace
 namespace Rock\Component\Automaton\Path\Condition\Validator;
 // @use Input Interface
-use Rock\Component\Automaton\Input\IInput;
+use Rock\Component\Automaton\Traversal\ITraversal;
 use Rock\Component\Automaton\Input\IScalarInput;
 
 /**
@@ -52,8 +52,9 @@ class ScalarCompareValidator
 		return $bValid;
 	}
 
-	public function __invoke(IInput $input)
+	public function __invoke(ITraversal $traversal)
 	{
+		$input = $traversal->getInput();
 		if($input instanceof IScalarInput)
 		{
 			return $this->isValid($input->getValue());

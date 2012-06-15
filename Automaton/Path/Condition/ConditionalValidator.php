@@ -91,22 +91,22 @@ class ConditionalValidator
 	 * @access public
 	 * @return void
 	 */
-	public function validate($input)
+	public function validate($traversal)
 	{
 		$bRet  = true;
 		if(null !== $this->validateMethod)
 		{
 			if($this->validateMethod instanceof Validator\IValidator)
 			{
-				$bRet  = $this->validateMethod($input);
+				$bRet  = $this->validateMethod($travresal);
 			}
 		    else if(is_callable($this->validateMethod))
 			{
-		    	$bRet  = call_user_func($this->validateMethod, $input);
+		    	$bRet  = call_user_func($this->validateMethod, $traversal);
 			}
 			else
 			{
-				throw new \Exception('Invalid Input Type is given.');
+				throw new \Exception('Failed on initialize ConditionalValidator.');
 			}
 		}
 

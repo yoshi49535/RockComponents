@@ -18,7 +18,7 @@
 // <Namespace>
 namespace Rock\Component\Automaton\Path\Condition\Validator;
 // <Use> : Automaton Component
-use Rock\Component\Automaton\Input\IInput;
+use Rock\Component\Automaton\Traversal\ITraversal;
 
 /**
  *
@@ -50,7 +50,7 @@ class ClosureValidator
 		$reflection = new \ReflectionFunction($this->closure);
 		if($reflection->getNumberOfParameters() !== 1)
 		{
-			throw new \InvalidArgumentException('The API of Validator Callback must only accept one parameter[IInput] for call.');
+			throw new \InvalidArgumentException('The API of Validator Callback must only accept one parameter[ITraversal] for call.');
 		}
 
 	}
@@ -66,9 +66,9 @@ class ClosureValidator
 	/**
 	 *
 	 */
-	public function __invoke(IInput $input)
+	public function __invoke(ITraversal $traversal)
 	{
-		return call_user_func($this->closure, $input);
+		return call_user_func($this->closure, $traversal);
 	}
 
 	/**

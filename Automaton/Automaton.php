@@ -24,9 +24,6 @@ use Rock\Component\Automaton\Traversal\Traversal;
 // @use Path Components
 use Rock\Component\Automaton\Path\IAutomatonPath;
 
-#use Rock\Component\Automaton\Condition\Factory\ConditionFactory;
-use Rock\Component\Automaton\IO\IInput;
-use Rock\Component\Automaton\IO\Output;
 // @use Automaton Component
 use Rock\Component\Automaton\Path\State\IState;
 use Rock\Component\Automaton\Path\Condition\ICondition;
@@ -125,10 +122,8 @@ abstract class Automaton
 
 	/**
 	 * forward 
-	 *   Evaluate the input and if possible forward the state.
 	 * 
-	 * @param IInput $input 
-	 * @param IState $begin 
+	 * @param ITraversal $traversal 
 	 * @access public
 	 * @return void
 	 */
@@ -158,7 +153,7 @@ abstract class Automaton
 			{
 				if($condition instanceof ICondition)
 				{
-					if($condition->isValid($traversal->getInput()))
+					if($condition->isValid($traversal))
 					{
 						// Push the trail 
 						$trail->push($condition);

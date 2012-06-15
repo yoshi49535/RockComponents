@@ -19,7 +19,7 @@ namespace Rock\Component\Automaton\Path\Condition;
 // @extends
 use Rock\Component\Automaton\Path\IPathComponent;
 // <Use> : Automaton Component
-use Rock\Component\Automaton\IO\IInput;
+use Rock\Component\Automaton\Traversal\ITraversal;
 
 /**
  * ICondition 
@@ -35,11 +35,11 @@ interface ICondition extends IPathComponent
 	/**
 	 * isValid 
 	 * 
-	 * @param IInput $input 
+	 * @param ITravresal $traversal 
 	 * @access public
 	 * @return void
 	 */
-	function isValid(IInput $input);
+	function isValid(ITravresal $traversal);
 
 	/**
 	 * getSource 

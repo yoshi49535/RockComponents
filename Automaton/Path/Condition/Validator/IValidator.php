@@ -19,9 +19,9 @@
 namespace Rock\Component\Automaton\Path\Condition\Validator;
 
 // <Use> : Automaton Component
-use Rock\Component\Automaton\Input\IInput;
+use Rock\Component\Automaton\Traversal\ITraversal;
 
 interface IValidator
 {
-	public function __invoke(IInput $input);
+	public function __invoke(ITraversal $traversal);
 }

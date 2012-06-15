@@ -24,8 +24,7 @@ use Rock\Component\Automaton\Path\Condition\ICondition;
 use Rock\Component\Automaton\Path\Condition\ConditionalValidator;
 // <Use> : Automaton Component
 use Rock\Component\Automaton\Path\State\IState;
-use Rock\Component\Automaton\IO\IInput;
-use Rock\Component\Automaton\IO\ScalarInput;
+use Rock\Component\Automaton\Traversal\ITraversal;
 // @use Delegate
 use Rock\Component\Utility\Delegate\IDelegator;
 
@@ -97,14 +96,14 @@ class Condition extends Edge
 	/**
 	 * isValid 
 	 * 
-	 * @param IInput $input 
+	 * @param ITraversal $traversal 
 	 * @access public
 	 * @return void
 	 */
-	public function isValid(IInput $input)
+	public function isValid(ITraversal $traversal)
 	{
 		//
-		$bRet  = $this->validator->validate($input);
+		$bRet  = $this->validator->validate($traversal);
 
 		if(!is_bool($bRet))
 		{
