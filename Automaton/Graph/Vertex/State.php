@@ -51,6 +51,16 @@ class State extends Vertex
 	 */
 	protected $isEndPoint;
 
+	public function __construct()
+	{
+		parent::__construct();
+		$this->init();
+	}
+
+	protected function init()
+	{
+
+	}
 
 	/**
 	 * getPath 

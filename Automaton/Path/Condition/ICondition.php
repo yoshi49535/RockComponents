@@ -35,11 +35,11 @@ interface ICondition extends IPathComponent
 	/**
 	 * isValid 
 	 * 
-	 * @param ITravresal $traversal 
+	 * @param ITraversal $traversal 
 	 * @access public
 	 * @return void
 	 */
-	function isValid(ITravresal $traversal);
+	function isValid(ITraversal $traversal);
 
 	/**
 	 * getSource 

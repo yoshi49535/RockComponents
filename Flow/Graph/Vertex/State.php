@@ -78,6 +78,13 @@ class State extends NamedState
 		$this->addDelegator($provider->createDelegator($params));
 	}
 
+	/**
+	 * setDelegator 
+	 * 
+	 * @param IDelegator $delegator 
+	 * @access public
+	 * @return void
+	 */
 	public function setDelegator(IDelegator $delegator)
 	{
 		$this->delegator = $delegator;

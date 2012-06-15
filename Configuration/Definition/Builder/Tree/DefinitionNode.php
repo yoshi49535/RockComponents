@@ -100,6 +100,10 @@ class DefinitionNode extends BaseNode
 	{
 		$this->params->set($name, $value);
 	}
+	public function setParameters(array $values)
+	{
+		$this->params->merge($values);
+	}
 
 	/**
 	 * hasParameter 

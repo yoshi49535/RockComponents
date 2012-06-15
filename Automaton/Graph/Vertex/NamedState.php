@@ -49,7 +49,16 @@ class NamedState extends NamedVertex
 	 * @access protected
 	 */
 	protected $isEndPoint;
+	
+	public function __construct($name)
+	{
+		parent::__construct($name);
+		$this->init();
+	}
 
+	protected function init()
+	{
+	}
 	/**
 	 * getPath 
 	 * 

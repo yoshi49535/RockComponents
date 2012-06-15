@@ -19,6 +19,7 @@ use Rock\Component\Container\Tree\Node\INode;
 
 class NodeFactory
 {
+	private $defaultParams;
 	private $tree;
 	private $types;
 	/**
@@ -30,6 +31,7 @@ class NodeFactory
 	 */
 	public function __construct(ITree $tree)
 	{
+		$this->defaultParams = array();
 		$this->tree = $tree;
 
 		$this->init();
@@ -53,13 +55,18 @@ class NodeFactory
 	 * @access public
 	 * @return void
 	 */
-	public function create($type = 'default')
+	public function create($type = 'default', array $params = array())
 	{
 		if(!$this->has($type))
 			throw new \InvalidArgumentException(sprintf('Node Type "%s" is not registed on NodeFactory.', $type));
 
 		$class = $this->get($type);
-		return new $class($this->getTree());
+
+		$params = array_merge($this->getDefaultParams($type), $params);
+		$node   = new $class($this->getTree());
+
+		$node->setParameters($params);
+		return $node;
 	}
 
 	/**
@@ -70,9 +77,10 @@ class NodeFactory
 	 * @access public
 	 * @return void
 	 */
-	public function add($type, $class)
+	public function add($type, $class, array $defaults = array())
 	{
 		$this->types[$type]  = $class;
+		$this->defaultParams[$type] = $defaults;
 	}
 
 	/**
@@ -97,6 +105,16 @@ class NodeFactory
 	public function get($type)
 	{
 		return $this->types[$type];
+	}
+
+	public function getDefaultParams($type)
+	{
+		return array_key_exists($type, $this->defaultParams) ? $this->defaultParams[$type] : array();
+	}
+
+	public function setDefaultParams(array $defaults)
+	{
+		$this->defaultParams[$type]  = $defaults;
 	}
 	
 	public function getTree()

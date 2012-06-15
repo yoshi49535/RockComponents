@@ -64,7 +64,9 @@ abstract class TreeBuilder extends BaseBuilder
 
 		$this->getNodeFactory()->add('flow', '\\Rock\\Component\\Web\\ActionTemplate\\Definition\\Builder\\Node\\Flow\\FlowNode');
 		$this->getNodeFactory()->add('path', '\\Rock\\Component\\Web\\ActionTemplate\\Definition\\Builder\\Node\\Flow\\Path\\FlowPathNode');
-		$this->getNodeFactory()->add('component', '\\Rock\\Component\\Web\\ActionTemplate\\Definition\\Builder\\Node\\Flow\\Path\\FlowPathComponentNode');
+		$this->getNodeFactory()->add('state', '\\Rock\\Component\\Web\\ActionTemplate\\Definition\\Builder\\Node\\Flow\\Path\\FlowPathStateNode', array('component_name' => 'state'));
+		$this->getNodeFactory()->add('page', '\\Rock\\Component\\Web\\ActionTemplate\\Definition\\Builder\\Node\\Flow\\Path\\FlowPathStateNode', array('component_name' => 'page'));
+		$this->getNodeFactory()->add('condition', '\\Rock\\Component\\Web\\ActionTemplate\\Definition\\Builder\\Node\\Flow\\Path\\FlowPathConditionNode');
 		$this->initRoot(new RootNode($this, ''));
 	}
 
@@ -141,15 +143,15 @@ abstract class TreeBuilder extends BaseBuilder
 		if(!$definition->getClass() || ($definition->getClass() === '_default'))
 			$definition->setClass($this->getComponentClass($node));
 		// Add Calls for addState, addPage, addCondition
-		switch($node->getComponentType())
+		switch($node->getComponentName())
 		{
-		case FlowPathComponentNode::TYPE_STATE:
-		case FlowPathComponentNode::TYPE_PAGE:
+		case 'page':
+		case 'state':
 			$definition->setArguments(array(
 				$node->getParameter('name'),
 			));
 			break;
-		case FlowPathComponentNode::TYPE_CONDITION:
+		case 'condition':
 			$definition->setArguments(array(
 				$node->getParameter('name'),
 				$node->getPrevSibling()->getReference(),
@@ -226,17 +228,17 @@ abstract class TreeBuilder extends BaseBuilder
 		foreach($node->getChildren() as $child)
 		{
 			$method = false;
-			switch($child->getComponentType())
+			switch($child->getComponentName())
 			{
-			case FlowPathComponentNode::TYPE_STATE:
-			case FlowPathComponentNode::TYPE_PAGE:
+			case 'state':
+			case 'page':
 				// add Self Definition
 				$definition->addCall(
 					new Call('addState', array($child->getReference()))
 				);
 
 				break;
-			case FlowPathComponentNode::TYPE_CONDITION:
+			case 'condition':
 				// Regist Self Definitio 
 				$definition->addCall(
 					new Call('addCondition', array($child->getReference()))
@@ -244,7 +246,7 @@ abstract class TreeBuilder extends BaseBuilder
 				break;
 			default:
 				// Skip for unknown
-				throw new \Exception(sprintf('Class "%s" is given, but invalid for Path.', get_class($node)));
+				throw new \Exception(sprintf('Class "%s" is given, but invalid for Path.', get_class($child)));
 				break;
 			}
 		}

@@ -41,9 +41,8 @@ class FlowPathNode extends Node
 	 */
 	public function state($name)
 	{
-		$this->addChild($node = $this->getTree()->getNodeFactory()->create('component'));
+		$this->addChild($node = $this->getTree()->getNodeFactory()->create('state'));
 		$node->setName($name);
-		$node->setComponentType(FlowPathComponentNode::TYPE_STATE);
 		return $node;
 	}
 
@@ -58,9 +57,8 @@ class FlowPathNode extends Node
 	 */
 	public function page($name, $params = array())
 	{
-		$this->addChild($node = $this->getTree()->getNodeFactory()->create('component'));
+		$this->addChild($node = $this->getTree()->getNodeFactory()->create('page'));
 		$node->setName($name);
-		$node->setComponentType(FlowPathComponentNode::TYPE_PAGE);
 
 		return $node;
 	}
@@ -75,9 +73,8 @@ class FlowPathNode extends Node
 	 */
 	public function cond($name)
 	{
-		$this->addChild($node = $this->getTree()->getNodeFactory()->create('component'));
+		$this->addChild($node = $this->getTree()->getNodeFactory()->create('condition'));
 		$node->setName($name);
-		$node->setComponentType(FlowPathComponentNode::TYPE_CONDITION);
 
 		return $node;
 	}
@@ -92,10 +89,8 @@ class FlowPathNode extends Node
 	public function path($name)
 	{
 		// Create DefinitionNode for InnerPathReferenceState
-		$this->addChild($node = $this->getTree()->getNodeFactory()->create('component'));
-
+		$this->addChild($node = $this->getTree()->getNodeFactory()->create('path_reference'));
 		$node->setName($name);
-		$node->setComponentType(FlowPathComponentNode::TYPE_INNER_PATH);
 
 		// Create Path Node as Child of PathReferenceState
 		$node->addChild($path = $this->getTree()->getNodeFactory()->create('path'));

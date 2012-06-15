@@ -19,12 +19,8 @@ namespace Rock\Component\Web\ActionTemplate\Definition\Builder\Node\Flow\Path;
 use Rock\Component\Web\ActionTemplate\Definition\Builder\Node\Node;
 use Rock\Component\Web\ActionTemplate\Definition\Builder\Node\Flow\FlowNode;
 
-class FlowPathComponentNode extends Node
+abstract class FlowPathComponentNode extends Node
 {
-	const TYPE_STATE      = 'state';
-	const TYPE_PAGE       = 'page';
-	const TYPE_CONDITION  = 'cond';
-
 	/**
 	 * provider 
 	 * 
@@ -39,45 +35,6 @@ class FlowPathComponentNode extends Node
 	 * @access protected
 	 */
 	protected $delegates;
-	/**
-	 * type 
-	 * 
-	 * @var mixed
-	 * @access protected
-	 */
-	protected $type;
-
-	/**
-	 * setComponentType 
-	 * 
-	 * @param mixed $type 
-	 * @access public
-	 * @return void
-	 */
-	public function setComponentType($type)
-	{
-		switch($type)
-		{
-		case self::TYPE_STATE:
-		case self::TYPE_PAGE:
-		case self::TYPE_CONDITION:
-			$this->type  = $type;
-			break;
-		default:
-			throw new \Exception('Invalid Type is given.');
-		}
-	}
-
-	/**
-	 * getComponentType 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function getComponentType()
-	{
-		return $this->type;
-	}
 
 	/**
 	 * addDelegate 
@@ -114,35 +71,21 @@ class FlowPathComponentNode extends Node
 
 		return $this;
 	}
-	/**
-	 * validate 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function validate()
-	{
-		parent::validate();
-
-		if((FlowPathComponentNode::TYPE_STATE === $this->getComponentType()) ||
-		   (FlowPathComponentNode::TYPE_PAGE === $this->getComponentType()))
-		{
-			if((null !== ($prev = $this->getPrevSibling())) && 
-			   ((FlowPathComponentNode::TYPE_STATE === $prev->getComponentType()) ||
-			    (FlowPathComponentNode::TYPE_PAGE === $prev->getComponentType()) ) )
-			{
-				$node = new FlowPathComponentNode($this->getTree(), sprintf('%s_to_%s', $prev->getName(), $this->getName()));
-				$node->setComponentType(FlowPathComponentNode::TYPE_CONDITION);
-				
-				$this->setPrevSibling($node);
-			}
-		}
-	}
 
 	public function getDelegates()
 	{
 		return $this->delegates;
 	}
+
+	public function validate()
+	{
+		parent::validate();
+
+		$this->doValidate();
+	}
+
+	abstract protected function doValidate();
+
 	/**
 	 * getDelegatorProvider 
 	 * 
@@ -155,5 +98,10 @@ class FlowPathComponentNode extends Node
 			return $this->getParent()->getDelegatorProvider();
 		
 		return $this->provider;
+	}
+
+	public function getComponentName()
+	{
+		return $this->getParameter('component_name');
 	}
 }
