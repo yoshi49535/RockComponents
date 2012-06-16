@@ -14,6 +14,7 @@
  * please read the LICENSE file that is distributed with the source code.
  *
  ****/
+namespace Rock\Component\Container\Graph;
 
 interface IExecutableGraph
 {

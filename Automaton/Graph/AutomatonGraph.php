@@ -17,6 +17,7 @@
 namespace Rock\Component\Automaton\Graph;
 // @extends
 use Rock\Component\Container\Graph\DirectedGraph;
+use Rock\Component\Container\Graph\IExecutableGraph;
 // @interface
 use Rock\Component\Automaton\Path\IAutomatonPath;
 // @use Automaton Interface
@@ -46,7 +47,8 @@ use Rock\Component\Automaton\Exception as AutomatonException;
  */
 class AutomatonGraph extends DirectedGraph
   implements
-    IAutomatonPath
+    IAutomatonPath,
+	IExecutableGraph
 {
 	/**
 	 * owner 
@@ -261,5 +263,11 @@ class AutomatonGraph extends DirectedGraph
 	public function createTrail()
 	{
 		return new Trail($this);
+	}
+
+
+	public function isHandleException()
+	{
+		return true;
 	}
 }
