@@ -108,13 +108,30 @@ abstract class Automaton
 		}
 
 		$trail = $this->getPath()->createTrail();
-		$components = $traversal->getTrail()->popState();
-		//
-		foreach($components as $component)
-			$trail->push($component);
-		$trail->push($traversal->getTrail()->last()->current());
-		// Set as Trail
-		$traversal->getOutput()->getTrail()->merge($trail);
+
+		if(count($traversal->getTrail()) > 1)
+		{
+			$components = $traversal->getTrail()->popState();
+			//
+			foreach($components as $component)
+				$trail->push($component);
+			$trail->push($traversal->getTrail()->last()->current());
+			// Set as Trail
+			$traversal->getOutput()->getTrail()->merge($trail);
+		}
+		else
+		{
+			// if Trail is Empty, try to find the path 
+			$begin    = $traversal->getTrail()->pop();
+			$inbounds = $this->getPath()->getInboundVerticesOf($begin);
+			if(count($inbounds) == 0)
+				throw new \Exception('No more prev exists.');
+
+			$inbound  = $inbounds[0];
+			
+			$traversal->getTrail()->push($inbound);
+			$traversal->getOutput()->getTrail()->push($inbound);
+		}
 		
 		// 
 		return $traversal;
