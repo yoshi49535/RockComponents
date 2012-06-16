@@ -36,8 +36,8 @@ class ObjectDelegator extends Delegator
 	public function __construct($object)
 	{
 
-		if(!is_callable($object))
-			throw new \InvalidArgumentException('Object has to be implemented as a Closure or implement with __invoke().');
+		if(!is_object($object) || !is_callable($object))
+			throw new \InvalidArgumentException('Parameter has to be __invoke() implemented Object.');
 
 		$this->object = $object;
 	}
@@ -54,6 +54,12 @@ class ObjectDelegator extends Delegator
 		return $this->object;
 	}
 
+	/**
+	 * getMethodOwner 
+	 * 
+	 * @access protected
+	 * @return void
+	 */
 	protected function getMethodOwner()
 	{
 		return $this->object;
@@ -66,6 +72,6 @@ class ObjectDelegator extends Delegator
 	 */
 	public function __toString()
 	{
-		return sprintf('ObjectDelegator:{object:"%s"}', get_class($this->owner));
+		return sprintf('ObjectDelegator:{object:"%s"}', get_class($this->getMethodOwner()));
 	}
 }

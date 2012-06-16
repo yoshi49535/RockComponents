@@ -58,6 +58,12 @@ class MethodDelegator extends Delegator
 		return array($this->owner, $this->method);
 	}
 
+	/**
+	 * getMethodOwner 
+	 * 
+	 * @access protected
+	 * @return void
+	 */
 	protected function getMethodOwner()
 	{
 		return $this->owner;

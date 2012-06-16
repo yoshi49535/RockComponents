@@ -46,6 +46,6 @@ class ArrayToAndBoolConverter
 			if(null !== $value)
 				$result &= (bool)$value;
 
-		return $result;
+		return (bool)$result;
 	}
 }

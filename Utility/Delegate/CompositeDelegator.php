@@ -17,6 +17,15 @@ namespace Rock\Component\Utility\Delegate;
 
 use Rock\Component\Utility\ArrayConverter\IArrayConverter;
 
+/**
+ * CompositeDelegator 
+ * 
+ * @package 
+ * @version $id$
+ * @copyright 2011-2012 Yoshi Aoki
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license 
+ */
 class CompositeDelegator 
   implements
     IDelegator
@@ -123,6 +132,11 @@ class CompositeDelegator
 		$this->resultStrategy = $converter;
 	}
 
+	public function getResultStrategy()
+	{
+		$this->resultStrategy;
+	}
+
 	public function __toString()
 	{
 		$childLogs = array();
@@ -130,7 +144,13 @@ class CompositeDelegator
 		{
 			$childLogs[] = (string)$child;
 		}
-		return sprintf('CompositeDelegator:{size=%d, children=[%s]}', count($this->children), implode(', ', $childLogs));
+
+		return sprintf(
+			"CompositeDelegator:{size=%d, children=[\n%s\n], resutStrategy={%s}}", 
+			count($this->children), 
+			implode("\n", $childLogs), 
+			$this->resultStrategy ? get_class($this->resultStrategy) : 'NOT SETTED'
+		);
 	}
 
 	/**

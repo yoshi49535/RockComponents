@@ -19,13 +19,16 @@ namespace Rock\Component\Automaton\Graph\Edge;
 use Rock\Component\Container\Graph\Edge\NamedEdge;
 // @interface
 use Rock\Component\Automaton\Path\Condition\ICondition;
-// <Use> : Automaton Condition
-use Rock\Component\Automaton\Path\Condition\ConditionalValidator;
 // <Use> : Automaton Component
 use Rock\Component\Automaton\Path\State\IState;
 use Rock\Component\Automaton\Traversal\ITraversal;
 // @use Delegate
 use Rock\Component\Utility\Delegate\IDelegator;
+use Rock\Component\Utility\Delegate\ObjectDelegator;
+use Rock\Component\Utility\Delegate\MethodDelegator;
+use Rock\Component\Utility\Delegate\ClosureDelegator;
+use Rock\Component\Utility\Delegate\CompositeDelegator;
+use Rock\Component\Utility\ArrayConverter\ArrayToAndBoolConverter;
 
 /**
  * NamedCondition 
@@ -51,7 +54,7 @@ class NamedCondition extends NamedEdge
 	{
 		parent::__construct($name, $source, $target);
 
-		$this->validator = new ConditionalValidator($validator);
+		$this->setValidator($validator);
 	}
 	/**
 	 * getSource 
@@ -83,8 +86,36 @@ class NamedCondition extends NamedEdge
 	 */
 	public function setValidator($validator)
 	{
-		// For Array Type Callback, and Closure
-		$this->validator->setValidateMethod($validator);
+		$this->validator = $this->convertToDelegator($validator);
+	}
+	/**
+	 * convertToDelegator 
+	 * 
+	 * @param mixed $callable 
+	 * @access protected
+	 * @return void
+	 */
+	protected function convertToDelegator($callable)
+	{
+		$delegator = null;
+		switch(true)
+		{
+		case (is_array($callable)):
+			$delegator = new MethodDelegator($callable[0], $callable[1]);
+			break;
+		case ($callable instanceof \Closure):
+			$delegator = new ClosureDelegator($callable);
+			break;
+		case ($callable instanceof IDelegator):
+			$delegator = $callable;
+			break;
+		case (is_object($callable) && is_callable($callable)):
+			$delegator = new ObjectDelegator($callable);
+			break;
+		default:
+			break;
+		}
+		return $delegator;
 	}
 
 	/**
@@ -97,7 +128,16 @@ class NamedCondition extends NamedEdge
 	public function isValid(ITraversal $traversal)
 	{
 		//
-		$bRet  = $this->validator->validate($traversal);
+		$bRet = null;
+		if($validator = $this->validator)
+		{
+			if(($validator instanceof CompositeDelegator) && 
+			  (null === $validator->getResultStrategy()))
+			{
+				$validator->setResultStrategy(new ArrayToAndBoolConverter());
+			}
+			$bRet = $validator($traversal);
+		}
 
 		if(!is_bool($bRet))
 		{

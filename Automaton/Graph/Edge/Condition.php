@@ -20,13 +20,14 @@ namespace Rock\Component\Automaton\Graph\Edge;
 use Rock\Component\Container\Graph\Edge\Edge;
 // @interface
 use Rock\Component\Automaton\Path\Condition\ICondition;
-// <Use> : Automaton Condition
-use Rock\Component\Automaton\Path\Condition\ConditionalValidator;
 // <Use> : Automaton Component
 use Rock\Component\Automaton\Path\State\IState;
 use Rock\Component\Automaton\Traversal\ITraversal;
 // @use Delegate
 use Rock\Component\Utility\Delegate\IDelegator;
+use Rock\Component\Utility\Delegate\ObjectDelegator;
+use Rock\Component\Utility\Delegate\MethodDelegator;
+use Rock\Component\Utility\Delegate\ClosureDelegator;
 
 /**
  * Condition 
@@ -57,8 +58,9 @@ class Condition extends Edge
 	{
 		parent::__construct($source, $target);
 
-		$this->validator = new ConditionalValidator($validator);
+		$this->setValidator($validator);
 	}
+	
 	/**
 	 * getSource 
 	 * 
@@ -89,10 +91,38 @@ class Condition extends Edge
 	 */
 	public function setValidator($validator)
 	{
-		// For Array Type Callback, and Closure
-		$this->validator->setValidateMethod($validator);
+		$this->validator = $this->convertToDelegator($validator);
 	}
 
+	/**
+	 * convertToDelegator 
+	 * 
+	 * @param mixed $callable 
+	 * @access protected
+	 * @return void
+	 */
+	protected function convertToDelegator($callable)
+	{
+		$delegator = null;
+		switch(true)
+		{
+		case (is_array($callable)):
+			$delegator = new MethodDelegator($callable[0], $callable[1]);
+			break;
+		case ($callable instanceof \Closure):
+			$delegator = new ClosureDelegator($callable);
+			break;
+		case ($callable instanceof IDelegator):
+			$delegator = $callable;
+			break;
+		case (is_object($callable) && is_callable($callable)):
+			$delegator = new ObjectDelegator($callable);
+			break;
+		default:
+			break;
+		}
+		return $delegator;
+	}
 	/**
 	 * isValid 
 	 * 
@@ -103,7 +133,7 @@ class Condition extends Edge
 	public function isValid(ITraversal $traversal)
 	{
 		//
-		$bRet  = $this->validator->validate($traversal);
+		$bRet  = $this->validator($traversal);
 
 		if(!is_bool($bRet))
 		{
