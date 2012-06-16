@@ -83,10 +83,18 @@ class HttpFlow extends Flow
 		// check the request traversal 
 		if($traversal->getInput() instanceof IHttpInput)
 		{
-			$current = $trail->last()->current();
-			if(!($request = $traversal->getInput()->getRequestState()) || ($request !== $current->getName()))
+			$current   = $trail->last()->current();
+			$stateName = $traversal->getInput()->getRequestState();
+			if(empty($stateName) || ($stateName !== $current->getName()))
 			{
-				$traversal->reset();
+				$requestState = $this->getPath()->getState($stateName);
+				if($requestState && $requestState->isEntryPoint())
+				{
+					$traversal->getTrail()->popAll();
+					$traversal->getTrail()->push($requestState);
+				}
+				else
+					$traversal->reset();
 			}
 		}
 	}
@@ -136,9 +144,15 @@ class HttpFlow extends Flow
 
 			$newTrail = null;
 
-			//if($trail->count() === 0 || !(get_class($trail->last()->current()) instanceof IPage))
+			$request = $traversal->getInput()->getRequestState();
+			
+			//if($trail->count() === 0)
 			if($trail->count() === 0)
-				$traversal->getInput()->setDirection(Directions::NEXT);
+			{
+				if(empty($request))
+					$traversal->getInput()->setDirection(Directions::NEXT);
+			}
+
 
 			//
 			do

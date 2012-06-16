@@ -233,4 +233,16 @@ abstract class AbstractPath
 	{
 		return array_pop($this->components);
 	}
+
+	
+	/**
+	 * popAll 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function popAll()
+	{
+		$this->components = array();
+	}
 }

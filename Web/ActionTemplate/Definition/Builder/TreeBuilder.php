@@ -164,6 +164,10 @@ abstract class TreeBuilder extends BaseBuilder
 			break;
 		}
 
+		if($node->getParameter('is_entry', false))
+		{
+			$definition->addCall(new Call('asEntryPoint'));
+		}
 		// add Call for Delegates
 		if($delegates= $node->getDelegates())
 		{

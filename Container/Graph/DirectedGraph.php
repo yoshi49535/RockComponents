@@ -137,4 +137,46 @@ class DirectedGraph extends Graph
 		}
 		return $vertices;
 	}
+
+	/**
+	 * getVerticesBetween 
+	 * 
+	 * @param IVertex $from 
+	 * @param IVertex $to 
+	 * @param array $vertices 
+	 * @access public
+	 * @return void
+	 */
+	public function getVerticesBetween(IVertex $from = null, IVertex $to = null, array $vertices = array())
+	{
+		if($from === null)
+			$from = $this->getRoot();
+
+		if($to)
+		{
+			// Stop Vertices
+			if(in_array($to, $vertices))
+				return $vertices;
+			// Get InboundVertices to $to
+			$prevs = $this->getInboundVerticesOf($to);
+			foreach($prevs as $prev)
+			{
+				$vertices  = array_merge($vertices, $this->getVerticesBetween($from, $prev, $vertices));
+				$vertices[]  = $prev;
+			}
+		}
+		else
+		{
+			if(in_array($from, $vertices))
+				return $vertices;
+			$nexts = $this->getOutboundVerticesOf($from);
+			foreach($nexts as $next)
+			{
+				$vertices = array_merge($vertices, $this->getVerticesBetween($next, $to, $vertices));
+				$vertices[] = $next;
+			}
+		}
+		return $vertices;
+	}
+
 }

@@ -19,7 +19,8 @@ namespace Rock\Component\Web\Flow\Graph\Vertex;
 // @extends 
 use Rock\Component\Flow\Graph\Vertex\State;
 // @interface
-use Rock\Component\Web\Page\IPage;
+use Rock\Component\Web\Flow\Path\Page\IPage;
+use Rock\Component\Web\Page\IPage as IBasePage;
 // @use Flow Traversal
 use Rock\Component\Flow\Traversal\IFlowTraversal;
 
@@ -92,5 +93,35 @@ class Page extends State
 	public function createProxy(array $params = array())
 	{
 		return new ProxyPage($this);
+	}
+
+
+	public function hasPrevPage()
+	{
+		$vertices = $this->getPath()->getVerticesBetween(null, $this);
+
+		$bRet = false;
+		foreach($vertices as $vertex)
+			if($vertex instanceof IPage)
+			{
+				$bRet = true;
+				break;
+			}
+
+		return $bRet;
+	}
+	public function hasNextPage()
+	{
+		$vertices = $this->getPath()->getVerticesBetween($this, null);
+		
+		$bRet = false;
+		foreach($vertices as $vertex)
+			if($vertex instanceof IPage)
+			{
+				$bRet = true;
+				break;
+			}
+
+		return $bRet;
 	}
 }
