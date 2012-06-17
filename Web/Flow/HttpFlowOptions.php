@@ -13,6 +13,7 @@
  * $Copyrights$
  *
  ****/
+namespace Rock\Component\Web\Flow;
 
 final class HttpFlowOptions
 {
