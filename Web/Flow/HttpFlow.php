@@ -79,8 +79,8 @@ class HttpFlow extends Flow
 	 */
 	protected function doInit(ITraversal $traversal)
 	{
-		$bClean = $traversal->get(HttpFlowOptions::SESS_CLEAN_ON_INIT, false)
-		$traversal->getSession()->delete();
+		if($traversal->get(HttpFlowOptions::SESS_CLEAN_ON_INIT, false))
+			$traversal->getSession()->delete();
 	}
 	/**
 	 *
