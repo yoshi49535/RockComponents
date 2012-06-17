@@ -22,6 +22,7 @@ use Rock\Component\Flow\IO\Input as BaseInput;
 // <Interface> : For Type Safe
 use Rock\Component\Web\Flow\IO\IHttpInput;
 // @use Flow Direction
+use Rock\Component\Web;
 use Rock\Component\Flow\Directions;
 
 /**
@@ -74,7 +75,7 @@ class Input extends BaseInput
 	 */
 	public function getRequestState()
 	{
-		return $this->get('request_state', null);
+		return $this->get(Web\Flow\HttpFlowOptions::HTTP_REQUEST_STATE, null);
 	}
 
 	/**

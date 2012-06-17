@@ -69,6 +69,19 @@ class HttpFlow extends Flow
 		parent::initWithAttributes($attributes);
 
 	}
+
+	/**
+	 * doInit 
+	 * 
+	 * @param ITraversal $traversal 
+	 * @access protected
+	 * @return void
+	 */
+	protected function doInit(ITraversal $traversal)
+	{
+		$bClean = $traversal->get(HttpFlowOptions::SESS_CLEAN_ON_INIT, false)
+		$traversal->getSession()->delete();
+	}
 	/**
 	 *
 	 */
@@ -123,7 +136,7 @@ class HttpFlow extends Flow
 			// remove from session on EndPoint
 			if($last->isEndPoint() && !$traversal->getOutput()->needRedirect())
 			{
-				if($traversal->get('cleanOnComplete', true))
+				if($traversal->get(HttpFlowOptions::SESS_CLEAN_ON_COMPLETE, true))
 					$traversal->getSession()->delete();
 			}
 		}
