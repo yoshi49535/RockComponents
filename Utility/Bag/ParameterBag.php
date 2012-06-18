@@ -189,6 +189,10 @@ class ParameterBag
 	{
 		return $this->remove($index);
 	}
+	public function removeAll()
+	{
+		$this->params = array();
+	}
 	/**
 	 *
 	 */

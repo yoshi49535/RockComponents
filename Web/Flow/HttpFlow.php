@@ -80,7 +80,7 @@ class HttpFlow extends Flow
 	protected function doInit(ITraversal $traversal)
 	{
 		if($traversal->get(HttpFlowOptions::SESS_CLEAN_ON_INIT, false))
-			$traversal->getSession()->delete();
+			$traversal->getSession()->reset();
 	}
 	/**
 	 *
@@ -125,10 +125,8 @@ class HttpFlow extends Flow
 
 		// 
 		if($traversal->getOutput()->isSuccess())
-		{
 			$traversal->getSession()->save();
-		}
-		
+
 		if($traversal->getTrail()->count() > 0)
 		{
 			$last = $traversal->getTrail()->last()->current();

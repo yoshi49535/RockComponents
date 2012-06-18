@@ -113,4 +113,9 @@ class Session extends ParameterBagContainer
 
 		$this->getManager()->save();
 	}
+
+	public function reset()
+	{
+		$this->getParameterBag()->removeAll();
+	}
 }
