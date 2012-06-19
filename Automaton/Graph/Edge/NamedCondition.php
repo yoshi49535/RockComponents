@@ -128,7 +128,7 @@ class NamedCondition extends NamedEdge
 	public function isValid(ITraversal $traversal)
 	{
 		//
-		$bRet = null;
+		$bRet = true;
 		if($validator = $this->validator)
 		{
 			if(($validator instanceof CompositeDelegator) && 

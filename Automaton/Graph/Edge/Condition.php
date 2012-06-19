@@ -133,7 +133,16 @@ class Condition extends Edge
 	public function isValid(ITraversal $traversal)
 	{
 		//
-		$bRet  = $this->validator($traversal);
+		$bRet = true;
+		if($validator = $this->validator)
+		{
+			if(($validator instanceof CompositeDelegator) && 
+			  (null === $validator->getResultStrategy()))
+			{
+				$validator->setResultStrategy(new ArrayToAndBoolConverter());
+			}
+			$bRet = $validator($traversal);
+		}
 
 		if(!is_bool($bRet))
 		{
