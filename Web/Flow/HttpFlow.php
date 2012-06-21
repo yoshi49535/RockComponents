@@ -168,6 +168,13 @@ class HttpFlow extends Flow
 			//
 			do
 			{
+				switch($traversal->getInput()->getDirection())
+				{
+				case Directions::CURRENT:
+					if(!($trail->last()->current() instanceof IPage))
+						$traversal->getInput()->setDirection(Directions::NEXT);
+				}
+
 				parent::doHandleInput($traversal);
 			}
 			while($traversal->getOutput()->isSuccess() && 
