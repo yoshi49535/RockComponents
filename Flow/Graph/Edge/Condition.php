@@ -62,7 +62,6 @@ class Condition extends NamedCondition
 		$temp = $this->getDelegator();
 		if($temp)
 		{
-throw new \Exception($temp);
 			$temp = $temp->merge($delegator);
 		}
 		else
