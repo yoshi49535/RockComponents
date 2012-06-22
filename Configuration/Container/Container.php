@@ -380,6 +380,18 @@ class Container
 	{
 		return $this->params;
 	}
+
+	/**
+	 * hasParameter 
+	 * 
+	 * @param mixed $name 
+	 * @access public
+	 * @return void
+	 */
+	public function hasParameter($name)
+	{
+		return $this->params->has($name);
+	}
 	/**
 	 * getParameter 
 	 * 
