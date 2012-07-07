@@ -162,6 +162,8 @@ class CompositeDelegator
 	 */
 	public function merge(IDelegator $delegator)
 	{
-		return $this->add($delegator);
+		$this->add($delegator);
+
+		return $this;
 	}
 }
