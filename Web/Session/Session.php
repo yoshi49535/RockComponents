@@ -92,21 +92,46 @@ class Session extends ParameterBagContainer
 	}
 
 
+	/**
+	 * setManager 
+	 * 
+	 * @param ISessionManager $manager 
+	 * @access public
+	 * @return void
+	 */
 	public function setManager(ISessionManager $manager)
 	{
 		$this->manager  = $manager;
 	}
+	/**
+	 * getManager 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function getManager()
 	{
 		if(!$this->manager)
 			throw new \Exception('SessionManager is not initialized for Session.');
 		return $this->manager;
 	}
+	/**
+	 * save 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function save()
 	{
 		$this->getManager()->save();
 	}
 
+	/**
+	 * delete 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function delete()
 	{
 		$this->getManager()->removeSession($this);
@@ -114,6 +139,12 @@ class Session extends ParameterBagContainer
 		$this->getManager()->save();
 	}
 
+	/**
+	 * reset 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function reset()
 	{
 		$this->getParameterBag()->removeAll();
